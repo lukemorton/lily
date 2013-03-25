@@ -1,0 +1,21 @@
+{
+    "name": "drpheltright/lily",
+    "description": "A lightweight web application library for PHP.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luke Morton",
+            "email": "lukemorton.dev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/php-code-coverage": "1.2.*"
+    },
+    "autoload": {
+        "psr-0": { "Lily": "src/" }
+    }
+}
