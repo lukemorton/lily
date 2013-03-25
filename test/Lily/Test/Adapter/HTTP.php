@@ -199,9 +199,9 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 		$this->tearDownGlobalMagic();
 	}
 
-    /**
-     * @runInSeparateProcess
-     */
+	/**
+	 * @runInSeparateProcess
+	 */
 	public function testResponseBodySent()
 	{
 		$expectedResponse = $this->responseData();
@@ -219,10 +219,10 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 		ob_clean();
 	}
 
-    /**
-     * Although we can't test `header()` calls we can force
-     * `HTTP::run()` to return the normalised response.
-     */
+	/**
+	 * Although we can't test `header()` calls we can force
+	 * `HTTP::run()` to return the normalised response.
+	 */
 	public function testResponseDefaultHeadersAdded()
 	{
 		$responseData = $this->responseData();
