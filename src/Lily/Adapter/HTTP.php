@@ -128,26 +128,19 @@ class HTTP
 	private function uri()
 	{
 		if ( ! empty($_SERVER['PATH_INFO'])) {
-			// PATH_INFO does not contain the docroot or index
 			$uri = $_SERVER['PATH_INFO'];
 		} elseif (isset($_SERVER['REQUEST_URI'])) {
-			// We use REQUEST_URI as the fallback value.
-			// The reason for this is we might have a
-			// malformed URL such as:
-			// 
-			//     http://localhost/http://example.com/judge.php
-			// 
-			// which parse_url can't handle. So rather
-			// than leave empty handed, we'll use this.
 			$uri = $_SERVER['REQUEST_URI'];
 
+			// `parse_url()` cannot parse malformed URLs like
+			// `http://localhost/http://example.com/index.php`
+			// so only if truthy do we use what it returns,
+			// otherwise we default to the raw `REQUEST_URI`
 			if ($request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
 			{
-				// Valid URL path found, set it.
 				$uri = $request_uri;
 			}
 
-			// Decode the request URI
 			$uri = rawurldecode($uri);
 
 		} elseif (isset($_SERVER['PHP_SELF'])) {
