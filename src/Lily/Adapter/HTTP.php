@@ -156,27 +156,22 @@ class HTTP
 
 	private function slowHeaders()
 	{
-		// Setup the output
 		$headers = array();
 
-		// Parse the content type
 		if ( ! empty($_SERVER['CONTENT_TYPE'])) {
 			$headers['content-type'] = $_SERVER['CONTENT_TYPE'];
 		}
 
-		// Parse the content length
 		if ( ! empty($_SERVER['CONTENT_LENGTH'])) {
 			$headers['content-length'] = $_SERVER['CONTENT_LENGTH'];
 		}
 
 		foreach ($_SERVER as $key => $value)
 		{
-			// If there is no HTTP header here, skip
 			if (strpos($key, 'HTTP_') !== 0) {
 				continue;
 			}
 
-			// This is a dirty hack to ensure HTTP_X_FOO_BAR becomes x-foo-bar
 			$key =
 				strtolower(
 					str_replace(
@@ -194,14 +189,9 @@ class HTTP
 		$headers = array();
 
 		if ( ! $this->forceSlowHeaders()) {
-			// If running on apache server
 			if (function_exists('apache_request_headers')) {
-				// Return the much faster method
 				return apache_request_headers();
-
-			// If the PECL HTTP tools are installed
 			} elseif (extension_loaded('http')) {
-				// Return the much faster method
 				return http_get_request_headers();
 			}
 		}
