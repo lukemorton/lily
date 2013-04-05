@@ -130,35 +130,32 @@ class HTTP
 		if ( ! empty($_SERVER['PATH_INFO'])) {
 			// PATH_INFO does not contain the docroot or index
 			$uri = $_SERVER['PATH_INFO'];
-		} else {
-			if (isset($_SERVER['REQUEST_URI'])) {
-				// We use REQUEST_URI as the fallback value.
-				// The reason for this is we might have a
-				// malformed URL such as:
-				// 
-				//     http://localhost/http://example.com/judge.php
-				// 
-				// which parse_url can't handle. So rather
-				// than leave empty handed, we'll use this.
-				$uri = $_SERVER['REQUEST_URI'];
+		} elseif (isset($_SERVER['REQUEST_URI'])) {
+			// We use REQUEST_URI as the fallback value.
+			// The reason for this is we might have a
+			// malformed URL such as:
+			// 
+			//     http://localhost/http://example.com/judge.php
+			// 
+			// which parse_url can't handle. So rather
+			// than leave empty handed, we'll use this.
+			$uri = $_SERVER['REQUEST_URI'];
 
-				if ($request_uri = parse_url(
-					$_SERVER['REQUEST_URI'],
-					PHP_URL_PATH))
-				{
-					// Valid URL path found, set it.
-					$uri = $request_uri;
-				}
-
-				// Decode the request URI
-				$uri = rawurldecode($uri);
-
-			} elseif (isset($_SERVER['PHP_SELF'])) {
-				$uri = $_SERVER['PHP_SELF'];
-
-			} elseif (isset($_SERVER['REDIRECT_URL'])) {
-				$uri = $_SERVER['REDIRECT_URL'];
+			if ($request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
+			{
+				// Valid URL path found, set it.
+				$uri = $request_uri;
 			}
+
+			// Decode the request URI
+			$uri = rawurldecode($uri);
+
+		} elseif (isset($_SERVER['PHP_SELF'])) {
+			$uri = $_SERVER['PHP_SELF'];
+		} elseif (isset($_SERVER['REDIRECT_URL'])) {
+			$uri = $_SERVER['REDIRECT_URL'];
+		} else {
+			$uri = NULL;
 		}
 
 		return $uri;
