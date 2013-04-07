@@ -229,11 +229,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 		$responseData['headers'] = array();
 
 		$http = new HTTP(array('returnResponse' => TRUE));
-		$actualResponse = $http->run(
-			new Application(
-				function ($request) use ($responseData) {
-					return $responseData;
-				}));
+		$actualResponse =
+			$http->run(
+				new Application(
+					function ($request) use ($responseData) {
+						return $responseData;
+					}));
 
 		$expectedResponse = $responseData;
 		$expectedResponse['headers'] = array(
@@ -256,11 +257,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 		);
 
 		$http = new HTTP(array('returnResponse' => TRUE));
-		$actualResponse = $http->run(
-			new Application(
-				function ($request) use ($expectedResponse) {
-					return $expectedResponse['body'];
-				}));
+		$actualResponse = 
+			$http->run(
+				new Application(
+					function ($request) use ($expectedResponse) {
+						return $expectedResponse['body'];
+					}));
 
 		$this->assertSame($expectedResponse, $actualResponse);
 	}
@@ -277,15 +279,16 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 		);
 
 		$http = new HTTP(array('returnResponse' => TRUE));
-		$actualResponse = $http->run(
-			new Application(
-				function ($request) use ($expectedResponse) {
-					return array(
-						$expectedResponse['status'],
-						$expectedResponse['headers'],
-						$expectedResponse['body'],
-					);
-				}));
+		$actualResponse =
+			$http->run(
+				new Application(
+					function ($request) use ($expectedResponse) {
+						return array(
+							$expectedResponse['status'],
+							$expectedResponse['headers'],
+							$expectedResponse['body'],
+						);
+					}));
 
 		$this->assertSame($expectedResponse, $actualResponse);
 	}

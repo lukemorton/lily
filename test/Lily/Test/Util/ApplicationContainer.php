@@ -13,18 +13,19 @@ class ApplicationContainerTest extends \PHPUnit_Framework_TestCase
 		$expectedCalledOrder = array(1, 2, 3);
 		$calledOrder = array();
 
-		$container = new ApplicationContainer(
-			new Application(function () use (& $calledOrder) {
-				$calledOrder[] = 3;
-			}),
-			array(
-				new Middleware(function () use (& $calledOrder) {
-					$calledOrder[] = 1;
+		$container =
+			new ApplicationContainer(
+				new Application(function () use (& $calledOrder) {
+					$calledOrder[] = 3;
 				}),
-				new Middleware(function () use (& $calledOrder) {
-					$calledOrder[] = 2;
-				}),
-			));
+				array(
+					new Middleware(function () use (& $calledOrder) {
+						$calledOrder[] = 1;
+					}),
+					new Middleware(function () use (& $calledOrder) {
+						$calledOrder[] = 2;
+					}),
+				));
 
 		$handler = $container->handler();
 		$handler(array());
@@ -36,10 +37,11 @@ class ApplicationContainerTest extends \PHPUnit_Framework_TestCase
 	{
 		$called = FALSE;
 
-		$container = new ApplicationContainer(
-			new Application(function () use (& $called) {
-				$called = TRUE;
-			}));
+		$container =
+			new ApplicationContainer(
+				new Application(function () use (& $called) {
+					$called = TRUE;
+				}));
 
 		$handler = $container->handler();
 		$handler(array());
