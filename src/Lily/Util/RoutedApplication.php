@@ -143,7 +143,7 @@ abstract class RoutedApplication
                 }
 
                 if (is_array($params)) {
-                    $request += compact('params');
+                    $request['params'] = $params + $request['params'];
                 }
 
                 if (is_callable($handler)) {

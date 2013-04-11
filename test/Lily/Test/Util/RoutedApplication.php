@@ -9,7 +9,9 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 {
     private function request($method = NULL, $uri = NULL)
     {
-        return compact('method', 'uri');
+        return compact('method', 'uri') + array(
+            'params' => array(),
+        );
     }
 
     private function notFoundResponse()
