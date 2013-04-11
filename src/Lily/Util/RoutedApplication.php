@@ -143,6 +143,7 @@ abstract class RoutedApplication
                 }
 
                 if (is_array($params)) {
+                    $request['route-params'] = $params;
                     $request['params'] = $params + $request['params'];
                 }
 
