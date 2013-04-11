@@ -136,8 +136,9 @@ class HTTP
 			// `http://localhost/http://example.com/index.php`
 			// so only if truthy do we use what it returns,
 			// otherwise we default to the raw `REQUEST_URI`
-			if ($request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
-			{
+			$request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+			if ($request_uri) {
 				$uri = $request_uri;
 			}
 
@@ -166,8 +167,7 @@ class HTTP
 			$headers['content-length'] = $_SERVER['CONTENT_LENGTH'];
 		}
 
-		foreach ($_SERVER as $key => $value)
-		{
+		foreach ($_SERVER as $key => $value) {
 			if (strpos($key, 'HTTP_') !== 0) {
 				continue;
 			}
