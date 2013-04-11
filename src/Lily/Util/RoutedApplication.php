@@ -2,7 +2,7 @@
 
 namespace Lily\Util;
 
-abstract class RoutedApplication
+class RoutedApplication
 {
     // Defines the pattern of a :param
     const REGEX_KEY = ':([a-zA-Z0-9_]++)';
