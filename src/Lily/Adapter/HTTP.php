@@ -190,9 +190,13 @@ class HTTP
 
 		if ( ! $this->forceSlowHeaders()) {
 			if (function_exists('apache_request_headers')) {
-				return apache_request_headers();
+				return
+					array_change_key_case(
+						apache_request_headers());
 			} elseif (extension_loaded('http')) {
-				return http_get_request_headers();
+				return
+					array_change_key_case(
+						http_get_request_headers());
 			}
 		}
 
