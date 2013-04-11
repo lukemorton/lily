@@ -92,6 +92,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testSlowRequestParsing($expectedKey, $expectedValue)
     {
         $this->setUpGlobalRequestData();
+        $response = $this->responseData();
 
         $http = new HTTP(array(
             'forceSlowHeaders' => TRUE,
@@ -99,10 +100,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         ));
         $http->run(
             new Application(
-                function ($request) use ($expectedKey, $expectedValue) {
-                    $this->assertSame($expectedValue, $request[$expectedKey]);
-                    return $this->responseData();
+                function ($request) use ($expectedKey, & $actualValue, $response) {
+                    $actualValue = $request[$expectedKey];
+                    return $response;
                 }));
+
+        $this->assertSame($expectedValue, $actualValue);
 
         $this->tearDownGlobalRequestData();
     }
@@ -118,6 +121,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testSlowRequestHeaderParsing($expectedKey, $expectedValue)
     {
         $this->setUpGlobalRequestData();
+        $response = $this->responseData();
 
         $http = new HTTP(array(
             'forceSlowHeaders' => TRUE,
@@ -125,12 +129,14 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         ));
         $http->run(
             new Application(
-                function ($request) use ($expectedKey, $expectedValue) {
-                    $this->assertSame(
-                        $expectedValue,
-                        $request['headers'][$expectedKey]);
-                    return $this->responseData();
+                function ($request) use ($expectedKey, & $actualValue, $response) {
+                    $actualValue = $request['headers'][$expectedKey];
+                    return $response;
                 }));
+
+
+
+        $this->assertSame($expectedValue, $actualValue);
 
         $this->tearDownGlobalRequestData();
     }
@@ -170,16 +176,19 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testRequestMagicParsing($expectedKey, $expectedValue)
     {
         $this->setUpGlobalMagic();
+        $response = $this->responseData();
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $http->run(
             new Application(
-                function ($request) {
-                    $this->assertSame($_GET, $request['query']);
-                    $this->assertSame($_POST, $request['post']);
-                    $this->assertSame($_FILES, $request['files']);
-                    return $this->responseData();
+                function ($request) use (& $actualRequest, $response) {
+                    $actualRequest = $request;
+                    return $response;
                 }));
+
+        $this->assertSame($_GET, $actualRequest['query']);
+        $this->assertSame($_POST, $actualRequest['post']);
+        $this->assertSame($_FILES, $actualRequest['files']);
         
         $this->tearDownGlobalMagic();
     }
@@ -187,14 +196,17 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testRequestParamsParsing()
     {
         $this->setUpGlobalMagic();
+        $response = $this->responseData();
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $http->run(
             new Application(
-                function ($request) {
-                    $this->assertSame($_POST + $_GET, $request['params']);
-                    return $this->responseData();
+                function ($request) use (& $actualParams, $response) {
+                    $actualParams = $request['params'];
+                    return $response;
                 }));
+        
+        $this->assertSame($_POST + $_GET, $actualParams);
         
         $this->tearDownGlobalMagic();
     }
