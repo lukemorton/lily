@@ -17,8 +17,7 @@ abstract class RoutedApplication
 
     public function __construct(array $routes = NULL)
     {
-        if ($routes !== NULL)
-        {
+        if ($routes !== NULL) {
             $this->routes = $routes;
         }
     }
@@ -64,8 +63,7 @@ abstract class RoutedApplication
             '\\\\$0',
             $uri);
 
-        if (strpos($expression, '(') !== FALSE)
-        {
+        if (strpos($expression, '(') !== FALSE) {
             // Make optional parts of the URI non-capturing
             // and optional
             $expression = str_replace(
@@ -167,8 +165,7 @@ abstract class RoutedApplication
         $routes = $this->routes();
         $uri = $routes[$name][1];
 
-        foreach ($params as $_k => $_v)
-        {
+        foreach ($params as $_k => $_v) {
             $uri = str_replace(":{$_k}", $_v, $uri);
         }
 
