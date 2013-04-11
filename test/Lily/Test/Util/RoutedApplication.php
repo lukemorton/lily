@@ -2,7 +2,7 @@
 
 namespace Lily\Test\Util;
 
-use Lily\Mock\RoutedApplicationWithoutRoutes;
+use Lily\Util\RoutedApplication;
 use Lily\Mock\RoutedApplicationWithRoutes;
 
 class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
@@ -30,7 +30,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 
     private function routedApplicationWithoutRoutes(array $routes = NULL)
     {
-        return new RoutedApplicationWithoutRoutes($routes);
+        return new RoutedApplication($routes);
     }
 
     public function routesProvider()
