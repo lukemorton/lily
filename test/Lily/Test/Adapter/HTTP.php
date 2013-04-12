@@ -20,7 +20,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
             array('addr',        'SERVER_ADDR',     '127.0.0.1', NULL),
             array('remote-addr', 'REMOTE_ADDR',     '127.0.0.1', NULL),
             array('scheme',      'SERVER_PROTOCOL', 'HTTP/1.1',  'http'),
-            array('method',      'REQUEST_METHOD',  'GET',       'get'),
+            array('method',      'REQUEST_METHOD',  'GET',       'GET'),
             array('uri',         'PATH_INFO',       '/',         NULL),
             array('type',        'CONTENT_TYPE',    'text/html', NULL),
             array('length',      'CONTENT_LENGTH',  100,         NULL),

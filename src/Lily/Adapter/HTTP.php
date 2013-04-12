@@ -119,9 +119,9 @@ class HTTP
     private function method()
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
-            return strtolower($_SERVER['REQUEST_METHOD']);
+            return strtoupper($_SERVER['REQUEST_METHOD']);
         } else {
-            return 'get';
+            return 'GET';
         }
     }
 
