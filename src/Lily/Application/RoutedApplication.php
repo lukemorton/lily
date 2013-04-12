@@ -2,6 +2,8 @@
 
 namespace Lily\Application;
 
+use Lily\Util\Response;
+
 class RoutedApplication
 {
     // Defines the pattern of a :param
@@ -12,15 +14,6 @@ class RoutedApplication
 
     // What must be escaped in the route regex
     const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
-
-    public static function notFoundResponse()
-    {
-        return array(
-            'status' => 404,
-            'headers' => array(),
-            'body' => 'Not found.',
-        );
-    }
     
     public static function normaliseRoute($route, $app)
     {
@@ -157,7 +150,7 @@ class RoutedApplication
                 }
             }
 
-            return RoutedApplication::notFoundResponse();
+            return Response::notFound();
         };
     }
 
