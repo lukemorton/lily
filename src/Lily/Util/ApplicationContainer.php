@@ -25,10 +25,11 @@ class ApplicationContainer
 
     public function handler()
     {
-        return function ($request) {
-            $handler = $this->application()->handler();
+        $handler = $this->application()->handler();
+        $middleware = $this->middleware();
 
-            foreach (array_reverse($this->middleware()) as $_mw) {
+        return function ($request) use ($handler, $middleware) {
+            foreach (array_reverse($middleware) as $_mw) {
                 $handler = $_mw->wrapHandler($handler);
             }
 

@@ -13,16 +13,7 @@ class RoutedApplication
     // What must be escaped in the route regex
     const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
 
-    private $routes = array();
-
-    public function __construct(array $routes = NULL)
-    {
-        if ($routes !== NULL) {
-            $this->routes = $routes;
-        }
-    }
-
-    private function notFoundResponse()
+    public static function notFoundResponse()
     {
         return array(
             'status' => 404,
@@ -30,29 +21,24 @@ class RoutedApplication
             'body' => 'Not found.',
         );
     }
-
-    protected function routes()
-    {
-        return $this->routes;
-    }
     
-    private function normaliseRoute($route)
+    public static function normaliseRoute($route, $app)
     {
         if ( ! isset($route[3])) {
             $route[3] = array();
         }
 
-        $route[3]['app'] = $this;
+        $route[3]['app'] = $app;
 
         return $route;
     }
 
-    private function methodMatches($request, $method)
+    public static function methodMatches($request, $method)
     {
         return $method === NULL OR $request['method'] === $method;
     }
 
-    private function uriRegex($uri)
+    public static function uriRegex($uri)
     {
         // The URI should be considered literal except for
         // keys and optional parts
@@ -82,7 +68,7 @@ class RoutedApplication
         return '#^'.$expression.'$#uD';
     }
 
-    private function removeNumeric(array $mixedArray)
+    public static function removeNumeric(array $mixedArray)
     {
         $assocArray = array();
 
@@ -95,7 +81,7 @@ class RoutedApplication
         return $assocArray;
     }
 
-    private function uriMatches($request, $uri)
+    public static function uriMatches($request, $uri)
     {
         if ($uri === NULL) {
             return TRUE;
@@ -108,33 +94,48 @@ class RoutedApplication
 
         $match =
             (bool) preg_match(
-                $this->uriRegex($uri),
+                static::uriRegex($uri),
                 $request['uri'],
                 $matches);
 
         if (isset($matches[1])) {
-            return $this->removeNumeric($matches);
+            return static::removeNumeric($matches);
         }
 
         return $match;
     }
 
+    private $routes = array();
+
+    public function __construct(array $routes = NULL)
+    {
+        if ($routes !== NULL) {
+            $this->routes = $routes;
+        }
+    }
+
+    protected function routes()
+    {
+        return $this->routes;
+    }
+
     public function handler()
     {
-        return function ($request) {
-            $routes = $this->routes();
+        $app = $this;
+        $routes = $this->routes();
 
+        return function ($request) use ($app, $routes) {
             foreach ($routes as $_route) {
                 list($method, $uri, $handler, $additionalRequest) =
-                    $this->normaliseRoute($_route);
+                    RoutedApplication::normaliseRoute($_route, $app);
 
                 $request += $additionalRequest;
 
-                if ( ! $this->methodMatches($request, $method)) {
+                if ( ! RoutedApplication::methodMatches($request, $method)) {
                     continue;
                 }
 
-                $params = $this->uriMatches($request, $uri);
+                $params = RoutedApplication::uriMatches($request, $uri);
 
                 if ( ! $params) {
                     continue;
@@ -156,7 +157,7 @@ class RoutedApplication
                 }
             }
 
-            return $this->notFoundResponse();
+            return RoutedApplication::notFoundResponse();
         };
     }
 
