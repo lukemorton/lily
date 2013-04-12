@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\Util;
+namespace Lily\Application;
 
 class RoutedApplication
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Lily\Test\Util;
+namespace Lily\Test\Application;
 
-use Lily\Util\ApplicationContainer;
+use Lily\Application\MiddlewareApplication;
 use Lily\Mock\Application;
 use Lily\Mock\Middleware;
 
-class ApplicationContainerTest extends \PHPUnit_Framework_TestCase
+class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 {
     public function testMiddlewareOrder()
     {
@@ -14,7 +14,7 @@ class ApplicationContainerTest extends \PHPUnit_Framework_TestCase
         $calledOrder = array();
 
         $container =
-            new ApplicationContainer(
+            new MiddlewareApplication(
                 new Application(function () use (& $calledOrder) {
                     $calledOrder[] = 3;
                 }),
@@ -38,7 +38,7 @@ class ApplicationContainerTest extends \PHPUnit_Framework_TestCase
         $called = FALSE;
 
         $container =
-            new ApplicationContainer(
+            new MiddlewareApplication(
                 new Application(function () use (& $called) {
                     $called = TRUE;
                 }));

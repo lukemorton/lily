@@ -1,8 +1,8 @@
 <?php
 
-namespace Lily\Util;
+namespace Lily\Application;
 
-class ApplicationContainer
+class MiddlewareApplication
 {
     private $application;
     private $middleware;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Lily\Test\Util;
+namespace Lily\Test\Application;
 
-use Lily\Util\RoutedApplication;
+use Lily\Application\RoutedApplication;
 use Lily\Mock\RoutedApplicationWithRoutes;
 
 class RoutedApplicationTest extends \PHPUnit_Framework_TestCase

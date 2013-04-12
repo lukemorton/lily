@@ -2,7 +2,7 @@
 
 namespace Lily\Mock;
 
-use Lily\Util\RoutedApplication;
+use Lily\Application\RoutedApplication;
 
 class RoutedApplicationWithRoutes extends RoutedApplication
 {
