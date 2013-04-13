@@ -13,8 +13,9 @@ class Middleware
 
     public function wrapHandler($handler)
     {
-        return function ($request) use ($handler) {
-            $wrapper = $this->wrapper;
+        $wrapper = $this->wrapper;
+
+        return function ($request) use ($wrapper, $handler) {
             $wrapper();
             return $handler($request);
         };
