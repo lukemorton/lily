@@ -3,6 +3,7 @@
 namespace Lily\Test\Adapter;
 
 use Lily\Adapter\HTTP;
+use Lily\Util\Response;
 use Lily\Mock\Application;
 
 class HTTPTest extends \PHPUnit_Framework_TestCase
@@ -38,11 +39,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function responseData()
     {
-        return array(
-            'status' => 200,
-            'headers' => array('content-type' => 'text/plain'),
-            'body' => 'test this',
-        );
+        return Response::ok(array('content-type' => 'text/plain'), 'test this');
     }
 
     private function setUpGlobalRequestData()
@@ -133,8 +130,6 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
                     $actualValue = $request['headers'][$expectedKey];
                     return $response;
                 }));
-
-
 
         $this->assertSame($expectedValue, $actualValue);
 
@@ -259,14 +254,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     public function testStringResponseNormalised()
     {
-        $expectedResponse = array(
-            'status' => 200,
-            'headers' => array(
+        $expectedResponse = Response::ok(
+            array(
                 'content-type' => 'text/html',
                 'content-length' => strlen('hey world'),
             ),
-            'body' => 'hey world',
-        );
+            'hey world');
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $actualResponse = 
@@ -281,14 +274,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     public function testNumericArrayResponseNormalised()
     {
-        $expectedResponse = array(
-            'status' => 200,
-            'headers' => array(
+        $expectedResponse = Response::ok(
+            array(
                 'content-type' => 'text/html',
                 'content-length' => strlen('hey world'),
             ),
-            'body' => 'hey world',
-        );
+            'hey world');
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $actualResponse =

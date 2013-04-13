@@ -4,6 +4,7 @@ namespace Lily\Test\Application;
 
 use Lily\Application\RoutedApplication;
 use Lily\Mock\RoutedApplicationWithRoutes;
+use Lily\Util\Response;
 
 class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,15 +12,6 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     {
         return compact('method', 'uri') + array(
             'params' => array(),
-        );
-    }
-
-    private function notFoundResponse()
-    {
-        return array(
-            'status' => 404,
-            'headers' => array(),
-            'body' => 'Not found.',
         );
     }
 
@@ -112,7 +104,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $handler = $this->routedApplicationWithoutRoutes()->handler();
         $this->assertSame(
-            $this->notFoundResponse(),
+            Response::notFound(),
             $handler($this->request()));
     }
 
