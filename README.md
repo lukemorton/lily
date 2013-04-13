@@ -47,6 +47,10 @@ Done!
 
 [1]: http://getcomposer.org/
 
+## Documentation
+
+ - [Learning the basics](https://github.com/DrPheltRight/lily/wiki/Learning-the-basics)
+
 ## Tests
 
 [![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)](https://travis-ci.org/DrPheltRight/lily)
