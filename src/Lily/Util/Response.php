@@ -17,8 +17,12 @@ class Response
         return static::response($status, array('Location' => $uri));
     }
 
-    public static function notFound()
+    public static function notFound(array $headers = array(), $body = NULL)
     {
-        return static::response(404);
+        if ($body === NULL) {
+            $body = 'Not found.';
+        }
+
+        return static::response(404, $headers, $body);
     }
 }
