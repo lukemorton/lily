@@ -11,6 +11,11 @@ class Response
     {
         return compact('status', 'headers', 'body');
     }
+    
+    public static function ok(array $headers = array(), $body = '')
+    {
+        return static::response(200, $headers, $body);
+    }
   
     public static function redirect($uri, $status = 301)
     {
