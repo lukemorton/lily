@@ -17,7 +17,7 @@ aims to be readable in one sitting.
 require __DIR__.'/vendor/autoload.php';
 
 (new Lily\Adapter\HTTP)->run(
-    new Lily\Util\RoutedApplication(
+    new Lily\Application\RoutedApplication(
         [['GET', '/', 'Hello world']]));
 ?>
 ```
