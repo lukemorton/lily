@@ -24,6 +24,46 @@ require __DIR__.'/vendor/autoload.php';
 
 *This example uses PHP 5.4, Lily supports PHP 5.3+.*
 
+## Installation
+
+Installing Lily through [composer][1] is easy. Just create a
+`composer.json` file in a new directory for your application:
+
+```json
+{
+    "require": {
+        "drpheltright/lily": "~0.1"
+    }
+}
+```
+
+Now run the following command in that directory:
+
+```
+curl -s https://getcomposer.org/installer | php && php composer.phar install
+```
+
+Done!
+
+[1]: http://getcomposer.org/
+
+## Tests
+
+[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)](https://travis-ci.org/DrPheltRight/lily)
+
+To run the test suite, you need [composer][1] and it will
+handle the rest.
+
+```
+php composer.phar install --dev
+vendor/bin/phpunit
+```
+
+Lily unit tests are written with [PHPUnit][2].
+
+[1]: http://getcomposer.org/
+[2]: https://github.com/sebastianbergmann/phpunit/
+
 ## License
 
 Copyright © 2013 Luke Morton
