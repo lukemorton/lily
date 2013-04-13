@@ -52,14 +52,12 @@ Done!
 [![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)](https://travis-ci.org/DrPheltRight/lily)
 
 To run the test suite, you need [composer][1] and it will
-handle the rest.
+handle the rest. Lily unit tests are written with [PHPUnit][2].
 
 ```
 php composer.phar install --dev
 vendor/bin/phpunit
 ```
-
-Lily unit tests are written with [PHPUnit][2].
 
 [1]: http://getcomposer.org/
 [2]: https://github.com/sebastianbergmann/phpunit/
