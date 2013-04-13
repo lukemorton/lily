@@ -9,7 +9,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function responseProvider()
     {
         return array(
-            array(200, array('Content-Type' => 'text/plain'), 'Test')
+            array(200, array('Content-Type' => 'text/plain'), 'OK'),
+            array(500, array('Content-Type' => 'text/html'), 'Error'),
         );
     }
 
