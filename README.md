@@ -26,7 +26,7 @@ require __DIR__.'/vendor/autoload.php';
 
 ## Installation
 
-Installing Lily through [composer][1] is easy. Just create a
+Installing Lily through [composer][2] is easy. Just create a
 `composer.json` file in a new directory for your application:
 
 ```json
