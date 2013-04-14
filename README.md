@@ -50,6 +50,7 @@ Done!
 ## Documentation
 
  - [Learning the basics](https://github.com/DrPheltRight/lily/wiki/Learning-the-basics)
+ - [Routing like a pro](https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro)
 
 ## Tests
 
