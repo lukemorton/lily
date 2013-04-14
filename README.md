@@ -45,27 +45,33 @@ curl -s https://getcomposer.org/installer | php && php composer.phar install
 
 Done!
 
-[1]: http://getcomposer.org/
+[2]: http://getcomposer.org/
 
 ## Documentation
 
- - [Learning the basics](https://github.com/DrPheltRight/lily/wiki/Learning-the-basics)
- - [Routing like a pro](https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro)
+ - [Learning the basics][3]
+ - [Routing like a pro][4]
+ - [Getting the most from Middleware]()
+ - [Over complicated example]()
+
+ [3]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
+ [4]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
 
 ## Tests
 
-[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)](https://travis-ci.org/DrPheltRight/lily)
+[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][5]
 
-To run the test suite, you need [composer][1] and it will
-handle the rest. Lily unit tests are written with [PHPUnit][2].
+To run the test suite, you need [composer][6] and it will
+handle the rest. Lily unit tests are written with [PHPUnit][7].
 
 ```
 php composer.phar install --dev
 vendor/bin/phpunit
 ```
 
-[1]: http://getcomposer.org/
-[2]: https://github.com/sebastianbergmann/phpunit/
+[5]: https://travis-ci.org/DrPheltRight/lily
+[6]: http://getcomposer.org/
+[7]: https://github.com/sebastianbergmann/phpunit/
 
 ## License
 
