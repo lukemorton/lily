@@ -136,7 +136,15 @@ class RoutedApplication
 
                 if (is_array($params)) {
                     $request['route-params'] = $params;
-                    $request['params'] = $params + $request['params'];
+
+                    if (isset($request['params']))
+                    {
+                        $request['params'] = $params + $request['params'];
+                    }
+                    else
+                    {
+                        $request['params'] = $params;
+                    }
                 }
 
                 if (is_callable($handler)) {
