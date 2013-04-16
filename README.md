@@ -51,9 +51,11 @@ Done!
 
  - [Learning the basics][3]
  - [Routing like a pro][4]
+ - [Getting the most from Middleware][8]
 
  [3]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
  [4]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
+ [8]: https://github.com/DrPheltRight/lily/wiki/Getting-the-most-from-Middleware
 
 ## Tests
 
