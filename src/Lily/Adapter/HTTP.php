@@ -311,7 +311,10 @@ class HTTP
     public function run($application)
     {
         $handler = $application->handler();
-        $response = $this->normaliseResponse($handler($this->parseRequest()));
+        
+        $response =
+            $this->normaliseResponse(
+                $handler($this->parseRequest()));
 
         if ($this->returnResponse()) {
             return $response;
