@@ -14,24 +14,38 @@ class RoutedApplication
 
     // What must be escaped in the route regex
     const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
+
+    private $routes = array();
+
+    public function __construct(array $routes = NULL)
+    {
+        if ($routes !== NULL) {
+            $this->routes = $routes;
+        }
+    }
+
+    protected function routes()
+    {
+        return $this->routes;
+    }
     
-    public static function normaliseRoute($route, $app)
+    private function normaliseRoute($route)
     {
         if ( ! isset($route[3])) {
             $route[3] = array();
         }
 
-        $route[3]['app'] = $app;
+        $route[3]['app'] = $this;
 
         return $route;
     }
 
-    public static function methodMatches($request, $method)
+    private function methodMatches($request, $method)
     {
         return $method === NULL OR $request['method'] === $method;
     }
 
-    public static function uriRegex($uri)
+    private function uriRegex($uri)
     {
         // The URI should be considered literal except for
         // keys and optional parts
@@ -61,7 +75,7 @@ class RoutedApplication
         return '#^'.$expression.'$#uD';
     }
 
-    public static function removeNumeric(array $mixedArray)
+    private function removeNumeric(array $mixedArray)
     {
         $assocArray = array();
 
@@ -74,7 +88,7 @@ class RoutedApplication
         return $assocArray;
     }
 
-    public static function uriMatches($request, $uri)
+    private function uriMatches($request, $uri)
     {
         if ($uri === NULL) {
             return TRUE;
@@ -87,29 +101,15 @@ class RoutedApplication
 
         $match =
             (bool) preg_match(
-                static::uriRegex($uri),
+                $this->uriRegex($uri),
                 $request['uri'],
                 $matches);
 
         if (isset($matches[1])) {
-            return static::removeNumeric($matches);
+            return $this->removeNumeric($matches);
         }
 
         return $match;
-    }
-
-    private $routes = array();
-
-    public function __construct(array $routes = NULL)
-    {
-        if ($routes !== NULL) {
-            $this->routes = $routes;
-        }
-    }
-
-    protected function routes()
-    {
-        return $this->routes;
     }
 
     public function __invoke($request)
@@ -118,15 +118,15 @@ class RoutedApplication
 
         foreach ($routes as $_route) {
             list($method, $uri, $handler, $additionalRequest) =
-                RoutedApplication::normaliseRoute($_route, $this);
+                $this->normaliseRoute($_route, $this);
 
             $request += $additionalRequest;
 
-            if ( ! RoutedApplication::methodMatches($request, $method)) {
+            if ( ! $this->methodMatches($request, $method)) {
                 continue;
             }
 
-            $params = RoutedApplication::uriMatches($request, $uri);
+            $params = $this->uriMatches($request, $uri);
 
             if ( ! $params) {
                 continue;
