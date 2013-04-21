@@ -19,10 +19,10 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
                     $calledOrder[] = 3;
                 }),
                 new Middleware(function () use (& $calledOrder) {
-                    $calledOrder[] = 1;
+                    $calledOrder[] = 2;
                 }),
                 new Middleware(function () use (& $calledOrder) {
-                    $calledOrder[] = 2;
+                    $calledOrder[] = 1;
                 }),
             ));
         $handler(array());

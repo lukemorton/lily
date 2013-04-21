@@ -26,9 +26,8 @@ class MiddlewareApplication
     public function __invoke($request)
     {
         $handler = $this->handler();
-        $middleware = $this->middleware();
 
-        foreach (array_reverse($middleware) as $_mw) {
+        foreach ($this->middleware() as $_mw) {
             $handler = $_mw($handler);
         }
 
