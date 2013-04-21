@@ -35,7 +35,7 @@ Installing Lily through [composer][2] is easy. Just create a
 ```json
 {
     "require": {
-        "drpheltright/lily": "~0.1"
+        "drpheltright/lily": "~0.2"
     }
 }
 ```
