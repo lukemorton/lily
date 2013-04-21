@@ -307,11 +307,9 @@ class HTTP
 
         echo $response['body'];
     }
-
-    public function run($application)
+    
+    public function run($handler)
     {
-        $handler = $application->handler();
-        
         $response =
             $this->normaliseResponse(
                 $handler($this->parseRequest()));

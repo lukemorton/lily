@@ -7,15 +7,15 @@ class MiddlewareApplication
     private $application;
     private $middleware;
 
-    public function __construct($application, array $middleware = array())
+    public function __construct(array $pipeline)
     {
-        $this->application = $application;
-        $this->middleware = $middleware;
+        $this->handler = array_shift($pipeline);
+        $this->middleware = $pipeline;
     }
 
-    private function application()
+    private function handler()
     {
-        return $this->application;
+        return $this->handler;
     }
 
     private function middleware()
@@ -23,17 +23,15 @@ class MiddlewareApplication
         return $this->middleware;
     }
 
-    public function handler()
+    public function __invoke($request)
     {
-        $handler = $this->application()->handler();
+        $handler = $this->handler();
         $middleware = $this->middleware();
 
-        return function ($request) use ($handler, $middleware) {
-            foreach (array_reverse($middleware) as $_mw) {
-                $handler = $_mw->wrapHandler($handler);
-            }
+        foreach (array_reverse($middleware) as $_mw) {
+            $handler = $_mw($handler);
+        }
 
-            return $handler($request);
-        };
+        return $handler($request);
     }
 }

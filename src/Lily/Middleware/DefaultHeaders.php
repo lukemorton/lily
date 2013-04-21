@@ -11,7 +11,7 @@ class DefaultHeaders
         $this->headers = $headers;
     }
 
-    public function wrapHandler($handler)
+    public function __invoke($handler)
     {
         $headers = $this->headers;
 

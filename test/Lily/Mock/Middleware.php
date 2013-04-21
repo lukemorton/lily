@@ -11,7 +11,7 @@ class Middleware
         $this->wrapper = $wrapper;
     }
 
-    public function wrapHandler($handler)
+    public function __invoke($handler)
     {
         $wrapper = $this->wrapper;
 

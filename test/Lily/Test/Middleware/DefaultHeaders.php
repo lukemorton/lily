@@ -35,7 +35,7 @@ class DefaultHeadersTest extends \PHPUnit_Framework_TestCase
         };
 
         $mw = new DefaultHeaders(array($header => $value));
-        $wrappedHandler = $mw->wrapHandler($handler);
+        $wrappedHandler = $mw($handler);
         $response = $wrappedHandler(array());
 
         $this->assertSame($expected, $response['headers'][$header] === $value);

@@ -112,54 +112,51 @@ class RoutedApplication
         return $this->routes;
     }
 
-    public function handler()
+    public function __invoke($request)
     {
-        $app = $this;
         $routes = $this->routes();
 
-        return function ($request) use ($app, $routes) {
-            foreach ($routes as $_route) {
-                list($method, $uri, $handler, $additionalRequest) =
-                    RoutedApplication::normaliseRoute($_route, $app);
+        foreach ($routes as $_route) {
+            list($method, $uri, $handler, $additionalRequest) =
+                RoutedApplication::normaliseRoute($_route, $this);
 
-                $request += $additionalRequest;
+            $request += $additionalRequest;
 
-                if ( ! RoutedApplication::methodMatches($request, $method)) {
-                    continue;
+            if ( ! RoutedApplication::methodMatches($request, $method)) {
+                continue;
+            }
+
+            $params = RoutedApplication::uriMatches($request, $uri);
+
+            if ( ! $params) {
+                continue;
+            }
+
+            if (is_array($params)) {
+                $request['route-params'] = $params;
+
+                if (isset($request['params']))
+                {
+                    $request['params'] = $params + $request['params'];
                 }
-
-                $params = RoutedApplication::uriMatches($request, $uri);
-
-                if ( ! $params) {
-                    continue;
-                }
-
-                if (is_array($params)) {
-                    $request['route-params'] = $params;
-
-                    if (isset($request['params']))
-                    {
-                        $request['params'] = $params + $request['params'];
-                    }
-                    else
-                    {
-                        $request['params'] = $params;
-                    }
-                }
-
-                if (is_callable($handler)) {
-                    $response = $handler($request);
-                } else {
-                    $response = $handler;
-                }
-
-                if ($response !== FALSE) {
-                    return $response;
+                else
+                {
+                    $request['params'] = $params;
                 }
             }
 
-            return Response::notFound();
-        };
+            if (is_callable($handler)) {
+                $response = $handler($request);
+            } else {
+                $response = $handler;
+            }
+
+            if ($response !== FALSE) {
+                return $response;
+            }
+        }
+
+        return Response::notFound();
     }
 
     public function uri($name, array $params = array())

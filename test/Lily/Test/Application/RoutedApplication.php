@@ -58,9 +58,8 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider  routesProvider
      */
-    public function testRouteMatching($app, $method, $uri, $expected)
+    public function testRouteMatching($handler, $method, $uri, $expected)
     {
-        $handler = $app->handler();
         $this->assertSame($expected, $handler($this->request($method, $uri)));
     }
 
@@ -77,9 +76,8 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider routedApplicationProvider
      */
-    public function testResponseReturnedFromAppHandler($app)
+    public function testResponseReturnedFromAppHandler($handler)
     {
-        $handler = $app->handler();
         $this->assertSame(
             'index',
             $handler($this->request('GET', '/')));
@@ -94,15 +92,14 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
                 $actualApp = $request['app'];
             }),
         ));
-        $handler = $expectedApp->handler();
-        $handler($this->request('GET', '/'));
+        $expectedApp($this->request('GET', '/'));
 
         $this->assertSame($expectedApp, $actualApp);
     }
 
     public function testNotFoundRoute()
     {
-        $handler = $this->routedApplicationWithoutRoutes()->handler();
+        $handler = $this->routedApplicationWithoutRoutes();
         $this->assertSame(
             Response::notFound(),
             $handler($this->request()));

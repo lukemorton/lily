@@ -2,8 +2,8 @@
 
 namespace Lily\Mock;
 
-class Application {
-
+class Application
+{
     private $handler;
 
     public function __construct($handler)
@@ -11,9 +11,9 @@ class Application {
         $this->handler = $handler;
     }
 
-    public function handler()
+    public function __invoke($request)
     {
-        return $this->handler;
+    	$handler = $this->handler;
+        return $handler($request);
     }
-
 }

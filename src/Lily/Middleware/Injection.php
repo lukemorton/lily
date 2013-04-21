@@ -11,7 +11,7 @@ class Injection
         $this->map = $map;
     }
 
-    public function wrapHandler($handler)
+    public function __invoke($handler)
     {
         $map = $this->map;
 

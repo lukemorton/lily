@@ -17,7 +17,7 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
 
         $expected = 'cool';
         $mw = new Injection(array('injected-value' => $expected));
-        $wrappedHandler = $mw->wrapHandler($handler);
+        $wrappedHandler = $mw($handler);
         $wrappedHandler(array());
 
         $this->assertSame($expected, $actual);
