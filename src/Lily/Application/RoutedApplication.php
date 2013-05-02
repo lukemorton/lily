@@ -112,6 +112,32 @@ class RoutedApplication
         return $match;
     }
 
+    private function is_map(array $array)
+    {
+        // Keys of the array
+        $keys = array_keys($array);
+
+        // If the array keys of the keys match the keys, then the array must
+        // not be map (e.g. the keys array looked like {0:0, 1:1...}).
+        return array_keys($keys) !== $keys;
+    }
+
+    private function normaliseResponse($response)
+    {
+        if (is_string($response)) {
+            $response = array(
+                'status' => 200,
+                'headers' => array(),
+                'body' => $response,
+            );
+        } elseif ( ! $this->is_map($response)) {
+            list($status, $headers, $body) = $response;
+            $response = compact('status', 'headers', 'body');
+        }
+
+        return $response;
+    }
+
     public function __invoke($request)
     {
         $routes = $this->routes();
@@ -152,7 +178,7 @@ class RoutedApplication
             }
 
             if ($response !== FALSE) {
-                return $response;
+                return $this->normaliseResponse($response);
             }
         }
 
