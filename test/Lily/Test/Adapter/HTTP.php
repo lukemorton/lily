@@ -251,48 +251,4 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expectedResponse, $actualResponse);
     }
-
-    public function testStringResponseNormalised()
-    {
-        $expectedResponse = Response::ok(
-            array(
-                'content-type' => 'text/html',
-                'content-length' => strlen('hey world'),
-            ),
-            'hey world');
-
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $actualResponse = 
-            $http->run(
-                new Application(
-                    function ($request) use ($expectedResponse) {
-                        return $expectedResponse['body'];
-                    }));
-
-        $this->assertSame($expectedResponse, $actualResponse);
-    }
-
-    public function testNumericArrayResponseNormalised()
-    {
-        $expectedResponse = Response::ok(
-            array(
-                'content-type' => 'text/html',
-                'content-length' => strlen('hey world'),
-            ),
-            'hey world');
-
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $actualResponse =
-            $http->run(
-                new Application(
-                    function ($request) use ($expectedResponse) {
-                        return array(
-                            $expectedResponse['status'],
-                            $expectedResponse['headers'],
-                            $expectedResponse['body'],
-                        );
-                    }));
-
-        $this->assertSame($expectedResponse, $actualResponse);
-    }
 }
