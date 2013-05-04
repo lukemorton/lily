@@ -4,10 +4,7 @@ namespace Lily\Util;
 
 class Response
 {
-    public static function response(
-        $status,
-        array $headers = array(),
-        $body = '')
+    public static function response($status, array $headers = array(), $body = '')
     {
         return compact('status', 'headers', 'body');
     }
