@@ -61,7 +61,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     public function testRouteMatching($handler, $method, $uri, $expected)
     {
         $this->assertSame(
-            Response::ok([], $expected),
+            Response::ok($expected),
             $handler($this->request($method, $uri)));
     }
 
@@ -81,7 +81,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     public function testResponseReturnedFromAppHandler($handler)
     {
         $this->assertSame(
-            Response::ok([], 'index'),
+            Response::ok('index'),
             $handler($this->request('GET', '/')));
     }
 

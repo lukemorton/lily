@@ -50,7 +50,7 @@ class ExceptionHandler
                 Kint::trace($request['exception']->getTrace());
             }
 
-            return Response::response(500, array(), ob_get_clean());
+            return Response::response(500, ob_get_clean());
         };
     }
 

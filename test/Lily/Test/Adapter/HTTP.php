@@ -39,7 +39,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function responseData()
     {
-        return Response::ok(array('content-type' => 'text/plain'), 'test this');
+        return Response::ok('test this', array('content-type' => 'text/plain'));
     }
 
     private function setUpGlobalRequestData()

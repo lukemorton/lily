@@ -21,7 +21,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(
             compact('status', 'headers', 'body'),
-            Response::response($status, $headers, $body));
+            Response::response($status, $body, $headers));
     }
 
     /**
@@ -33,7 +33,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             compact('status', 'headers', 'body'),
-            Response::ok($headers, $body));
+            Response::ok($body, $headers));
     }
 
     /**
@@ -45,7 +45,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             compact('status', 'headers', 'body'),
-            Response::notFound($headers, $body));
+            Response::notFound($body, $headers));
     }
 
     public function testRedirectResponse()
