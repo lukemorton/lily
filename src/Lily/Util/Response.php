@@ -23,7 +23,7 @@ class Response
         return static::response(404, $headers, $body);
     }
   
-    public static function redirect($uri, $status = 301)
+    public static function redirect($uri, $status = 302)
     {
         return static::response($status, array('Location' => $uri));
     }

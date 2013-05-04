@@ -50,7 +50,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     public function testRedirectResponse()
     {
-        $status = 301;
+        $status = 302;
         $headers = array('Location' => '/');
         $body = '';
 
