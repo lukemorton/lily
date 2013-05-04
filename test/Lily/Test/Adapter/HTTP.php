@@ -39,7 +39,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function responseData()
     {
-        return Response::ok('test this', array('content-type' => 'text/plain'));
+        return Response::ok('test this', array('Content-Type' => 'text/plain'));
     }
 
     private function setUpGlobalRequestData()
@@ -245,8 +245,8 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $expectedResponse = $responseData;
         $expectedResponse['headers'] = array(
-            'content-type' => 'text/html',
-            'content-length' => strlen($expectedResponse['body']),
+            'Content-Type' => 'text/html',
+            'Content-Length' => strlen($expectedResponse['body']),
         );
 
         $this->assertSame($expectedResponse, $actualResponse);

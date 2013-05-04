@@ -253,15 +253,15 @@ class HTTP
     {
         $headers = $response['headers'];
 
-        if (empty($headers['content-type'])) {
-            $headers['content-type'] = 'text/html';
+        if (empty($headers['Content-Type'])) {
+            $headers['Content-Type'] = 'text/html';
         }
 
-        if (empty($headers['content-length'])) {
+        if (empty($headers['Content-Length'])) {
             if (function_exists('mb_strlen')) {
-                $headers['content-length'] = mb_strlen($response['body']);
+                $headers['Content-Length'] = mb_strlen($response['body']);
             } else {
-                $headers['content-length'] = strlen($response['body']);
+                $headers['Content-Length'] = strlen($response['body']);
             }
         }
 
