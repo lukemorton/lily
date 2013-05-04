@@ -59,6 +59,17 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
             Response::redirect($headers['Location']));
     }
 
+    public function testRedirectCustomStatusResponse()
+    {
+        $status = 301;
+        $headers = array('Location' => '/');
+        $body = '';
+
+        $this->assertSame(
+            compact('status', 'headers', 'body'),
+            Response::redirect($headers['Location'], $status));
+    }
+
     public function testRedirectAfterPostResponse()
     {
         $status = 303;
