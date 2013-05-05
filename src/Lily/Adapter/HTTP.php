@@ -2,8 +2,14 @@
 
 namespace Lily\Adapter;
 
+/**
+ * HTTP Adapter for most PHP applications.
+ */
 class HTTP
 {
+    /**
+     * An array of HTTP status code => HTTP status text.
+     */
     private static $statusText = array(
         '100' => 'Continue',
         '101' => 'Switching Protocols',
@@ -54,6 +60,13 @@ class HTTP
     private $forceSlowHeaders = FALSE;
     private $returnResponse = FALSE;
 
+    /**
+     * Takes an optional map of settings, with these keys:
+     *
+     *  - `forceSlowHeaders`: set `TRUE` to ensure `::slowHeaders()` is used
+     *  - `returnResponse`: set `TRUE` to return response from `::run()`
+     *    instead of sending headers
+     */
     public function __construct(array $config = NULL)
     {
         foreach (array('forceSlowHeaders', 'returnResponse') as $_setting) {
@@ -63,16 +76,25 @@ class HTTP
         }
     }
 
+    /**
+     * Are we forcing the use of `::slowHeaders()`?
+     */
     private function forceSlowHeaders()
     {
         return $this->forceSlowHeaders;
     }
 
+    /**
+     * Are we returning a response instead of sending one?
+     */
     private function returnResponse()
     {
         return $this->returnResponse;
     }
 
+    /**
+     * Returns server host.
+     */
     private function host()
     {
         if (isset($_SERVER['SERVER_NAME'])) {
@@ -80,6 +102,9 @@ class HTTP
         }
     }
 
+    /**
+     * Returns server port.
+     */
     private function port()
     {
         if (isset($_SERVER['SERVER_PORT'])) {
@@ -87,6 +112,9 @@ class HTTP
         }
     }
 
+    /**
+     * Returns server IP address.
+     */
     private function addr()
     {
         if (isset($_SERVER['SERVER_ADDR'])) {
@@ -94,6 +122,9 @@ class HTTP
         }
     }
 
+    /**
+     * Returns remote IP address.
+     */
     private function remote_addr()
     {
         if (isset($_SERVER['REMOTE_ADDR'])) {
@@ -101,11 +132,14 @@ class HTTP
         }
     }
 
-    protected function default_protocol()
+    private function default_protocol()
     {
         return 'http';
     }
 
+    /**
+     * Returns HTTP scheme, i.e. 'https' or 'http'. Defaults to 'http'.
+     */
     private function scheme()
     {
         if (isset($_SERVER['SERVER_PROTOCOL'])) {
@@ -116,6 +150,9 @@ class HTTP
         }
     }
 
+    /**
+     * Returns HTTP request method. Defaults to `'GET'`.
+     */
     private function method()
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
@@ -125,6 +162,11 @@ class HTTP
         }
     }
 
+    /**
+     * Returns the URI for the HTTP request via various methods depending on
+     * what is provided by `$_SERVER`. This often depends on your environment
+     * or server you are running this library on.
+     */
     private function uri()
     {
         if ( ! empty($_SERVER['PATH_INFO'])) {
@@ -132,10 +174,12 @@ class HTTP
         } elseif (isset($_SERVER['REQUEST_URI'])) {
             $uri = $_SERVER['REQUEST_URI'];
 
-            // `parse_url()` cannot parse malformed URLs like
-            // `http://localhost/http://example.com/index.php`
-            // so only if truthy do we use what it returns,
-            // otherwise we default to the raw `REQUEST_URI`
+            // `parse_url()` cannot parse malformed URLs like:
+            // 
+            //     http://localhost/http://example.com/index.php
+            //
+            // Only if truthy do we use what `parse_url()` it returns, otherwise
+            // we default to the raw `REQUEST_URI`.
             $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
             if ($request_uri) {
@@ -154,6 +198,10 @@ class HTTP
         return $uri;
     }
 
+    /**
+     * Returns an array of headers with hyphenated-lowercase from the PHP
+     * `$_SERVER` variable.
+     */
     private function slowHeaders()
     {
         $headers = array();
@@ -183,6 +231,14 @@ class HTTP
         return $headers;
     }
 
+    /**
+     * Use `apache_request_headers()` or `http_get_request_headers()` to
+     * retrieve headers as an array if either is available and the
+     * `forceSlowHeaders` setting is not set to `TRUE`. Otherwise
+     * `::slowHeaders()` will be called.
+     *
+     * Please note keys will always be lowercase-hyphenated.
+     */
     private function headers()
     {
         $headers = array();
@@ -202,26 +258,45 @@ class HTTP
         return $this->slowHeaders();
     }
 
+    /**
+     * An associative array of HTTP query string key => values.
+     */
     private function query()
     {
         return $_GET;
     }
 
+    /**
+     * An associative array of POST form data.
+     */
     private function post()
     {
         return $_POST;
     }
 
+    /**
+     * A combination of arrays returned by `::post()` and `::get()`. The former
+     * having precedence over the latter.
+     */
     private function params()
     {
         return $_POST + $_GET;
     }
 
+    /**
+     * Array of files submitted sent in the HTTP request.
+     */
     private function files()
     {
         return $_FILES;
     }
 
+    /**
+     * Return associative array representing the HTTP request.
+     *
+     * Please note all keys are lowercase. For the request array – including
+     * it's `'headers'` map – this is the expected format.
+     */
     private function parseRequest()
     {
         $headers = $this->headers();
@@ -248,6 +323,11 @@ class HTTP
         );
     }
 
+    /**
+     * Add default `Content-Type` and `Content-Length` headers if these keys are
+     * not defined. `Content-Type` defaults to `'text/html'` whereas
+     * `Content-Length` is calculated from the length of `$response['body']`.
+     */
     private function addDefaultHeadersToResponse(array $response)
     {
         $headers = $response['headers'];
@@ -268,6 +348,9 @@ class HTTP
         return $response;
     }
 
+    /**
+     * Send headers and echo body of given `$response` array.
+     */
     private function sendResponse(array $response)
     {
         $status = $response['status'];
@@ -280,7 +363,20 @@ class HTTP
 
         echo $response['body'];
     }
-    
+
+    /**
+     * Run an application handler. This process involves:
+     *
+     *  - Parsing the HTTP request into an associative array
+     *  - Passing this request array into the given handler
+     *  - The application handler should then return an associative array
+     *    containing the keys: `'status'`, `'headers'` and `'body'`
+     *  - Adding default headers onto the returned response array's `'headers'`
+     *    key if they aren't already set
+     *  - Depending on whether the `returnResponse` setting is set to `TRUE`:
+     *     - Returns response if `TRUE`
+     *     - Sends response otherwise
+     */
     public function run($handler)
     {
         $response = 
