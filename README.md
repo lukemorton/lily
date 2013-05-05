@@ -35,7 +35,9 @@ file in a new directory for your application:
 {
     "require": {
         "drpheltright/lily": "~0.3"
-    }
+    },
+
+    "minimum-stability": "dev"
 }
 ```
 
