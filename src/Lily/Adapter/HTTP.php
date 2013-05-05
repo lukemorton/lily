@@ -132,11 +132,6 @@ class HTTP
         }
     }
 
-    private function default_protocol()
-    {
-        return 'http';
-    }
-
     /**
      * Returns HTTP scheme, i.e. 'https' or 'http'. Defaults to 'http'.
      */
@@ -146,7 +141,7 @@ class HTTP
             $parts = explode('/', $_SERVER['SERVER_PROTOCOL']);
             return strtolower($parts[0]);
         } else {
-            return $this->default_protocol();
+            return 'http';
         }
     }
 
