@@ -47,18 +47,15 @@ class RoutedApplication
 
     private function uriRegex($uri)
     {
-        // The URI should be considered literal except for
-        // keys and optional parts
-        // Escape everything preg_quote would escape except
-        // for : ( ) < >
+        // The URI should be considered literal except for keys and optional
+        // parts. Escape everything preg_quote would escape except : ( ) < >
         $expression = preg_replace(
             '#'.static::REGEX_ESCAPE.'#',
             '\\\\$0',
             $uri);
 
         if (strpos($expression, '(') !== FALSE) {
-            // Make optional parts of the URI non-capturing
-            // and optional
+            // Make optional parts of the URI non-capturing and optional
             $expression = str_replace(
                 array('(', ')'),
                 array('(?:', ')?'),
@@ -93,8 +90,8 @@ class RoutedApplication
         if ($uri === NULL) {
             return TRUE;
 
-        // This match might be dangerous if the URL looks like
-        // regex... might that happen?
+        // This match might be dangerous if the URL looks like regex... might
+        // that happen?
         } elseif ($request['uri'] === $uri) {
             return TRUE;
         }
