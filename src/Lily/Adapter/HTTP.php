@@ -143,7 +143,6 @@ class HTTP
             }
 
             $uri = rawurldecode($uri);
-
         } elseif (isset($_SERVER['PHP_SELF'])) {
             $uri = $_SERVER['PHP_SELF'];
         } elseif (isset($_SERVER['REDIRECT_URL'])) {
@@ -286,7 +285,8 @@ class HTTP
     {
         $response = 
             $this->addDefaultHeadersToResponse(
-                $handler($this->parseRequest()));
+                $handler(
+                    $this->parseRequest()));
 
         if ($this->returnResponse()) {
             return $response;
