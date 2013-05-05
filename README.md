@@ -2,13 +2,12 @@
 
 A lightweight web application library for PHP.
 
-Lily provides your application with a common sense interface
-to HTTP. Lily is inspired by the design of [ring][1],
-especially in regards to the use of higher order functions and
-middleware. She also provides routing if you need it.
+Lily provides your application with a common sense interface to HTTP. Lily is
+inspired by the design of [ring][1], especially in regards to the use of higher
+order functions and middleware. She also provides routing if you need it.
 
-Lil' Lily has very little to her weighing in at 534LOC. She
-aims to be readable in one sitting.
+Lil' Lily has very little to her weighing in at 534LOC. She aims to be readable
+in one sitting.
 
 [1]: https://github.com/ring-clojure/ring
 
@@ -29,8 +28,8 @@ examples found in the [wiki][9].*
 
 ## Installation
 
-Installing Lily through [composer][2] is easy. Just create a
-`composer.json` file in a new directory for your application:
+Installing Lily through [composer][2] is easy. Just create a `composer.json`
+file in a new directory for your application:
 
 ```json
 {
@@ -64,8 +63,8 @@ Done!
 
 [![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][5]
 
-To run the test suite, you need [composer][6] and it will
-handle the rest. Lily unit tests are written with [PHPUnit][7].
+To run the test suite, you need [composer][6] and it will handle the rest. Lily
+unit tests are written with [PHPUnit][7].
 
 ```
 php composer.phar install --dev
