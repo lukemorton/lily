@@ -10,8 +10,9 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "raveren/kint": "dev-master"
+        "raveren/kint": "dev-master@dev"
     },
+
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "phpunit/php-code-coverage": "1.2.*"
