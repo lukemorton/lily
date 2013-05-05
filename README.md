@@ -71,6 +71,8 @@ php composer.phar install --dev
 vendor/bin/phpunit
 ```
 
+We try and keep coverage high and no feature is added without some kind of test.
+
 [5]: https://travis-ci.org/DrPheltRight/lily
 [6]: http://getcomposer.org/
 [7]: https://github.com/sebastianbergmann/phpunit/
