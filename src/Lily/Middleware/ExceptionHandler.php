@@ -63,7 +63,6 @@ class ExceptionHandler
         }
 
         return function ($request) use ($handler, $errorHandler) {
-
             try {
                 $response = $handler($request);
             } catch (Exception $e) {
