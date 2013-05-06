@@ -22,13 +22,13 @@ require __DIR__.'/vendor/autoload.php';
 ```
 
 *This example uses PHP 5.4, Lily supports PHP 5.3+. The same goes for all
-examples found in the [wiki][9].*
+examples found in the [wiki][2].*
 
-[9]: https://github.com/DrPheltRight/lily/wiki
+[2]: https://github.com/DrPheltRight/lily/wiki
 
 ## Installation
 
-Installing Lily through [composer][2] is easy. Just create a `composer.json`
+Installing Lily through [composer][3] is easy. Just create a `composer.json`
 file in a new directory for your application:
 
 ```json
@@ -49,28 +49,28 @@ curl -s https://getcomposer.org/installer | php && php composer.phar install
 
 Done!
 
-[2]: http://getcomposer.org/
+[3]: http://getcomposer.org/
 
 ## Documentation
 
- - [Start here][10]
- - [Basics][3]
- - [Routing][4]
- - [Middleware][8]
-    - [Error handling][11]
+ - [Start here][4]
+ - [Basics][5]
+ - [Routing][6]
+ - [Middleware][7]
+    - [Error handling][8]
 
- [3]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
- [4]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
- [8]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
- [10]: https://github.com/DrPheltRight/lily/wiki
- [11]: https://github.com/DrPheltRight/lily/wiki/Error-handling
+ [4]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
+ [5]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
+ [6]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
+ [7]: https://github.com/DrPheltRight/lily/wiki
+ [8]: https://github.com/DrPheltRight/lily/wiki/Error-handling
 
 ## Tests
 
-[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][5]
+[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][9]
 
-To run the test suite, you need [composer][6] and it will handle the rest. Lily
-unit tests are written with [PHPUnit][7].
+To run the test suite, you need [composer][10] and it will handle the rest. Lily
+unit tests are written with [PHPUnit][11].
 
 ```
 php composer.phar install --dev
@@ -79,9 +79,9 @@ vendor/bin/phpunit
 
 We try and keep coverage high and no feature is added without some kind of test.
 
-[5]: https://travis-ci.org/DrPheltRight/lily
-[6]: http://getcomposer.org/
-[7]: https://github.com/sebastianbergmann/phpunit/
+[9]: https://travis-ci.org/DrPheltRight/lily
+[10]: http://getcomposer.org/
+[11]: https://github.com/sebastianbergmann/phpunit/
 
 ## License
 
