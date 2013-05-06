@@ -57,11 +57,13 @@ Done!
  - [Basics][3]
  - [Routing][4]
  - [Middleware][8]
+    - [Error handling][11]
 
  [3]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
  [4]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
  [8]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
  [10]: https://github.com/DrPheltRight/lily/wiki
+ [11]: https://github.com/DrPheltRight/lily/wiki/Error-handling
 
 ## Tests
 
