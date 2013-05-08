@@ -395,8 +395,14 @@ class HTTP
             unset($response['headers']['Set-Cookie']);
         }
 
-        foreach ($response['headers'] as $_header => $_value) {
-            header("{$_header}: {$_value}");
+        foreach ($response['headers'] as $_header => $_values) {
+            if ( ! is_array($_values)) {
+                $_values = array($_values);
+            }
+
+            foreach ($_values as $_value) {
+                header("{$_header}: {$_value}");
+            }
         }
 
         echo $response['body'];
