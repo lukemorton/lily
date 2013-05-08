@@ -233,8 +233,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
                     return $expectedResponse;
                 }));
 
-        $this->assertSame($expectedResponse['body'], ob_get_contents());
-        ob_clean();
+        $this->assertSame($expectedResponse['body'], ob_get_clean());
     }
 
     /**
