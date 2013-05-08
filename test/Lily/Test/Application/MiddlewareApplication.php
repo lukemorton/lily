@@ -3,8 +3,8 @@
 namespace Lily\Test\Application;
 
 use Lily\Application\MiddlewareApplication;
-use Lily\Mock\Application;
-use Lily\Mock\Middleware;
+
+use Lily\Util\Response;
 
 class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,15 +15,24 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 
         $handler =
             new MiddlewareApplication(array(
-                new Application(function () use (& $calledOrder) {
+                function ($request) use (& $calledOrder) {
                     $calledOrder[] = 3;
-                }),
-                new Middleware(function () use (& $calledOrder) {
-                    $calledOrder[] = 2;
-                }),
-                new Middleware(function () use (& $calledOrder) {
-                    $calledOrder[] = 1;
-                }),
+                    return Response::ok();
+                },
+                
+                function ($handler) use (& $calledOrder) {
+                    return function ($request) use ($handler, & $calledOrder) {
+                        $calledOrder[] = 2;
+                        return $handler($request);
+                    };
+                },
+
+                function ($handler) use (& $calledOrder) {
+                    return function ($request) use ($handler, & $calledOrder) {
+                        $calledOrder[] = 1;
+                        return $handler($request);
+                    };
+                },
             ));
         $handler(array());
 
@@ -36,9 +45,9 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 
         $handler =
             new MiddlewareApplication(array(
-                new Application(function () use (& $called) {
+                function () use (& $called) {
                     $called = TRUE;
-                }),
+                },
             ));
         $handler(array());
 
