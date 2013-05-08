@@ -4,7 +4,6 @@ namespace Lily\Test\Adapter;
 
 use Lily\Adapter\HTTP;
 use Lily\Util\Response;
-use Lily\Mock\Application;
 
 class HTTPTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,11 +101,10 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
             'returnResponse' => TRUE,
         ));
         $http->run(
-            new Application(
-                function ($request) use ($expectedKey, & $actualValue, $response) {
-                    $actualValue = $request[$expectedKey];
-                    return $response;
-                }));
+            function ($request) use ($expectedKey, & $actualValue, $response) {
+                $actualValue = $request[$expectedKey];
+                return $response;
+            });
 
         $this->assertSame($expectedValue, $actualValue);
 
@@ -131,11 +129,10 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
             'returnResponse' => TRUE,
         ));
         $http->run(
-            new Application(
-                function ($request) use ($expectedKey, & $actualValue, $response) {
-                    $actualValue = $request['headers'][$expectedKey];
-                    return $response;
-                }));
+            function ($request) use ($expectedKey, & $actualValue, $response) {
+                $actualValue = $request['headers'][$expectedKey];
+                return $response;
+            });
 
         $this->assertSame($expectedValue, $actualValue);
 
@@ -185,11 +182,10 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $http->run(
-            new Application(
-                function ($request) use (& $actualRequest, $response) {
-                    $actualRequest = $request;
-                    return $response;
-                }));
+            function ($request) use (& $actualRequest, $response) {
+                $actualRequest = $request;
+                return $response;
+            });
 
         $this->assertSame($_COOKIE, $actualRequest['headers']['cookies']);
         $this->assertSame($_GET, $actualRequest['query']);
@@ -206,11 +202,10 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $http->run(
-            new Application(
-                function ($request) use (& $actualParams, $response) {
-                    $actualParams = $request['params'];
-                    return $response;
-                }));
+            function ($request) use (& $actualParams, $response) {
+                $actualParams = $request['params'];
+                return $response;
+            });
         
         $this->assertSame($_POST + $_GET, $actualParams);
         
@@ -228,10 +223,9 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $http = new HTTP;
         $http->run(
-            new Application(
-                function ($request) use ($expectedResponse) {
-                    return $expectedResponse;
-                }));
+            function ($request) use ($expectedResponse) {
+                return $expectedResponse;
+            });
 
         $this->assertSame($expectedResponse['body'], ob_get_clean());
     }
@@ -252,10 +246,9 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $http = new HTTP(array('returnResponse' => TRUE));
         $actualResponse =
             $http->run(
-                new Application(
-                    function ($request) use ($responseData) {
-                        return $responseData;
-                    }));
+                function ($request) use ($responseData) {
+                    return $responseData;
+                });
 
         $expectedResponse = $responseData;
         $expectedResponse['headers'] += array(
