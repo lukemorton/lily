@@ -9,6 +9,7 @@ use Lily\Mock\Application;
 class HTTPTest extends \PHPUnit_Framework_TestCase
 {
     private $oldServer;
+    private $oldCookies;
     private $oldGet;
     private $oldPost;
     private $oldFiles;
@@ -141,6 +142,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $expected = array('hello' => 'world');
 
         return array(
+            array('cookies', $expected),
             array('query', $expected),
             array('post',  $expected),
             array('files', $expected),
@@ -149,10 +151,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function setUpGlobalMagic()
     {
+        $this->oldCookies = $_COOKIE;
         $this->oldGet = $_GET;
         $this->oldPost = $_POST;
         $this->oldFiles = $_FILES;
         
+        $_COOKIE = array('a' => 'COOKIE');
         $_GET = array('a' => 'GET', 'b' => 'GET');
         $_POST = array('a' => 'POST', 'c' => 'POST');
         $_FILES = array('a' => 'FILES');
@@ -160,6 +164,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function tearDownGlobalMagic()
     {
+        $_COOKIE = $this->oldCookies;
         $_GET = $this->oldGet;
         $_POST = $this->oldPost;
         $_FILES = $this->oldFiles;
@@ -181,6 +186,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
                     return $response;
                 }));
 
+        $this->assertSame($_COOKIE, $actualRequest['headers']['cookies']);
         $this->assertSame($_GET, $actualRequest['query']);
         $this->assertSame($_POST, $actualRequest['post']);
         $this->assertSame($_FILES, $actualRequest['files']);

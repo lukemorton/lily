@@ -232,25 +232,31 @@ class HTTP
      * `forceSlowHeaders` setting is not set to `TRUE`. Otherwise
      * `::slowHeaders()` will be called.
      *
+     * Also adds a `cookies` key to the header array from `$_COOKIE`.
+     *
      * Please note keys will always be lowercase-hyphenated.
      */
     private function headers()
     {
-        $headers = array();
-
         if ( ! $this->forceSlowHeaders()) {
             if (function_exists('apache_request_headers')) {
-                return
+                $headers = 
                     array_change_key_case(
                         apache_request_headers());
             } elseif (extension_loaded('http')) {
-                return
+                $headers =
                     array_change_key_case(
                         http_get_request_headers());
             }
         }
 
-        return $this->slowHeaders();
+        if ( ! isset($headers)) {
+            $headers = $this->slowHeaders();
+        }
+
+        $headers['cookies'] = $_COOKIE;
+
+        return $headers;
     }
 
     /**
