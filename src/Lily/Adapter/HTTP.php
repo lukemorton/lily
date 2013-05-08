@@ -350,6 +350,14 @@ class HTTP
     }
 
     /**
+     * Send status header.
+     */
+    private function sendStatusHeader($status)
+    {
+        header(static::$statusText[$status], TRUE, $status);
+    }
+
+    /**
      * Send cookies array from `$response['headers']['Set-Cookie']`. Should be
      * a numeric array of associative arrays representing individual cookies.
      *
@@ -381,21 +389,11 @@ class HTTP
     }
 
     /**
-     * Send headers and echo body of given `$response` array.
+     * Send header field => values.
      */
-    private function sendResponse(array $response)
+    private function sendHeaders(array $headers)
     {
-        $status = $response['status'];
-        $statusText = static::$statusText[$status];
-        header($statusText, TRUE, $status);
-
-        if (isset($response['headers']['Set-Cookie']))
-        {
-            $this->sendCookies($response['headers']['Set-Cookie']);
-            unset($response['headers']['Set-Cookie']);
-        }
-
-        foreach ($response['headers'] as $_header => $_values) {
+        foreach ($headers as $_header => $_values) {
             if ( ! is_array($_values)) {
                 $_values = array($_values);
             }
@@ -404,6 +402,22 @@ class HTTP
                 header("{$_header}: {$_value}");
             }
         }
+    }
+
+    /**
+     * Send headers and echo body of given `$response` array.
+     */
+    private function sendResponse(array $response)
+    {
+        $this->sendStatusHeader($response['status']);
+
+        if (isset($response['headers']['Set-Cookie']))
+        {
+            $this->sendCookies($response['headers']['Set-Cookie']);
+            unset($response['headers']['Set-Cookie']);
+        }
+
+        $this->sendHeaders($response['headers']);
 
         echo $response['body'];
     }
