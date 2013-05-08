@@ -40,7 +40,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
     private function responseData()
     {
-        return Response::ok('test this', array('Content-Type' => 'text/plain'));
+        return Response::ok('test this', array(
+            'Content-Type' => 'text/plain',
+            'Set-Cookie' => array(
+                array('name' => 'a', 'value' => 1),
+            ),
+        ));
     }
 
     private function setUpGlobalRequestData()
@@ -239,7 +244,11 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testResponseDefaultHeadersAdded()
     {
         $responseData = $this->responseData();
-        $responseData['headers'] = array();
+        $responseData['headers'] = array(
+            'Set-Cookie' => array(
+                array('name' => 'a', 'value' => '1'),
+            ),
+        );
 
         $http = new HTTP(array('returnResponse' => TRUE));
         $actualResponse =
@@ -250,7 +259,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
                     }));
 
         $expectedResponse = $responseData;
-        $expectedResponse['headers'] = array(
+        $expectedResponse['headers'] += array(
             'Content-Type' => 'text/html',
             'Content-Length' => strlen($expectedResponse['body']),
         );

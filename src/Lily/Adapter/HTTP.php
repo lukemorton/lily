@@ -350,6 +350,37 @@ class HTTP
     }
 
     /**
+     * Send cookies array from `$response['headers']['Set-Cookie']`. Should be
+     * a numeric array of associative arrays representing individual cookies.
+     *
+     * Each cookie can have the following keys:
+     *
+     *  - `'name'`, the name of the cookie
+     *  - `'value'`, the value of the cookie
+     *  - `'expires'`, the unix timestamp the cookie expires
+     *  - `'secure'`, indicates that the cookie should only be sent via HTTPS
+     *  - `'domain'`, the domain that the cookie is available to
+     *  - `'path'`, the path prefix the cookie will be available to
+     *  - `'http-only'`, when TRUE the cookie can only be accessed over HTTP(S)
+     *
+     * See http://php.net/manual/en/function.setcookie.php for more details.
+     */
+    private function sendCookies(array $cookies)
+    {
+        foreach ($cookies as $_c)
+        {
+            setcookie(
+                $_c['name'],
+                isset($_c['value']) ? $_c['value'] : '',
+                isset($_c['expires']) ? $_c['expires'] : 0,
+                isset($_c['path']) ? $_c['path'] : '',
+                isset($_c['domain']) ? $_c['domain'] : '',
+                isset($_c['secure']) ? $_c['secure'] : FALSE,
+                isset($_c['http-only']) ? $_c['http-only'] : FALSE);
+        }
+    }
+
+    /**
      * Send headers and echo body of given `$response` array.
      */
     private function sendResponse(array $response)
@@ -357,6 +388,12 @@ class HTTP
         $status = $response['status'];
         $statusText = static::$statusText[$status];
         header($statusText, TRUE, $status);
+
+        if (isset($response['headers']['Set-Cookie']))
+        {
+            $this->sendCookies($response['headers']['Set-Cookie']);
+            unset($response['headers']['Set-Cookie']);
+        }
 
         foreach ($response['headers'] as $_header => $_value) {
             header("{$_header}: {$_value}");
