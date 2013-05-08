@@ -29,12 +29,6 @@ class ExceptionHandler
 
             if (PHP_SAPI !== 'cli') {
                 $template = "<h1>{$template}</h1>";
-
-                Kint::$appRootDirs = array(
-                    $_SERVER['DOCUMENT_ROOT'] => 'DOCUMENT_ROOT',
-                );
-
-                $filename = Kint::shortenPath($filename);
             }
 
             echo sprintf(
