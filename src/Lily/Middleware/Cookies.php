@@ -4,20 +4,20 @@ namespace Lily\Middleware;
 
 class Cookies
 {
-    private $cookie_defaults = array();
+    private $cookieDefaults = array();
 
     public function __construct(array $config = NULL)
     {
         if (isset($config['defaults'])) {
-            $this->cookie_defaults = $config['defaults'];
+            $this->cookieDefaults = $config['defaults'];
         }
     }
 
     public function __invoke($handler)
     {
-        $cookie_defaults = $this->cookie_defaults;
+        $cookieDefaults = $this->cookieDefaults;
 
-        return function ($request) use ($handler, $cookie_defaults) {
+        return function ($request) use ($handler, $cookieDefaults) {
             $request['cookies'] = $request['headers']['cookies'];
             $response = $handler($request);
 
@@ -32,7 +32,7 @@ class Cookies
                     }
 
                     $response['headers']['Set-Cookie'][] =
-                        array('name' => $_name) + $_c + $cookie_defaults;
+                        array('name' => $_name) + $_c + $cookieDefaults;
                 }
 
                 unset($response['cookies']);
