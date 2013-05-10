@@ -23,9 +23,10 @@ class CookiesTest extends \PHPUnit_Framework_TestCase
         $expectedCookies = array('a' => 1);
 
         $response =
-            $wrappedHandler(array(
-                'headers' => array('cookies' => $expectedCookies),
-            ));
+            $wrappedHandler(
+                array(
+                    'headers' => array('cookies' => $expectedCookies),
+                ));
 
         $this->assertSame($expectedCookies, $actualRequest['cookies']);
     }
