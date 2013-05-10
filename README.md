@@ -1,6 +1,6 @@
 # Lily
 
-A lightweight web application library for PHP.
+A lightweight web application library for PHP 5.3+.
 
 Lily provides your application with a common sense interface to HTTP. Lily is
 inspired by the design of [ring][1], especially in regards to the use of higher
@@ -21,8 +21,7 @@ require __DIR__.'/vendor/autoload.php';
 ?>
 ```
 
-*This example uses PHP 5.4, Lily supports PHP 5.3+. The same goes for all
-examples found in the [wiki][2].*
+*This example uses PHP 5.4 as do all examples found in the [wiki][2].*
 
 [2]: https://github.com/DrPheltRight/lily/wiki
 
