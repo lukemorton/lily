@@ -8,6 +8,7 @@ use Exception;
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
 
 class ExceptionHandler
 {
@@ -24,7 +25,12 @@ class ExceptionHandler
             $exceptionHandler = new Run;
             $exceptionHandler->allowQuit(FALSE);
             $exceptionHandler->writeToOutput(FALSE);
-            $exceptionHandler->pushHandler(new PrettyPageHandler);
+
+            if (PHP_SAPI === 'cli') {
+                $exceptionHandler->pushHandler(new JsonResponseHandler);
+            } else {
+                $exceptionHandler->pushHandler(new PrettyPageHandler);
+            }
 
             $body = $exceptionHandler->handleException($request['exception']);
             return Response::response(500, $body);
