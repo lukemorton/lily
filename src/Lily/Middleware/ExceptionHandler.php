@@ -14,24 +14,40 @@ class ExceptionHandler
 {
     private $handler;
 
-    public function __construct($handler = NULL)
+    public function __construct(array $config = array())
     {
-        $this->handler = $handler;
+        if (isset($config['handler']))
+        {
+            $this->handler = $config['handler'];
+        }
+
+        if (isset($config['register']) AND $config['register'] === TRUE)
+        {
+            $this->exceptionHandler()->register();
+        }
+    }
+
+    private function exceptionHandler()
+    {
+        $exceptionHandler = new Run;
+
+        if (PHP_SAPI === 'cli') {
+            $exceptionHandler->pushHandler(new JsonResponseHandler);
+        } else {
+            $exceptionHandler->pushHandler(new PrettyPageHandler);
+        }
+
+        return $exceptionHandler;
     }
 
     private function defaultHandler()
     {
-        return function ($request) {
-            $exceptionHandler = new Run;
+        $exceptionHandler = $this->exceptionHandler();
+
+        return function ($request) use ($exceptionHandler) {
             $exceptionHandler->allowQuit(FALSE);
             $exceptionHandler->writeToOutput(FALSE);
-
-            if (PHP_SAPI === 'cli') {
-                $exceptionHandler->pushHandler(new JsonResponseHandler);
-            } else {
-                $exceptionHandler->pushHandler(new PrettyPageHandler);
-            }
-
+        
             $body = $exceptionHandler->handleException($request['exception']);
             return Response::response(500, $body);
         };

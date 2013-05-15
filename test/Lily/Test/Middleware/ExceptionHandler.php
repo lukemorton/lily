@@ -29,10 +29,11 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
         $actualException = NULL;
 
         $exceptionHandler =
-            new ExceptionHandler(
-                function ($request) use (& $actualException) {
+            new ExceptionHandler(array(
+                'handler' => function ($request) use (& $actualException) {
                     $actualException = $request['exception'];
-                });
+                },
+            ));
 
         $wrappedHandler =
             $exceptionHandler(
