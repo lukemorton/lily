@@ -6,7 +6,8 @@ use Lily\Util\Response;
 
 use Exception;
 
-use Kint;
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
 
 class ExceptionHandler
 {
@@ -20,31 +21,13 @@ class ExceptionHandler
     private function defaultHandler()
     {
         return function ($request) {
-            ob_start();
+            $exceptionHandler = new Run;
+            $exceptionHandler->allowQuit(FALSE);
+            $exceptionHandler->writeToOutput(FALSE);
+            $exceptionHandler->pushHandler(new PrettyPageHandler);
 
-            $e = $request['exception'];
-
-            $template = '%s thrown in %s on line %s with message "%s"';
-            $filename = $e->getFile();
-
-            if (PHP_SAPI !== 'cli') {
-                $template = "<h1>{$template}</h1>";
-            }
-
-            echo sprintf(
-                $template,
-                get_class($e),
-                $filename,
-                $e->getLine(),
-                $e->getMessage());
-
-            if (PHP_SAPI === 'cli') {
-                echo $request['exception']->getTraceAsString();
-            } else {
-                Kint::trace($request['exception']->getTrace());
-            }
-
-            return Response::response(500, ob_get_clean());
+            $body = $exceptionHandler->handleException($request['exception']);
+            return Response::response(500, $body);
         };
     }
 

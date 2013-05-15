@@ -11,7 +11,7 @@
 
     "require": {
         "php": ">=5.3.3",
-        "raveren/kint": "dev-master@dev"
+        "filp/whoops": "1.*"
     },
 
     "require-dev": {
