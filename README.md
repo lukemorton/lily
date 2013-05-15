@@ -21,7 +21,8 @@ require __DIR__.'/vendor/autoload.php';
 ?>
 ```
 
-*This example uses PHP 5.4 as do all examples found in the [wiki][2].*
+*This example uses PHP 5.4 as do all examples found in the [wiki][2]. Remember
+Lily supports 5.3+ though so you can always backport examples.*
 
 [2]: https://github.com/DrPheltRight/lily/wiki
 
