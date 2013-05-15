@@ -56,13 +56,6 @@ Done!
  - [Routing][6]
  - [Middleware][7]
     - [Error handling][8]
-    - [Dependency injection][]
-    - [Default headers][]
-    - [Cookies][]
-    - [Sessions][]
-    - [Flash][]
- - [Apache setup][]
- - [Nginx setup][]
 
  [4]: https://github.com/DrPheltRight/lily/wiki
  [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
@@ -87,16 +80,6 @@ We try and keep coverage high and no feature is added without some kind of test.
 [9]: https://travis-ci.org/DrPheltRight/lily
 [10]: http://getcomposer.org/
 [11]: https://github.com/sebastianbergmann/phpunit/
-
-## Todo
-
- - Add encryption or signing of cookies
- - Add session middleware with both native and cookie support
- - Add flash middleware
- - Add accepts and lang parsing middleware
- - Add Lily\Util\Request
- - Add application testing adapter
- - Add file sending capabilities
 
 ## License
 
