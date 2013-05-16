@@ -43,7 +43,7 @@ class ExceptionHandler
         return function ($request) use ($exceptionHandler) {
             $exceptionHandler->allowQuit(FALSE);
             $exceptionHandler->writeToOutput(FALSE);
-        
+
             $body = $exceptionHandler->handleException($request['exception']);
             return Response::response(500, $body);
         };
