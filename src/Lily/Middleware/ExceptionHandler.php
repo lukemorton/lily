@@ -16,13 +16,9 @@ class ExceptionHandler
 
     public function __construct(array $config = array())
     {
-        if (isset($config['handler']))
-        {
+        if (isset($config['handler'])) {
             $this->handler = $config['handler'];
-        }
-
-        if (isset($config['register']) AND $config['register'] === TRUE)
-        {
+        } else {
             $this->exceptionHandler()->register();
         }
     }
