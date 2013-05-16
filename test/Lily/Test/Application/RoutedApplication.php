@@ -70,7 +70,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
         return array(
             array($this->routedApplicationWithRoutes()),
             array($this->routedApplicationWithoutRoutes(array(
-                array('GET', '/', [200, [], 'index']),
+                array('GET', '/', array(200, array(), 'index')),
             ))),
         );
     }
