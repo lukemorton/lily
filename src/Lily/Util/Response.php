@@ -14,12 +14,8 @@ class Response
         return static::response(200, $body, $headers);
     }
 
-    public static function notFound($body = NULL, array $headers = array())
+    public static function notFound($body = '', array $headers = array())
     {
-        if ($body === NULL) {
-            $body = 'Not found.';
-        }
-
         return static::response(404, $body, $headers);
     }
   
