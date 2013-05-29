@@ -39,9 +39,12 @@ class ResponseStatusHandlerTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider statusHandlerMapProvider
      */
-    public function testResponseStatusesHandled($expectedStatus, $expectedBody, $map)
+    public function testResponseStatusesHandled(
+        $expectedStatus,
+        $expectedBody,
+        $handlers)
     {
-        $wrapHandler = new ResponseStatusHandler($map);
+        $wrapHandler = new ResponseStatusHandler(compact('handlers'));
 
         $wrappedHandler =
             $wrapHandler(
@@ -60,10 +63,12 @@ class ResponseStatusHandlerTest extends \PHPUnit_Framework_TestCase
 
         $wrapHandler =
             new ResponseStatusHandler(array(
-                500 => function ($request) use (&$actualRequest) {
-                    $actualRequest = $request;
-                    return Response::response(500);
-                },
+                'handlers' => array(
+                    500 => function ($request) use (&$actualRequest) {
+                        $actualRequest = $request;
+                        return Response::response(500);
+                    },
+                ),
             ));
 
         $wrappedHandler =

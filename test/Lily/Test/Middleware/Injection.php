@@ -16,7 +16,8 @@ class InjectionTest extends \PHPUnit_Framework_TestCase
         };
 
         $expected = 'cool';
-        $mw = new Injection(array('injected-value' => $expected));
+        $inject = array('injected-value' => $expected);
+        $mw = new Injection(compact('inject'));
         $wrappedHandler = $mw($handler);
         $wrappedHandler(array());
 

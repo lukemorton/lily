@@ -6,9 +6,9 @@ class DefaultHeaders
 {
     private $headers;
 
-    public function __construct($headers)
+    public function __construct(array $config)
     {
-        $this->headers = $headers;
+        $this->headers = $config['headers'];
     }
 
     public function __invoke($handler)

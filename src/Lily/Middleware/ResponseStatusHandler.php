@@ -6,9 +6,9 @@ class ResponseStatusHandler
 {
     private $statusHandlers;
 
-    public function __construct(array $statusHandlers)
+    public function __construct(array $config)
     {
-        $this->statusHandlers = $statusHandlers;
+        $this->statusHandlers = $config['handlers'];
     }
 
     public function __invoke($handler)

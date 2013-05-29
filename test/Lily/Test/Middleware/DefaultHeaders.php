@@ -34,7 +34,8 @@ class DefaultHeadersTest extends \PHPUnit_Framework_TestCase
             return Response::ok('', $headersSetByHandler);
         };
 
-        $mw = new DefaultHeaders(array($header => $value));
+        $headers = array($header => $value);
+        $mw = new DefaultHeaders(compact('headers'));
         $wrappedHandler = $mw($handler);
         $response = $wrappedHandler(array());
 

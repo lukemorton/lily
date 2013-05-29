@@ -6,9 +6,9 @@ class Injection
 {
     private $map;
 
-    public function __construct(array $map)
+    public function __construct(array $config)
     {
-        $this->map = $map;
+        $this->map = $config['inject'];
     }
 
     public function __invoke($handler)
