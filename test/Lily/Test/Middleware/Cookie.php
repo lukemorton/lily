@@ -2,15 +2,15 @@
 
 namespace Lily\Test\Middleware;
 
-use Lily\Middleware\Cookies;
+use Lily\Middleware\Cookie;
 
 use Lily\Util\Response as Res;
 
-class CookiesTest extends \PHPUnit_Framework_TestCase
+class CookieTest extends \PHPUnit_Framework_TestCase
 {
     public function testCookieKeyAddedToRequest()
     {
-        $mw = new Cookies;
+        $mw = new Cookie;
         $actualRequest = NULL;
 
         $wrappedHandler =
@@ -68,7 +68,7 @@ class CookiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCookieDefaults($defaults, $cookies, $expected)
     {
-        $mw = new Cookies(compact('defaults'));
+        $mw = new Cookie(compact('defaults'));
 
         $wrappedHandler =
             $mw(

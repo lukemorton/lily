@@ -2,7 +2,7 @@
 
 namespace Lily\Middleware;
 
-class Cookies
+class Cookie
 {
     private $cookieDefaults = array();
 
