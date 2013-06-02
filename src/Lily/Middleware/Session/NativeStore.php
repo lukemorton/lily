@@ -4,13 +4,18 @@ namespace Lily\Middleware\Session;
 
 class NativeStore
 {
-    public function get()
+    public function get(array $request)
     {
-        return $_SESSION;
+    	$request['session'] = $_SESSION;
+        return $request;
     }
 
-    public function set(array $session)
+    public function set(array $response)
     {
-        $_SESSION = $session;
+    	if (isset($response['session'])) {
+        	$_SESSION = $response['session'];
+    	}
+    	
+        return $response;
     }
 }

@@ -8,13 +8,18 @@ class MockSessionStore
 {
 	public $session;
 
-    public function set(array $session)
+    public function set(array $response)
     {
-    	$this->session = $session;
+    	if (isset($response['session'])) {
+    		$this->session = $response['session'];
+    	}
+
+    	return $response;
     }
 
-    public function get()
+    public function get(array $request)
     {
-    	return $this->session;
+    	$request['session'] = $this->session;
+    	return $request;;
     }
 }

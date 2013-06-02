@@ -22,14 +22,9 @@ class Session
         $store = $this->store;
 
         return function ($request) use ($handler, $store) {
-            $request['session'] = $store->get();
-
+            $request = $store->get($request);
             $response = $handler($request);
-
-            if (isset($response['session'])) {
-                $store->set($response['session']);
-            }
-
+            $response = $store->set($response);
             return $response;
         };
     }
