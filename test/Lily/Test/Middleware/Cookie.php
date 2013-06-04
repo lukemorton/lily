@@ -30,14 +30,27 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expectedCookies, $actualRequest['cookies']);
     }
+
+    private function signed($name, $value, $salt)
+    {
+        return Cookie::sign(NULL, $name, $value, $salt);
+    }
+
     public function cookieProviders()
     {
+        $salt = 'cool';
+
         return array(
             array(
                 array('secure' => TRUE),
                 array('a' => 1),
+                $salt,
                 array(
-                    array('name' => 'a', 'value' => 1, 'secure' => TRUE),
+                    array(
+                        'name' => 'a',
+                        'value' => $this->signed('a', 1, $salt),
+                        'secure' => TRUE,
+                    ),
                 ),
             ),
             array(
@@ -46,9 +59,19 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                     'a' => 1,
                     'b' => array('value' => 2),
                 ),
+                $salt,
                 array(
-                    array('name' => 'a', 'value' => 1, 'secure' => TRUE),
-                    array('name' => 'b', 'value' => 2, 'secure' => TRUE),
+                    array(
+                        'name' => 'a',
+                        'value' => $this->signed('a', 1, $salt),
+                        'secure' => TRUE,
+                    ),
+
+                    array(
+                        'name' => 'b',
+                        'value' => $this->signed('b', 2, $salt),
+                        'secure' => TRUE,
+                    ),
                 ),
             ),
             array(
@@ -56,8 +79,13 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                 array(
                     'a' => array('value' => 1),
                 ),
+                $salt,
                 array(
-                    array('name' => 'a', 'value' => 1, 'secure' => TRUE),
+                    array(
+                        'name' => 'a',
+                        'value' => $this->signed('a', 1, $salt),
+                        'secure' => TRUE
+                    ),
                 ),
             ),
         );
@@ -66,9 +94,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider cookieProviders
      */
-    public function testCookieDefaults($defaults, $cookies, $expected)
+    public function testCookieDefaults($defaults, $cookies, $salt, $expected)
     {
-        $mw = new Cookie(compact('defaults'));
+        $mw = new Cookie(compact('defaults', 'salt'));
 
         $wrappedHandler =
             $mw(
