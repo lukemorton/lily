@@ -6,7 +6,7 @@ Lily provides your application with a common sense interface to HTTP. Lily is
 inspired by the design of [ring][1], especially in regards to the use of higher
 order functions and middleware. She also provides routing if you need it.
 
-Lil' Lily has very little to her weighing in at 706LOC. She aims to be readable
+Lil' Lily has very little to her weighing in at 761LOC. She aims to be readable
 in one sitting.
 
 [1]: https://github.com/ring-clojure/ring
@@ -56,6 +56,13 @@ Done!
  - [Routing][6]
  - [Middleware][7]
     - [Error handling][8]
+    - [Dependency injection][]
+    - [Default headers][]
+    - [Cookies][]
+    - [Sessions][]
+    - [Flash][]
+ - [Apache setup][]
+ - [Nginx setup][]
 
  [4]: https://github.com/DrPheltRight/lily/wiki
  [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
@@ -80,6 +87,14 @@ We try and keep coverage high and no feature is added without some kind of test.
 [9]: https://travis-ci.org/DrPheltRight/lily
 [10]: http://getcomposer.org/
 [11]: https://github.com/sebastianbergmann/phpunit/
+
+## Todo
+
+ - Add session middleware with cookie support
+ - Add flash middleware
+ - Add accepts and lang parsing middleware
+ - Add application testing adapter
+ - Add file sending capabilities
 
 ## License
 
