@@ -21,6 +21,8 @@ class NativeStore
     {
         if (isset($response['session'])) {
             $_SESSION = $response['session'];
+        } else {
+            session_destroy();
         }
         
         return $response;
