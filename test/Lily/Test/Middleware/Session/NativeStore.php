@@ -13,7 +13,6 @@ class NativeSessionStoreTest extends \PHPUnit_Framework_TestCase
     {
         $expectedSession = array('a' => 1);
         
-        $_SESSION = array();
         $mw = new Session;
 
         $wrappedHandler =
