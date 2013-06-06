@@ -72,8 +72,16 @@ class Cookie
                         $_c = array('value' => $_c);
                     }
 
-                    $_c['value'] =
-                        Cookie::sign($request, $_name, $_c['value'], $salt);
+                    if ($_c['value'] === NULL) {
+                        $_c['expires'] = time() - (3600 * 24);
+                    } else {
+                        $_c['value'] =
+                            Cookie::sign(
+                                $request,
+                                $_name,
+                                $_c['value'],
+                                $salt);
+                    }
 
                     $response['headers']['Set-Cookie'][] =
                         array('name' => $_name) + $_c + $defaults;
