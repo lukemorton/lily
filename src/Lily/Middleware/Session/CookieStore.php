@@ -5,9 +5,9 @@ namespace Lily\Middleware\Session;
 class CookieStore
 {
     private $name = '_session';
-    private $cookie;
+    private $cookie = array();
 
-    public function __construct(array $config)
+    public function __construct(array $config = NULL)
     {
         if (isset($config['cookie'])) {
             if (isset($config['cookie']['name'])) {
