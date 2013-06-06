@@ -56,13 +56,6 @@ Done!
  - [Routing][6]
  - [Middleware][7]
     - [Error handling][8]
-    - [Dependency injection][]
-    - [Default headers][]
-    - [Cookies][]
-    - [Sessions][]
-    - [Flash][]
- - [Apache setup][]
- - [Nginx setup][]
 
  [4]: https://github.com/DrPheltRight/lily/wiki
  [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
@@ -90,8 +83,6 @@ We try and keep coverage high and no feature is added without some kind of test.
 
 ## Todo
 
- - Add session middleware with cookie support
- - Add flash middleware
  - Add accepts and lang parsing middleware
  - Add application testing adapter
  - Add file sending capabilities
