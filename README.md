@@ -56,12 +56,18 @@ Done!
  - [Routing][6]
  - [Middleware][7]
     - [Error handling][8]
+    - [Dependency injection][12]
+    - [Default headers][13]
+    - [Cookies][14]
 
  [4]: https://github.com/DrPheltRight/lily/wiki
  [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
  [6]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
  [7]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
  [8]: https://github.com/DrPheltRight/lily/wiki/Error-handling
+ [12]: https://github.com/DrPheltRight/lily/wiki/Dependency-injection
+ [13]: https://github.com/DrPheltRight/lily/wiki/Default-headers
+ [14]: https://github.com/DrPheltRight/lily/wiki/Cookies
 
 ## Tests
 
