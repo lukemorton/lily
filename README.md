@@ -86,6 +86,7 @@ We try and keep coverage high and no feature is added without some kind of test.
  - Add accepts and lang parsing middleware
  - Add application testing adapter
  - Add file sending capabilities
+ - Test Lily\Adapter\HTTP::uri() further
 
 ## License
 
