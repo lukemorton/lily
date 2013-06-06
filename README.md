@@ -34,7 +34,7 @@ file in a new directory for your application:
 ```json
 {
     "require": {
-        "drpheltright/lily": "~0.3"
+        "drpheltright/lily": "~0.4"
     }
 }
 ```
