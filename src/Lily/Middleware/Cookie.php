@@ -32,13 +32,13 @@ class Cookie
         }
     }
 
-    private $cookieDefaults = array();
+    private $defaults = array();
     private $salt = 'a-salt';
 
     public function __construct(array $config = NULL)
     {
         if (isset($config['defaults'])) {
-            $this->cookieDefaults = $config['defaults'];
+            $this->defaults = $config['defaults'];
         }
 
         if (isset($config['salt'])) {
@@ -48,10 +48,10 @@ class Cookie
 
     public function __invoke($handler)
     {
-        $cookieDefaults = $this->cookieDefaults;
+        $defaults = $this->defaults;
         $salt = $this->salt;
 
-        return function ($request) use ($handler, $cookieDefaults, $salt) {
+        return function ($request) use ($handler, $defaults, $salt) {
             $request['cookies'] = array();
 
             foreach ($request['headers']['cookies'] as $_name => $_value) {
@@ -76,7 +76,7 @@ class Cookie
                         Cookie::sign($request, $_name, $_c['value'], $salt);
 
                     $response['headers']['Set-Cookie'][] =
-                        array('name' => $_name) + $_c + $cookieDefaults;
+                        array('name' => $_name) + $_c + $defaults;
                 }
 
                 unset($response['cookies']);
