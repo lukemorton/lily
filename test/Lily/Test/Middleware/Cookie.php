@@ -8,9 +8,49 @@ use Lily\Util\Response as Res;
 
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCookieKeyAddedToRequest()
+    private function signed($name, $value, $userAgent, $salt)
     {
-        $mw = new Cookie;
+        return
+            Cookie::sign(
+                array(
+                    'headers' => array('user-agent' => $userAgent),
+                ),
+                $name,
+                $value,
+                $salt);
+    }
+
+    public function cookieReadProvider()
+    {
+        $salt = 'bob';
+        $userAgent = 'foo';
+
+        return array(
+            array(
+                array('a' => '1'),
+                array('a' => $this->signed('a', '1', $userAgent, $salt)),
+                $userAgent,
+                $salt,
+            ),
+            array(
+                array('a' => '1'),
+                array('a' => $this->signed('a', '1', NULL, $salt)),
+                NULL,
+                $salt,
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider cookieReadProvider
+     */
+    public function testCookieKeyAddedToRequest(
+        $expectedCookies,
+        $signedCookies,
+        $userAgent,
+        $salt)
+    {
+        $mw = new Cookie(compact('salt'));
         $actualRequest = NULL;
 
         $wrappedHandler =
@@ -20,35 +60,33 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                     return Res::ok();
                 });
 
-        $expectedCookies = array('a' => 1);
-
         $response =
             $wrappedHandler(
                 array(
-                    'headers' => array('cookies' => $expectedCookies),
+                    'headers' => array(
+                        'user-agent' => $userAgent,
+                        'cookies' => $signedCookies,
+                    ),
                 ));
 
         $this->assertSame($expectedCookies, $actualRequest['cookies']);
     }
 
-    private function signed($name, $value, $salt)
-    {
-        return Cookie::sign(NULL, $name, $value, $salt);
-    }
-
     public function cookieProviders()
     {
+        $userAgent = 'bob';
         $salt = 'cool';
 
         return array(
             array(
                 array('secure' => TRUE),
                 array('a' => 1),
+                $userAgent,
                 $salt,
                 array(
                     array(
                         'name' => 'a',
-                        'value' => $this->signed('a', 1, $salt),
+                        'value' => $this->signed('a', 1, $userAgent, $salt),
                         'secure' => TRUE,
                     ),
                 ),
@@ -59,17 +97,18 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                     'a' => 1,
                     'b' => array('value' => 2),
                 ),
+                $userAgent,
                 $salt,
                 array(
                     array(
                         'name' => 'a',
-                        'value' => $this->signed('a', 1, $salt),
+                        'value' => $this->signed('a', 1, $userAgent, $salt),
                         'secure' => TRUE,
                     ),
 
                     array(
                         'name' => 'b',
-                        'value' => $this->signed('b', 2, $salt),
+                        'value' => $this->signed('b', 2, $userAgent, $salt),
                         'secure' => TRUE,
                     ),
                 ),
@@ -79,11 +118,12 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                 array(
                     'a' => array('value' => 1),
                 ),
+                $userAgent,
                 $salt,
                 array(
                     array(
                         'name' => 'a',
-                        'value' => $this->signed('a', 1, $salt),
+                        'value' => $this->signed('a', 1, $userAgent, $salt),
                         'secure' => TRUE
                     ),
                 ),
@@ -94,7 +134,12 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider cookieProviders
      */
-    public function testCookieDefaults($defaults, $cookies, $salt, $expected)
+    public function testCookieDefaults(
+        $defaults,
+        $cookies,
+        $userAgent,
+        $salt,
+        $expected)
     {
         $mw = new Cookie(compact('defaults', 'salt'));
 
@@ -106,7 +151,10 @@ class CookieTest extends \PHPUnit_Framework_TestCase
 
         $response =
             $wrappedHandler(array(
-                'headers' => array('cookies' => array()),
+                'headers' => array(
+                    'user-agent' => $userAgent,
+                    'cookies' => array(),
+                ),
             ));
 
         $this->assertSame($expected, $response['headers']['Set-Cookie']);
