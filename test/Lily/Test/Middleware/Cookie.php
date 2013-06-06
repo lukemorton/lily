@@ -38,6 +38,18 @@ class CookieTest extends \PHPUnit_Framework_TestCase
                 NULL,
                 $salt,
             ),
+            array(
+                array(),
+                array('a' => 'invalid'),
+                $userAgent,
+                $salt,
+            ),
+            array(
+                array(),
+                array('a' => 'invalid~1'),
+                $userAgent,
+                $salt,
+            ),
         );
     }
 

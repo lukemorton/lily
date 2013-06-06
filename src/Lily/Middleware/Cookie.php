@@ -30,8 +30,6 @@ class Cookie
                 return $value;
             }
         }
-
-        return $originalValue;
     }
 
     private $cookieDefaults = array();
@@ -57,8 +55,9 @@ class Cookie
             $request['cookies'] = array();
 
             foreach ($request['headers']['cookies'] as $_name => $_value) {
-                $request['cookies'][$_name] =
-                    Cookie::unsign($request, $_name, $_value, $salt);
+                if ($value = Cookie::unsign($request, $_name, $_value, $salt)) {
+                    $request['cookies'][$_name] = $value;
+                }
             } 
 
             $response = $handler($request);
