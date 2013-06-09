@@ -59,6 +59,8 @@ Done!
     - [Dependency injection][12]
     - [Default headers][13]
     - [Cookies][14]
+    - [Sessions][15]
+    - [Flash][16]
 
  [4]: https://github.com/DrPheltRight/lily/wiki
  [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
@@ -68,6 +70,8 @@ Done!
  [12]: https://github.com/DrPheltRight/lily/wiki/Dependency-injection
  [13]: https://github.com/DrPheltRight/lily/wiki/Default-headers
  [14]: https://github.com/DrPheltRight/lily/wiki/Cookies
+ [15]: https://github.com/DrPheltRight/lily/wiki/Sessions
+ [16]: https://github.com/DrPheltRight/lily/wiki/Flash-messages
 
 ## Tests
 
