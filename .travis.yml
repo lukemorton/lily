@@ -8,6 +8,8 @@ before_script:
   - php composer.phar install --dev --no-interaction
 script:
   - vendor/bin/phpunit
+after_script:
+  - vendor/bin/coveralls -v
 notifications:
   email:
     - lukemorton.dev@gmail.com
