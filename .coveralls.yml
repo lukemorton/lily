@@ -1,2 +1,3 @@
 src_dir: src
 coverage_clover: test/report/coverage.xml
+json_path: test
