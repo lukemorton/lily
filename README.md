@@ -76,6 +76,7 @@ Done!
 ## Tests
 
 [![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][9]
+[![Coverage Status](https://coveralls.io/repos/DrPheltRight/lily/badge.png?branch=develop)][12]
 
 To run the test suite, you need [composer][10] and it will handle the rest. Lily
 unit tests are written with [PHPUnit][11].
@@ -90,6 +91,7 @@ We try and keep coverage high and no feature is added without some kind of test.
 [9]: https://travis-ci.org/DrPheltRight/lily
 [10]: http://getcomposer.org/
 [11]: https://github.com/sebastianbergmann/phpunit/
+[12]: https://coveralls.io/r/DrPheltRight/lily?branch=develop
 
 ## Todo
 
