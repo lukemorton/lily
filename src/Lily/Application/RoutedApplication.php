@@ -109,6 +109,26 @@ class RoutedApplication
         return $match;
     }
 
+    private function matchedRequest($request, $method, $uri)
+    {
+        if ( ! $this->methodMatches($request, $method)) {
+            return FALSE;
+        }
+
+        $params = $this->uriMatches($request, $uri);
+
+        if ( ! $params) {
+            return FALSE;
+        }
+
+        if (is_array($params)) {
+            $request['route-params'] = $params;
+            $request['params'] = $params + $request['params'];
+        }
+
+        return $request;
+    }
+
     private function is_map(array $array)
     {
         // Keys of the array
@@ -135,39 +155,47 @@ class RoutedApplication
         return $response;
     }
 
+    private function callHandler($handler, $request)
+    {
+        if (is_callable($handler)) {
+            $response = $handler($request);
+        } else {
+            $response = $handler;
+        }
+
+        if ($response === FALSE) {
+            return FALSE;
+        }
+        
+        return $this->normaliseResponse($response);
+
+    }
+
+    private function processRoute($request, $route)
+    {
+        list($method, $uri, $handler, $additionalRequest) =
+            $this->normaliseRoute($route, $this);
+
+        $request += $additionalRequest;
+
+        $request = $this->matchedRequest($request, $method, $uri);
+
+        if ($request === FALSE) {
+            return FALSE;
+        }
+
+        return $this->callHandler($handler, $request);
+    }
+
     public function __invoke($request)
     {
         $routes = $this->routes();
 
         foreach ($routes as $_route) {
-            list($method, $uri, $handler, $additionalRequest) =
-                $this->normaliseRoute($_route, $this);
-
-            $request += $additionalRequest;
-
-            if ( ! $this->methodMatches($request, $method)) {
-                continue;
-            }
-
-            $params = $this->uriMatches($request, $uri);
-
-            if ( ! $params) {
-                continue;
-            }
-
-            if (is_array($params)) {
-                $request['route-params'] = $params;
-                $request['params'] = $params + $request['params'];
-            }
-
-            if (is_callable($handler)) {
-                $response = $handler($request);
-            } else {
-                $response = $handler;
-            }
+            $response = $this->processRoute($request, $_route);
 
             if ($response !== FALSE) {
-                return $this->normaliseResponse($response);
+                return $response;
             }
         }
 
