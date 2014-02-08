@@ -4,7 +4,7 @@ namespace Lily\Application;
 
 class MiddlewareApplication
 {
-    private $application;
+    private $handler;
     private $middleware;
 
     public function __construct(array $pipeline)
