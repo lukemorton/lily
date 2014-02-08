@@ -129,7 +129,7 @@ class RoutedApplication
         return $request;
     }
 
-    private function is_map(array $array)
+    private function isMap(array $array)
     {
         // Keys of the array
         $keys = array_keys($array);
@@ -147,7 +147,7 @@ class RoutedApplication
                 'headers' => array(),
                 'body' => $response,
             );
-        } elseif ( ! $this->is_map($response)) {
+        } elseif ( ! $this->isMap($response)) {
             list($status, $headers, $body) = $response;
             $response = compact('status', 'headers', 'body');
         }
