@@ -155,7 +155,7 @@ class RoutedApplication
         return $response;
     }
 
-    private function callHandler($handler, $request)
+    private function handlerResponse($handler, $request)
     {
         if (is_callable($handler)) {
             $response = $handler($request);
@@ -171,7 +171,7 @@ class RoutedApplication
 
     }
 
-    private function processRoute($request, $route)
+    private function routeResponse($request, $route)
     {
         list($method, $uri, $handler, $additionalRequest) =
             $this->normaliseRoute($route, $this);
@@ -184,7 +184,7 @@ class RoutedApplication
             return FALSE;
         }
 
-        return $this->callHandler($handler, $request);
+        return $this->handlerResponse($handler, $request);
     }
 
     public function __invoke($request)
@@ -192,7 +192,7 @@ class RoutedApplication
         $routes = $this->routes();
 
         foreach ($routes as $_route) {
-            $response = $this->processRoute($request, $_route);
+            $response = $this->routeResponse($request, $_route);
 
             if ($response !== FALSE) {
                 return $response;
