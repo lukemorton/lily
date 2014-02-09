@@ -26,10 +26,15 @@ class DescribeTestingTest extends \PHPUnit_Framework_TestCase
                     [['POST', '/form', $html]])]);
     }
 
-    public function testFormShouldSuccessfullySubmit()
+    private function applicationResponse($request)
     {
         $application = $this->applicationToTest();
-        $response = $application(Request::post('/form'));
+        return $application($request);
+    }
+
+    public function testFormShouldSuccessfullySubmit()
+    {
+        $response = $this->applicationResponse(Request::post('/form'));
         $crawler = $this->crawler($response['body']);
         $this->assertSame(1, $crawler->filter('h1.success')->count());
     }
