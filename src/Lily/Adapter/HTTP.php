@@ -175,7 +175,7 @@ class HTTP
             //
             // Only if truthy do we use what `parse_url()` it returns, otherwise
             // we default to the raw `REQUEST_URI`.
-            $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            $request_uri = parse_url($uri, PHP_URL_PATH);
 
             if ($request_uri) {
                 $uri = $request_uri;
