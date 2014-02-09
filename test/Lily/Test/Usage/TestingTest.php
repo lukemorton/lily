@@ -19,10 +19,11 @@ class TestingUsageTest extends \PHPUnit_Framework_TestCase
 
     private function applicationToTest()
     {
+        $html = file_get_contents(dirname(__FILE__).'/example.html');
         return
             new MiddlewareApplication(
                 [new RoutedApplication(
-                    [['POST', '/form', file_get_contents(dirname(__FILE__).'/example.html')]])]);
+                    [['POST', '/form', $html]])]);
     }
 
     public function testFormShouldSuccessfullySubmit()
