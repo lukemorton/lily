@@ -258,4 +258,40 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($expectedResponse, $actualResponse);
     }
+
+    public function REQUEST_URIProvider()
+    {
+        return array(
+            array('/index.html', '/index.html'),
+            array(
+                '/http://example.com/index.php',
+                rawurlencode('/http://example.com/index.php'),
+            ),
+            array(
+                '/admin/users',
+                '/admin/users',
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider REQUEST_URIProvider
+     */
+    public function testURIFromREQUEST_URI($expectedURI, $uri)
+    {
+        unset($_SERVER['PATH_INFO']);
+        $_SERVER['REQUEST_URI'] = $uri;
+        $responseData = $this->responseData();
+
+        $http = new HTTP(array('returnResponse' => TRUE));
+        $actualResponse =
+            $http->run(
+                function ($request) use ($responseData) {
+                    return $responseData + compact('request');
+                });
+
+        $this->assertSame(
+            $expectedURI,
+            $actualResponse['request']['uri']);
+    }
 }
