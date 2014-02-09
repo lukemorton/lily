@@ -3,3 +3,4 @@ composer.phar
 phpunit.xml
 test/report
 vendor
+.DS_Store
