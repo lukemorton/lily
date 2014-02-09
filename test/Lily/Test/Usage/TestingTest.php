@@ -10,7 +10,7 @@ use Lily\Application\RoutedApplication;
 use Lily\Util\Request;
 use Lily\Util\Response;
 
-class TestingUsageTest extends \PHPUnit_Framework_TestCase
+class DescribeTestingTest extends \PHPUnit_Framework_TestCase
 {
     private function crawler($html)
     {
