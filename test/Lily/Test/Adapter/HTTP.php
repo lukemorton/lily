@@ -259,15 +259,61 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedResponse, $actualResponse);
     }
 
-    public function REQUEST_URIProvider()
+    public function sourceProvider()
     {
         return array(
-            array('/index.html', '/index.html'),
             array(
-                '/http://example.com/index.php',
-                rawurlencode('/http://example.com/index.php'),
+                'PATH_INFO',
+                '/index.html',
+                '/index.html',
             ),
             array(
+                'PATH_INFO',
+                '/http://example.com/index.php',
+                '/http://example.com/index.php',
+            ),
+            array(
+                'PATH_INFO',
+                '/admin/users',
+                '/admin/users',
+            ),
+            array(
+                'PATH_INFO',
+                '/index.html',
+                '/index.html',
+            ),
+            array(
+                'REQUEST_URI',
+                rawurlencode('/http://example.com/index.php'),
+                '/http://example.com/index.php',
+            ),
+            array(
+                'REQUEST_URI',
+                '/admin/users',
+                '/admin/users',
+            ),
+            array(
+                'PHP_SELF',
+                '/index.html',
+                '/index.html',
+            ),
+            array(
+                'PHP_SELF',
+                '/index.php',
+                '/index.php',
+            ),
+            array(
+                'REDIRECT_URL',
+                '/index.html',
+                '/index.html',
+            ),
+            array(
+                'REDIRECT_URL',
+                '/http://example.com/index.php',
+                '/http://example.com/index.php',
+            ),
+            array(
+                'REDIRECT_URL',
                 '/admin/users',
                 '/admin/users',
             ),
@@ -275,12 +321,16 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider REQUEST_URIProvider
+     * @dataProvider sourceProvider
      */
-    public function testURIFromREQUEST_URI($expectedURI, $uri)
+    public function testURIFromSource($source, $uri, $expectedURI)
     {
         unset($_SERVER['PATH_INFO']);
-        $_SERVER['REQUEST_URI'] = $uri;
+        unset($_SERVER['PHP_SELF']);
+        unset($_SERVER['REQUEST_URI']);
+        unset($_SERVER['REDIRECT_URL']);
+
+        $_SERVER[$source] = $uri;
         $responseData = $this->responseData();
 
         $http = new HTTP(array('returnResponse' => TRUE));
