@@ -9,7 +9,6 @@ order functions and middleware. She also provides routing if you need it.
 Lil' Lily has very little to her weighing in at 795LOC. She aims to be readable
 in one sitting.
 
-[1]: https://github.com/ring-clojure/ring
 
 ```php
 <?php
@@ -24,6 +23,7 @@ require __DIR__.'/vendor/autoload.php';
 *This example uses PHP 5.4 as do all examples found in the [wiki][2]. Lily
 supports 5.3+ though so you can backport examples.*
 
+[1]: https://github.com/ring-clojure/ring
 [2]: https://github.com/DrPheltRight/lily/wiki
 
 ## Installation
