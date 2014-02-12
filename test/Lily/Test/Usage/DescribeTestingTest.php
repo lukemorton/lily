@@ -12,11 +12,6 @@ use Lily\Util\Response;
 
 class DescribeTestingTest extends \PHPUnit_Framework_TestCase
 {
-    private function crawler($html)
-    {
-        return new Crawler($html);
-    }
-
     private function applicationToTest()
     {
         $html = file_get_contents(dirname(__FILE__).'/example.html');
@@ -32,10 +27,24 @@ class DescribeTestingTest extends \PHPUnit_Framework_TestCase
         return $application($request);
     }
 
+    private function crawler($html)
+    {
+        return new Crawler($html);
+    }
+
+    private function filterNotEmpty($crawler, $filter)
+    {
+        return $crawler->filter($filter)->count() > 0;
+    }
+
+    private function responseBodyHasClass($response, $class)
+    {
+        return $this->filterNotEmpty($this->crawler($response['body']), $class);
+    }
+
     public function testFormShouldSuccessfullySubmit()
     {
         $response = $this->applicationResponse(Request::post('/form'));
-        $crawler = $this->crawler($response['body']);
-        $this->assertSame(1, $crawler->filter('h1.success')->count());
+        $this->assertTrue($this->responseBodyHasClass($response, 'h1.success'));
     }
 }
