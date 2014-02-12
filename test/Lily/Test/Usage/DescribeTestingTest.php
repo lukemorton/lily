@@ -42,6 +42,12 @@ class DescribeTestingTest extends \PHPUnit_Framework_TestCase
         return $this->filterNotEmpty($this->crawler($response['body']), $class);
     }
 
+    public function testFormErrorShouldBeShown()
+    {
+        $response = $this->applicationResponse(Request::post('/form'));
+        $this->assertTrue($this->responseBodyHasClass($response, '.error'));
+    }
+
     public function testFormShouldSuccessfullySubmit()
     {
         $response = $this->applicationResponse(Request::post('/form'));
