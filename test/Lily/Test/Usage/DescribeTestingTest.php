@@ -29,15 +29,15 @@ class DescribeTestingTest extends \PHPUnit_Framework_TestCase
         return $application($request);
     }
 
-    private function filterNotEmpty($html, $filter)
+    private function htmlHasClass($html, $class)
     {
         $crawler = new Crawler($html);
-        return $crawler->filter($filter)->count() > 0;
+        return $crawler->filter($class)->count() > 0;
     }
 
     private function responseBodyHasClass($response, $class)
     {
-        return $this->filterNotEmpty($response['body'], $class);
+        return $this->htmlHasClass($response['body'], $class);
     }
 
     public function testFormErrorShouldBeShown()
