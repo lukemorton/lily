@@ -17,8 +17,10 @@ class DescribeTestingTest extends \PHPUnit_Framework_TestCase
         $html = file_get_contents(dirname(__FILE__).'/example.html');
         return
             new MiddlewareApplication(
-                [new RoutedApplication(
-                    [['POST', '/form', $html]])]);
+                array(
+                    new RoutedApplication(
+                        array(
+                            array('POST', '/form', $html)))));
     }
 
     private function applicationResponse($request)
