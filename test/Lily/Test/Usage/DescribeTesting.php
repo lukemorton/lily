@@ -10,7 +10,7 @@ use Lily\Application\RoutedApplication;
 use Lily\Util\Request;
 use Lily\Util\Response;
 
-class DescribeTestingTest extends \PHPUnit_Framework_TestCase
+class DescribeTesting extends \PHPUnit_Framework_TestCase
 {
     private function applicationToTest()
     {
