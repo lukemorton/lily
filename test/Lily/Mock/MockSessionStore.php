@@ -20,6 +20,6 @@ class MockSessionStore
     public function get(array $request)
     {
         $request['session'] = $this->session;
-        return $request;;
+        return $request;
     }
 }
