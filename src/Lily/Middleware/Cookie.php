@@ -54,11 +54,13 @@ class Cookie
         return function ($request) use ($handler, $defaults, $salt) {
             $request['cookies'] = array();
 
-            foreach ($request['headers']['cookies'] as $_name => $_value) {
-                if ($value = Cookie::unsign($request, $_name, $_value, $salt)) {
-                    $request['cookies'][$_name] = $value;
+            if ( ! empty($request['headers']['cookies'])) {
+                foreach ($request['headers']['cookies'] as $_name => $_value) {
+                    if ($value = Cookie::unsign($request, $_name, $_value, $salt)) {
+                        $request['cookies'][$_name] = $value;
+                    }
                 }
-            } 
+            }
 
             $response = $handler($request);
 

@@ -165,7 +165,6 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             $wrappedHandler(array(
                 'headers' => array(
                     'user-agent' => $userAgent,
-                    'cookies' => array(),
                 ),
             ));
 
