@@ -18,12 +18,20 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
             new MiddlewareApplication(array(
                 new RoutedApplication(array(
                     array('GET', '/admin', '<a href="/logout">logout'),
+
                     array('GET', '/admin/login', '<form action="post"><button>Login'),
+
+                    array('POST', '/admin/login', function () {
+                        return Response::redirect('/admin') + array(
+                            'cookies' => array('authed' => TRUE),
+                        );
+                    }),
                 )),
 
                 function ($handler) {
                     return function ($request) use ($handler) {
-                        if ( ! isset($request['cookies']['authed'])) {
+                        if ($request['uri'] !== '/admin/login'
+                            AND ! isset($request['cookies']['authed'])) {
                             return Response::redirect('/admin/login');
                         }
 
@@ -38,6 +46,7 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
                     array('GET', '/', '<a href="/admin">admin'),
                     array('GET', '/admin', $admin),
                     array('GET', '/admin/login', $admin),
+                    array('POST', '/admin/login', $admin),
                 )),
 
                 new MW\Cookie(array('salt' => 'random')),
@@ -50,6 +59,12 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         return $app(Request::get($url));
     }
 
+    private function applicationFormResponse($url)
+    {
+        $app = $this->application();
+        return $app(Request::post($url));
+    }
+
     public function testHomepage()
     {
         $response = $this->applicationResponse('/');
@@ -60,5 +75,11 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
     {
         $response = $this->applicationResponse('/admin');
         $this->assertSame('/admin/login', $response['headers']['Location']);
+    }
+
+    public function testAdminRedirectsToAdminOnLogin()
+    {
+        $response = $this->applicationFormResponse('/admin/login');
+        $this->assertSame('/admin', $response['headers']['Location']);
     }
 }
