@@ -9,7 +9,6 @@ order functions and middleware. She also provides routing if you need it.
 Lil' Lily has very little to her weighing in at 790LOC. She aims to be readable
 in one sitting.
 
-
 ```php
 <?php
 require __DIR__.'/vendor/autoload.php';
