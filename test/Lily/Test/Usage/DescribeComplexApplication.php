@@ -44,17 +44,21 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
             ));
     }
 
-    public function testHomepage()
+    private function applicationResponse($url)
     {
         $app = $this->application();
-        $response = $app(Request::get('/'));
+        return $app(Request::get($url));
+    }
+
+    public function testHomepage()
+    {
+        $response = $this->applicationResponse('/');
         $this->assertContains('/admin', $response['body']);
     }
 
     public function testAdminRedirectsToLoginIfNotAuthed()
     {
-        $app = $this->application();
-        $response = $app(Request::get('/admin'));
+        $response = $this->applicationResponse('/admin');
         $this->assertSame('/admin/login', $response['headers']['Location']);
     }
 }
