@@ -65,6 +65,34 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         return $app(Request::post($url));
     }
 
+    private function preserveCookies($response)
+    {
+        if (empty($response['headers']['Set-Cookie'])) {
+            return array();
+        } else {
+            $cookies = array();
+
+            foreach ($response['headers']['Set-Cookie'] as $_cookie) {
+                $cookies[$_cookie['name']] = $_cookie['value'];
+            }
+
+            return $cookies;
+        }
+    }
+
+    private function followResponse($response)
+    {
+        if ( ! isset($response['headers']['Location'])) {
+            return $response;
+        }
+
+        $request = Request::get($response['headers']['Location']);
+        $request['headers']['cookies'] = $this->preserveCookies($response);
+
+        $app = $this->application();
+        return $app($request);
+    }
+
     public function testHomepage()
     {
         $response = $this->applicationResponse('/');
@@ -81,5 +109,13 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
     {
         $response = $this->applicationFormResponse('/admin/login');
         $this->assertSame('/admin', $response['headers']['Location']);
+    }
+
+    public function testAdminLogsInSuccessfully()
+    {
+        $response =
+            $this->followResponse(
+                $this->applicationFormResponse('/admin/login'));
+        $this->assertContains('/logout', $response['body']);
     }
 }
