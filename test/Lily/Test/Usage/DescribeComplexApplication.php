@@ -53,10 +53,10 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
             ));
     }
 
-    private function applicationResponse($url)
+    private function applicationResponse($url, $request = array())
     {
         $app = $this->application();
-        return $app(Request::get($url));
+        return $app($request + Request::get($url));
     }
 
     private function applicationFormResponse($url)
@@ -116,6 +116,19 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         $response =
             $this->followResponse(
                 $this->applicationFormResponse('/admin/login'));
+        $this->assertContains('/logout', $response['body']);
+    }
+
+    public function testAdminStaysLoggedIn()
+    {
+        $response =
+            $this->applicationResponse('/admin', array(
+                'headers' => array(
+                    'cookies' => array(
+                        'authed' => MW\Cookie::sign(array(), 'authed', TRUE, 'random'),
+                    ),
+                ),
+            ));
         $this->assertContains('/logout', $response['body']);
     }
 }
