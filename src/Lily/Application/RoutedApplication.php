@@ -7,10 +7,10 @@ use Lily\Util\Response;
 class RoutedApplication
 {
     // Defines the pattern of a :param
-    const REGEX_KEY = ':([a-zA-Z0-9_]++)';
+    const REGEX_PARAM_KEY = ':([a-zA-Z0-9_]++)';
 
     // What can be part of a :param value
-    const REGEX_SEGMENT = '[^/.,;?\n]++';
+    const REGEX_PARAM_VALUE = '[^/.,;?\n]++';
 
     // What must be escaped in the route regex
     const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
@@ -63,11 +63,11 @@ class RoutedApplication
         }
 
         // Insert default regex for keys
-        $replace = '#'.static::REGEX_KEY.'#';
-        $expression = preg_replace(
-            $replace,
-            '(?P<$1>'.static::REGEX_SEGMENT.')',
-            $expression);
+        $expression =
+            preg_replace(
+                '#'.static::REGEX_PARAM_KEY.'#',
+                '(?P<$1>'.static::REGEX_PARAM_VALUE.')',
+                $expression);
 
         return '#^'.$expression.'$#uD';
     }
