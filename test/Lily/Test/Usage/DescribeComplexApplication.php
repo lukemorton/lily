@@ -50,10 +50,7 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
             new MiddlewareApplication(array(
                 new RoutedApplication(array(
                     array('GET', '/', '<a href="/admin">admin'),
-                    array('GET', '/admin', $admin),
-                    array('GET', '/admin/login', $admin),
-                    array('POST', '/admin/login', $admin),
-                    array('GET', '/admin/logout', $admin),
+                    array(NULL, '/admin(/**)', $admin),
                 )),
 
                 new MW\Cookie(array('salt' => 'random')),

@@ -12,8 +12,14 @@ class RoutedApplication
     // What can be part of a :param value
     const REGEX_PARAM_VALUE = '(?P<$1>[^/.,;?\n]++)';
 
+    // Splat regex
+    const REGEX_SUPER_SPLAT = '\*\*';
+    const REGEX_SUPER_SPLAT_VALUE = '.+';
+    const REGEX_SPLAT = '\*';
+    const REGEX_SPLAT_VALUE = '[^/]+';
+
     // What must be escaped in the route regex
-    const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
+    const REGEX_ESCAPE = '[.\\+?[^\\]${}=!|<>]';
 
     private $routes = array();
 
@@ -69,6 +75,20 @@ class RoutedApplication
             preg_replace(
                 '#'.static::REGEX_PARAM_KEY.'#',
                 static::REGEX_PARAM_VALUE,
+                $expression);
+
+        // Insert splat regex
+        $expression =
+            preg_replace(
+                '#'.static::REGEX_SUPER_SPLAT.'#',
+                static::REGEX_SUPER_SPLAT_VALUE,
+                $expression);
+
+        // Insert splat regex
+        $expression =
+            preg_replace(
+                '#'.static::REGEX_SPLAT.'#',
+                static::REGEX_SPLAT_VALUE,
                 $expression);
 
         return '#^'.$expression.'$#uD';

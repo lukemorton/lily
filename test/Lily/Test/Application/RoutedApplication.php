@@ -27,18 +27,26 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function routesProvider()
     {
-        $app = $this->routedApplicationWithoutRoutes(array(
+        $routes = array(
             array('GET', '/', 'GET /'),
             array('GET', '/slug/:a', 'GET /slug/:a'),
             array('GET', '/slug/:a/:b', 'GET /slug/:a/:b'),
             array('GET', '/slug/:a/sep/:b', 'GET /slug/:a/sep/:b'),
             array('GET', '/slug-opt/:a(/sep/:b)', 'GET /slug-opt/:a(/sep/:b)'),
 
+            array('GET', '/user/*', 'GET /user/*'),
+            array('GET', '/admin(/**)', 'GET /admin(/**)'),
+            array('GET', '/resource/*.*', 'GET /resource/*.*'),
+
             array('HEAD', '/', 'HEAD /'),
             array('POST', '/', 'POST /'),
             array('PUT', '/', 'PUT /'),
             array('DELETE', '/', 'DELETE /'),
-        ));
+        );
+
+        shuffle($routes);
+
+        $app = $this->routedApplicationWithoutRoutes($routes);
 
         return array(
             array($app, 'GET', '/', 'GET /'),
@@ -47,6 +55,13 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
             array($app, 'GET', '/slug/a/sep/b', 'GET /slug/:a/sep/:b'),
             array($app, 'GET', '/slug-opt/a', 'GET /slug-opt/:a(/sep/:b)'),
             array($app, 'GET', '/slug-opt/a/sep/b', 'GET /slug-opt/:a(/sep/:b)'),
+
+            array($app, 'GET', '/user/anything', 'GET /user/*'),
+            array($app, 'GET', '/admin', 'GET /admin(/**)'),
+            array($app, 'GET', '/admin/login', 'GET /admin(/**)'),
+            array($app, 'GET', '/admin/support/tickets', 'GET /admin(/**)'),
+            array($app, 'GET', '/admin/support/tickets/11', 'GET /admin(/**)'),
+            array($app, 'GET', '/resource/users.json', 'GET /resource/*.*'),
 
             array($app, 'HEAD', '/', 'HEAD /'),
             array($app, 'POST', '/', 'POST /'),
