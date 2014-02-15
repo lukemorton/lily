@@ -26,6 +26,12 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
                             'cookies' => array('authed' => TRUE),
                         );
                     }),
+
+                    array('GET', '/admin/logout', function () {
+                        return Response::redirect('/admin/login') + array(
+                            'cookies' => array('authed' => NULL),
+                        );
+                    }),
                 )),
 
                 function ($handler) {
@@ -47,6 +53,7 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
                     array('GET', '/admin', $admin),
                     array('GET', '/admin/login', $admin),
                     array('POST', '/admin/login', $admin),
+                    array('GET', '/admin/logout', $admin),
                 )),
 
                 new MW\Cookie(array('salt' => 'random')),
@@ -130,5 +137,17 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
                 ),
             ));
         $this->assertContains('/logout', $response['body']);
+    }
+
+    public function testAdminLogsOutSuccessfully()
+    {
+        $response =
+            $this->followResponse(
+                $this->applicationResponse('/admin/logout', array(
+                    'cookies' => array(
+                        'authed' => MW\Cookie::sign(array(), 'authed', TRUE, 'random'),
+                    ),
+                )));
+        $this->assertContains('Login', $response['body']);
     }
 }
