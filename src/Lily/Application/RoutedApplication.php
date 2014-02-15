@@ -10,7 +10,7 @@ class RoutedApplication
     const REGEX_PARAM_KEY = ':([a-zA-Z0-9_]++)';
 
     // What can be part of a :param value
-    const REGEX_PARAM_VALUE = '[^/.,;?\n]++';
+    const REGEX_PARAM_VALUE = '(?P<$1>[^/.,;?\n]++)';
 
     // What must be escaped in the route regex
     const REGEX_ESCAPE = '[.\\+*?[^\\]${}=!|<>]';
@@ -68,7 +68,7 @@ class RoutedApplication
         $expression =
             preg_replace(
                 '#'.static::REGEX_PARAM_KEY.'#',
-                '(?P<$1>'.static::REGEX_PARAM_VALUE.')',
+                static::REGEX_PARAM_VALUE,
                 $expression);
 
         return '#^'.$expression.'$#uD';
