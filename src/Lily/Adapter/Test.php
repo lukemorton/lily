@@ -4,7 +4,7 @@ namespace Lily\Adapter;
 
 class Test
 {
-    private $dummy_request = array(
+    private $dummyRequest = array(
         'host' => 'localhost',
         'port' => 80,
         'addr' => '127.0.0.1',
@@ -22,13 +22,13 @@ class Test
         ),
     );
 
-    private function dummy_request()
+    private function dummyRequest()
     {
-        return $this->dummy_request;
+        return $this->dummyRequest;
     }
 
     public function run($handler)
     {
-        return $handler($this->dummy_request());
+        return $handler($this->dummyRequest());
     }
 }
