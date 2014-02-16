@@ -22,4 +22,17 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('GET', $actualRequest['method']);
         $this->assertSame('/', $actualRequest['uri']);
     }
+
+    public function testItShouldReturnResponse()
+    {
+        $application =
+            function ($request) {
+                return Response::ok();
+            };
+
+        $test_adapter = new Test;
+        $response = $test_adapter->run($application);
+
+        $this->assertSame(200, $response['status']);
+    }
 }
