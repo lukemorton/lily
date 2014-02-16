@@ -35,4 +35,30 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(200, $response['status']);
     }
+
+    private function redirectApplication()
+    {
+        return
+            function ($request) {
+                if ($request['uri'] === '/') {
+                    return Response::redirect('/redirected');
+                } else {
+                    return Response::ok();
+                }
+            };
+    }
+
+    public function testItShouldFollowRedirectsIfEnabled()
+    {
+        $test_adapter = new Test(array('followRedirect' => TRUE));
+        $response = $test_adapter->run($this->redirectApplication());
+        $this->assertSame(200, $response['status']);
+    }
+
+    public function testItShouldNotFollowRedirectsIfNotEnabled()
+    {
+        $test_adapter = new Test;
+        $response = $test_adapter->run($this->redirectApplication());
+        $this->assertSame(302, $response['status']);
+    }
 }

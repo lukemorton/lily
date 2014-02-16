@@ -22,13 +22,43 @@ class Test
         ),
     );
 
+    private $followRedirect;
+
+    public function __construct($config = NULL)
+    {
+        if (isset($config['followRedirect'])) {
+            $this->followRedirect = (bool) $config['followRedirect'];
+        }
+    }
+
     private function dummyRequest()
     {
         return $this->dummyRequest;
     }
 
-    public function run($handler)
+    private function followRedirect()
     {
-        return $handler($this->dummyRequest());
+        return $this->followRedirect;
+    }
+
+    private function followResponseRedirect($response)
+    {
+        return
+            $this->followRedirect()
+            AND in_array($response['status'], array(301, 302, 303));
+    }
+
+    public function run($handler, array $request = array())
+    {
+        $response = $handler($request + $this->dummyRequest());
+
+        if ($this->followResponseRedirect($response)) {
+            $response = $this->run($handler, array(
+                'method' => 'GET',
+                'uri' => $response['headers']['Location'],
+            ));
+        }
+
+        return $response;
     }
 }
