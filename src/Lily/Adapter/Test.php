@@ -48,6 +48,21 @@ class Test
             AND in_array($response['status'], array(301, 302, 303));
     }
 
+    private function persistCookies($response)
+    {
+        if (empty($response['headers']['Set-Cookie'])) {
+            return array();
+        } else {
+            $cookies = array();
+
+            foreach ($response['headers']['Set-Cookie'] as $_cookie) {
+                $cookies[$_cookie['name']] = $_cookie['value'];
+            }
+
+            return $cookies;
+        }
+    }
+
     public function run($handler, array $request = array())
     {
         $response = $handler($request + $this->dummyRequest());
@@ -56,6 +71,9 @@ class Test
             $response = $this->run($handler, array(
                 'method' => 'GET',
                 'uri' => $response['headers']['Location'],
+                'headers' => array(
+                    'cookies' => $this->persistCookies($response),
+                ),
             ));
         }
 

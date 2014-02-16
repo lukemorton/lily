@@ -4,6 +4,10 @@ namespace Lily\Test\Adapter;
 
 use Lily\Adapter\Test;
 
+use Lily\Application\MiddlewareApplication;
+
+use Lily\Middleware\Cookie;
+
 use Lily\Util\Response;
 
 class TestAdapterTest extends \PHPUnit_Framework_TestCase
@@ -60,5 +64,33 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
         $test_adapter = new Test;
         $response = $test_adapter->run($this->redirectApplication());
         $this->assertSame(302, $response['status']);
+    }
+
+    private function cookieApplication()
+    {
+        return
+            new MiddlewareApplication(array(
+                function ($request) {
+                    if ( ! isset($request['cookies']['a'])) {
+                        return Response::redirect('/') + array(
+                            'cookies' => array('a' => 'cookie'),
+                        );
+                    } else {
+                        return Response::ok($request['cookies']['a']);
+                    }
+                },
+
+                new Cookie,
+            ));
+    }
+
+    public function testItShouldPersistCookies()
+    {
+        $test_adapter = new Test(array(
+            'persistCookies' => TRUE,
+            'followRedirect' => TRUE,
+        ));
+        $response = $test_adapter->run($this->cookieApplication());
+        $this->assertSame('cookie', $response['body']);
     }
 }
