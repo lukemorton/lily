@@ -65,11 +65,7 @@ class Test
                 $cookies[$_cookie['name']] = $_cookie['value'];
             }
 
-            if (isset($nextRequest['headers'])) {
-                $nextRequest['headers'] += compact('cookies');
-            } else {
-                $nextRequest['headers'] = compact('cookies');
-            }
+            $nextRequest['headers'] += compact('cookies');
         }
 
         return $nextRequest;
