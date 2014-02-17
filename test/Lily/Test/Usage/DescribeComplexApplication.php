@@ -104,12 +104,8 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 
     private function authedCookie()
     {
-        return
-            MW\Cookie::sign(
-                array('headers' => array('user-agent' => 'Lily\Adapter\Test')),
-                'authed',
-                TRUE,
-                'random');
+        $headers = array('user-agent' => 'Lily\Adapter\Test');
+        return MW\Cookie::sign(compact('headers'), 'authed', TRUE, 'random');
     }
 
     private function authedCookieRequest()
