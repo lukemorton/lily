@@ -23,7 +23,7 @@ class AdminApplication extends MiddlewareApplication
     private function routedApplication()
     {
         return new RoutedApplication(array(
-            array('GET', '/admin', '<a href="/logout">logout'),
+            array('GET', '/admin', '<a href="/admin/logout">logout'),
 
             array('GET', '/admin/login', '<form method="post"><button>Login'),
 
