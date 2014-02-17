@@ -25,7 +25,7 @@ class AdminApplication extends MiddlewareApplication
         return new RoutedApplication(array(
             array('GET', '/admin', '<a href="/logout">logout'),
 
-            array('GET', '/admin/login', '<form action="post"><button>Login'),
+            array('GET', '/admin/login', '<form method="post"><button>Login'),
 
             array('POST', '/admin/login', function () {
                 return Response::redirect('/admin') + array(
