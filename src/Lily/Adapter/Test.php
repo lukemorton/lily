@@ -50,9 +50,8 @@ class Test
 
     private function followResponseRedirect($response)
     {
-        return
-            $this->followRedirect()
-            AND in_array($response['status'], array(301, 302, 303));
+        $isRedirectStatus = in_array($response['status'], array(301, 302, 303));
+        return $this->followRedirect() AND $isRedirectStatus;
     }
 
     private function persistCookies($originalRequest, $response, $nextRequest)
@@ -82,8 +81,7 @@ class Test
 
         foreach (array($r1, $r2) as $_i => $request) {
             foreach ($request as $_k => $_v) {
-                if (isset($mergedRequest[$_k])
-                    AND is_array($mergedRequest[$_k])) {
+                if (isset($mergedRequest[$_k]) AND is_array($mergedRequest[$_k])) {
                     $mergedRequest[$_k] += $_v;
                 } else {
                     $mergedRequest[$_k] = $_v;
