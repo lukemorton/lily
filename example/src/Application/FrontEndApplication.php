@@ -5,13 +5,21 @@ namespace Lily\Example\Application;
 use Lily\Application\RoutedApplication;
 
 use Lily\Example\Application\AdminApplication;
+use Lily\Example\Controller\MainController;
 
 class FrontEndApplication extends RoutedApplication
 {
+    private function action($obj, $method)
+    {
+        return function ($request) use ($obj, $method) {
+            return $obj->{$method}($request);
+        };
+    }
+
     protected function routes()
     {
         return array(
-            array('GET', '/', '<a href="/admin">admin'),
+            array('GET', '/', $this->action(new MainController, 'index')),
             $this->adminApplicationRoute(),
         );
     }
