@@ -2,6 +2,8 @@
 
 namespace Lily\Test\Application;
 
+use Lily\Example\Application\FrontEndApplication;
+
 use Lily\Adapter\Test;
 
 use Lily\Middleware as MW;
@@ -12,7 +14,7 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
     private function application()
     {
-        return include(__DIR__.'/../../../../example/index.php');
+        return new FrontEndApplication;
     }
 
     private function runApplication($application, $request)
