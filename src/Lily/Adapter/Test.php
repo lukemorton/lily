@@ -2,6 +2,8 @@
 
 namespace Lily\Adapter;
 
+use Lily\Util\Request;
+
 class Test
 {
     private $dummyRequest = array(
@@ -23,11 +25,16 @@ class Test
     );
 
     private $followRedirect;
+    private $persistCookies;
 
     public function __construct($config = NULL)
     {
         if (isset($config['followRedirect'])) {
             $this->followRedirect = (bool) $config['followRedirect'];
+        }
+
+        if (isset($config['persistCookies'])) {
+            $this->persistCookies = (bool) $config['persistCookies'];
         }
     }
 
@@ -48,33 +55,42 @@ class Test
             AND in_array($response['status'], array(301, 302, 303));
     }
 
-    private function persistCookies($response)
+    private function persistCookies($response, $nextRequest)
     {
-        if (empty($response['headers']['Set-Cookie'])) {
-            return array();
-        } else {
+        if ($this->persistCookies
+            AND ! empty($response['headers']['Set-Cookie'])) {
             $cookies = array();
 
             foreach ($response['headers']['Set-Cookie'] as $_cookie) {
                 $cookies[$_cookie['name']] = $_cookie['value'];
             }
 
-            return $cookies;
+            if (isset($nextRequest['headers'])) {
+                $nextRequest['headers'] += compact('cookies');
+            } else {
+                $nextRequest['headers'] = compact('cookies');
+            }
         }
+
+        return $nextRequest;
     }
 
     public function run($handler, array $request = array())
     {
-        $response = $handler($request + $this->dummyRequest());
+        $originalRequest = $request + $this->dummyRequest();
+
+        $response = $handler($originalRequest);
 
         if ($this->followResponseRedirect($response)) {
-            $response = $this->run($handler, array(
-                'method' => 'GET',
-                'uri' => $response['headers']['Location'],
-                'headers' => array(
-                    'cookies' => $this->persistCookies($response),
-                ),
-            ));
+            $nextRequest =
+                array(
+                    'method' => 'GET',
+                    'uri' => $response['headers']['Location'],
+                ) 
+                + $this->dummyRequest();
+
+            $nextRequest = $this->persistCookies($response, $nextRequest);
+            $response = $this->run($handler, $nextRequest);
         }
 
         return $response;
