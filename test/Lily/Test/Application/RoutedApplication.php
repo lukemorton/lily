@@ -3,7 +3,10 @@
 namespace Lily\Test\Application;
 
 use Lily\Application\RoutedApplication;
+
 use Lily\Mock\RoutedApplicationWithRoutes;
+
+use Lily\Util\Request;
 use Lily\Util\Response;
 
 class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
@@ -130,5 +133,17 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             '/slug/test',
             $app->uri('slug', array('slug' => 'test')));
+    }
+
+    public function testFalseReturnedFromHandlerPassesRequestToNextMatch()
+    {
+        $handler =
+            $this->routedApplicationWithoutRoutes(array(
+                array('GET', '/', FALSE),
+                array('GET', '/', array(200, array(), 'hey')),
+            ));
+
+        $response = $handler(Request::get('/'));
+        $this->assertSame('hey', $response['body']);
     }
 }
