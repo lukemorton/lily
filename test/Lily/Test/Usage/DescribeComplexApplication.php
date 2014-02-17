@@ -2,6 +2,8 @@
 
 namespace Lily\Test\Application;
 
+use Lily\Adapter\Test;
+
 use Lily\Application\MiddlewareApplication;
 use Lily\Application\RoutedApplication;
 
@@ -57,44 +59,29 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
             ));
     }
 
+    private function runApplication($application, $request)
+    {
+        $testAdapter = new Test(array(
+            'followRedirect' => TRUE,
+            'persistCookies' => TRUE,
+        ));
+        return $testAdapter->run($application, $request);
+    }
+
     private function applicationResponse($url, $request = array())
     {
-        $app = $this->application();
-        return $app($request + Request::get($url));
+        return
+            $this->runApplication(
+                $this->application(),
+                $request + Request::get($url));
     }
 
     private function applicationFormResponse($url)
     {
-        $app = $this->application();
-        return $app(Request::post($url));
-    }
-
-    private function preserveCookies($response)
-    {
-        if (empty($response['headers']['Set-Cookie'])) {
-            return array();
-        } else {
-            $cookies = array();
-
-            foreach ($response['headers']['Set-Cookie'] as $_cookie) {
-                $cookies[$_cookie['name']] = $_cookie['value'];
-            }
-
-            return $cookies;
-        }
-    }
-
-    private function followResponse($response)
-    {
-        if ( ! isset($response['headers']['Location'])) {
-            return $response;
-        }
-
-        $request = Request::get($response['headers']['Location']);
-        $request['headers']['cookies'] = $this->preserveCookies($response);
-
-        $app = $this->application();
-        return $app($request);
+        return
+            $this->runApplication(
+                $this->application(),
+                Request::post($url));
     }
 
     public function testHomepage()
@@ -106,45 +93,43 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
     public function testAdminRedirectsToLoginIfNotAuthed()
     {
         $response = $this->applicationResponse('/admin');
-        $this->assertSame('/admin/login', $response['headers']['Location']);
+        $this->assertContains('Login', $response['body']);
     }
 
     public function testAdminRedirectsToAdminOnLogin()
     {
         $response = $this->applicationFormResponse('/admin/login');
-        $this->assertSame('/admin', $response['headers']['Location']);
+        $this->assertContains('logout', $response['body']);
     }
 
-    public function testAdminLogsInSuccessfully()
+    private function authedCookie()
     {
-        $response =
-            $this->followResponse(
-                $this->applicationFormResponse('/admin/login'));
-        $this->assertContains('/logout', $response['body']);
+        return
+            MW\Cookie::sign(
+                array('headers' => array('user-agent' => 'Lily\Adapter\Test')),
+                'authed',
+                TRUE,
+                'random');
+    }
+
+    private function authedCookieRequest()
+    {
+        return array(
+            'headers' => array(
+                'cookies' => array('authed' => $this->authedCookie()),
+            ),
+        );
     }
 
     public function testAdminStaysLoggedIn()
     {
-        $response =
-            $this->applicationResponse('/admin', array(
-                'headers' => array(
-                    'cookies' => array(
-                        'authed' => MW\Cookie::sign(array(), 'authed', TRUE, 'random'),
-                    ),
-                ),
-            ));
+        $response = $this->applicationResponse('/admin', $this->authedCookieRequest());
         $this->assertContains('/logout', $response['body']);
     }
 
     public function testAdminLogsOutSuccessfully()
     {
-        $response =
-            $this->followResponse(
-                $this->applicationResponse('/admin/logout', array(
-                    'cookies' => array(
-                        'authed' => MW\Cookie::sign(array(), 'authed', TRUE, 'random'),
-                    ),
-                )));
+        $response = $this->applicationResponse('/admin/logout', $this->authedCookieRequest());
         $this->assertContains('Login', $response['body']);
     }
 }
