@@ -45,8 +45,12 @@ class AdminApplication extends MiddlewareApplication
     {
         return function ($handler) {
             return function ($request) use ($handler) {
-                if ($request['uri'] !== '/admin/login'
-                    AND ! isset($request['cookies']['authed'])) {
+                $isLogin = $request['uri'] === '/admin/login';
+                $isAuthed = isset($request['cookies']['authed']);
+
+                if ($isLogin AND $isAuthed) {
+                    return Response::redirect('/admin');
+                } else if ( ! $isLogin AND ! $isAuthed) {
                     return Response::redirect('/admin/login');
                 }
 

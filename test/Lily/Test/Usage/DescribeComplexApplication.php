@@ -86,4 +86,10 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         $response = $this->applicationResponse('/admin/logout', $this->authedCookieRequest());
         $this->assertContains('Login', $response['body']);
     }
+
+    public function testLoginRedirectsToAdminWhenLoggedIn()
+    {
+        $response = $this->applicationResponse('/admin/login', $this->authedCookieRequest());
+        $this->assertContains('logout', $response['body']);
+    }
 }
