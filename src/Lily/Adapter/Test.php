@@ -55,14 +55,19 @@ class Test
             AND in_array($response['status'], array(301, 302, 303));
     }
 
-    private function persistCookies($response, $nextRequest)
+    private function persistCookies($originalRequest, $response, $nextRequest)
     {
-        if ($this->persistCookies
-            AND ! empty($response['headers']['Set-Cookie'])) {
-            $cookies = array();
+        if ($this->persistCookies) {
+            if (isset($originalRequest['headers']['cookies'])) {
+                $cookies = $originalRequest['headers']['cookies'];
+            } else {
+                $cookies = array();
+            }
 
-            foreach ($response['headers']['Set-Cookie'] as $_cookie) {
-                $cookies[$_cookie['name']] = $_cookie['value'];
+            if ( ! empty($response['headers']['Set-Cookie'])) {
+                foreach ($response['headers']['Set-Cookie'] as $_cookie) {
+                    $cookies[$_cookie['name']] = $_cookie['value'];
+                }
             }
 
             $nextRequest['headers'] += compact('cookies');
@@ -104,7 +109,12 @@ class Test
                     $this->dummyRequest(),
                     Request::get($response['headers']['Location']));
 
-            $nextRequest = $this->persistCookies($response, $nextRequest);
+            $nextRequest =
+                $this->persistCookies(
+                    $originalRequest,
+                    $response,
+                    $nextRequest);
+
             $response = $this->run($handler, $nextRequest);
         }
 

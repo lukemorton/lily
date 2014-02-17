@@ -104,4 +104,47 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
         $response = $test_adapter->run($this->cookieApplication());
         $this->assertSame('no cookie', $response['body']);
     }
+
+    private function authedCookie()
+    {
+        $headers = array('user-agent' => 'Lily\Adapter\Test');
+        return Cookie::sign(compact('headers'), 'authed', 'yes', 'test');
+    }
+
+    private function authedCookieRequest()
+    {
+        return array(
+            'headers' => array(
+                'cookies' => array('authed' => $this->authedCookie()),
+            ),
+        );
+    }
+
+    public function testItShouldPersistCookiesEvenIfNotSet()
+    {
+        $test_adapter = new Test(array(
+            'persistCookies' => TRUE,
+            'followRedirect' => TRUE,
+        ));
+
+        $cookieMiddleware = new Cookie(array('salt' => 'test'));
+
+        $response =
+            $test_adapter->run(
+                $cookieMiddleware(
+                    function ($request) {
+                        if (isset($request['cookies']['authed'])) {
+                            if ($request['uri'] === '/') {
+                                return Response::redirect('/logged-in');
+                            } else {
+                                return Response::ok($request['cookies']['authed']);
+                            }
+                        } else {
+                            return Response::notFound();
+                        }
+                    }),
+                $this->authedCookieRequest());
+
+        $this->assertSame('yes', $response['body']);
+    }
 }
