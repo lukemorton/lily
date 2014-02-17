@@ -12,7 +12,13 @@ class FrontEndApplication extends RoutedApplication
     {
         return array(
             array('GET', '/', '<a href="/admin">admin'),
-            array(NULL, '/admin(/**)', new AdminApplication),
+            $this->adminApplicationRoute(),
         );
+    }
+
+    // Send all request methods and any URL beginning with `/admin` to Admin
+    private function adminApplicationRoute()
+    {
+        return array(NULL, '/admin(/**)', new AdminApplication);
     }
 }
