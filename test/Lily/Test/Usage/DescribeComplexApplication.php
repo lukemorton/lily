@@ -46,16 +46,14 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
                         return $handler($request);
                     };
                 },
+
+                new MW\Cookie(array('salt' => 'random')),
             ));
 
         return
-            new MiddlewareApplication(array(
-                new RoutedApplication(array(
-                    array('GET', '/', '<a href="/admin">admin'),
-                    array(NULL, '/admin(/**)', $admin),
-                )),
-
-                new MW\Cookie(array('salt' => 'random')),
+            new RoutedApplication(array(
+                array('GET', '/', '<a href="/admin">admin'),
+                array(NULL, '/admin(/**)', $admin),
             ));
     }
 
