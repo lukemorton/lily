@@ -75,19 +75,38 @@ class Test
         return $nextRequest;
     }
 
+    private function shallowMergeRequests($r1, $r2)
+    {
+        $mergedRequest = array();
+
+        foreach (array($r1, $r2) as $_i => $request) {
+            foreach ($request as $_k => $_v) {
+                if (isset($mergedRequest[$_k])
+                    AND is_array($mergedRequest[$_k])) {
+                    $mergedRequest[$_k] += $_v;
+                } else {
+                    $mergedRequest[$_k] = $_v;
+                }
+            }
+        }
+
+        return $mergedRequest;
+    }
+
     public function run($handler, array $request = array())
     {
-        $originalRequest = $request + $this->dummyRequest();
+        $originalRequest =
+            $this->shallowMergeRequests(
+                $this->dummyRequest(),
+                $request);
 
         $response = $handler($originalRequest);
 
         if ($this->followResponseRedirect($response)) {
             $nextRequest =
-                array(
-                    'method' => 'GET',
-                    'uri' => $response['headers']['Location'],
-                ) 
-                + $this->dummyRequest();
+                $this->shallowMergeRequests(
+                    $this->dummyRequest(),
+                    Request::get($response['headers']['Location']));
 
             $nextRequest = $this->persistCookies($response, $nextRequest);
             $response = $this->run($handler, $nextRequest);
