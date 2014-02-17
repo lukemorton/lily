@@ -2,7 +2,7 @@
 
 namespace Lily\Test\Application;
 
-use Lily\Example\Application\FrontEndApplication;
+use Lily\Example\Application\MainApplication;
 
 use Lily\Adapter\Test;
 
@@ -14,7 +14,7 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
     private function application()
     {
-        return new FrontEndApplication;
+        return new MainApplication;
     }
 
     private function runApplication($application, $request)

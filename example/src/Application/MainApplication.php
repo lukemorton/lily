@@ -7,7 +7,7 @@ use Lily\Application\RoutedApplication;
 use Lily\Example\Application\AdminApplication;
 use Lily\Example\Controller\MainController;
 
-class FrontEndApplication extends RoutedApplication
+class MainApplication extends RoutedApplication
 {
     private function action($obj, $method)
     {
