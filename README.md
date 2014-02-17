@@ -102,6 +102,6 @@ We try and keep coverage high and no feature is added without some kind of test.
 
 ## License
 
-Copyright © 2013 Luke Morton
+Copyright © 2014 Luke Morton
 
 Distributed under MIT.
