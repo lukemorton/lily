@@ -4,8 +4,8 @@ A lightweight web application library for PHP 5.3+.
 
 Lily provides your application with a common sense interface to HTTP. She also
 provides routing, exception handling, dependency injection and more if you need
-them. This project is inspired by the design of [ring][1], especially in regards
-to the use of higher order functions and middleware. 
+them. This project is inspired by the design of [ring][ring], especially in
+regards to the use of higher order functions and middleware. 
 
 Lil' Lily has very little to her weighing in at 904LOC. She aims to be readable
 in one sitting.
@@ -20,18 +20,18 @@ require __DIR__.'/vendor/autoload.php';
 ?>
 ```
 
-*This example uses PHP 5.4 as do all examples found in the [wiki][2]. Lily
+*This example uses PHP 5.4 as do all examples found in the [wiki][wiki]. Lily
 supports 5.3+ though so you can backport examples.*
 
-A slightly more complex example can be found in [`/example`][13].
+A slightly more complex example can be found in [`/example`][example].
 
-[1]: https://github.com/ring-clojure/ring
-[2]: https://github.com/DrPheltRight/lily/wiki
-[13]: https://github.com/DrPheltRight/lily/blob/develop/example/
+[ring]: https://github.com/ring-clojure/ring
+[wiki]: https://github.com/DrPheltRight/lily/wiki
+[example]: https://github.com/DrPheltRight/lily/blob/develop/example/
 
 ## Installation
 
-Installing Lily through [composer][3] is easy. Just create a `composer.json`
+Installing Lily through [composer][composer] is easy. Just create a `composer.json`
 file in a new directory for your application:
 
 ```json
@@ -50,39 +50,39 @@ curl -s https://getcomposer.org/installer | php && php composer.phar install
 
 Done!
 
-[3]: http://getcomposer.org/
+[composer]: http://getcomposer.org/
 
 ## Documentation
 
- - [Start here][4]
- - [Basics][5]
- - [Routing][6]
- - [Middleware][7]
-    - [Error handling][8]
-    - [Dependency injection][12]
-    - [Default headers][13]
-    - [Cookies][14]
-    - [Sessions][15]
-    - [Flash][16]
+ - [Start here][start-here]
+ - [Basics][basics]
+ - [Routing][routing]
+ - [Middleware][middleware]
+    - [Error handling][error-handling]
+    - [Dependency injection][di]
+    - [Default headers][default-headers]
+    - [Cookies][cookies]
+    - [Sessions][sessions]
+    - [Flash][flash]
 
- [4]: https://github.com/DrPheltRight/lily/wiki
- [5]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
- [6]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
- [7]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
- [8]: https://github.com/DrPheltRight/lily/wiki/Error-handling
- [12]: https://github.com/DrPheltRight/lily/wiki/Dependency-injection
- [13]: https://github.com/DrPheltRight/lily/wiki/Default-headers
- [14]: https://github.com/DrPheltRight/lily/wiki/Cookies
- [15]: https://github.com/DrPheltRight/lily/wiki/Sessions
- [16]: https://github.com/DrPheltRight/lily/wiki/Flash-messages
+ [start-here]: https://github.com/DrPheltRight/lily/wiki
+ [basics]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
+ [routing]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
+ [middleware]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
+ [error-handling]: https://github.com/DrPheltRight/lily/wiki/Error-handling
+ [di]: https://github.com/DrPheltRight/lily/wiki/Dependency-injection
+ [default-headers]: https://github.com/DrPheltRight/lily/wiki/Default-headers
+ [cookies]: https://github.com/DrPheltRight/lily/wiki/Cookies
+ [sessions]: https://github.com/DrPheltRight/lily/wiki/Sessions
+ [flash]: https://github.com/DrPheltRight/lily/wiki/Flash-messages
 
 ## Tests
 
-[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][9]
-[![Coverage Status](https://coveralls.io/repos/DrPheltRight/lily/badge.png?branch=develop)][12]
+[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][travis]
+[![Coverage Status](https://coveralls.io/repos/DrPheltRight/lily/badge.png?branch=develop)][coveralls]
 
-To run the test suite, you need [composer][10] and it will handle the rest. Lily
-unit tests are written with [PHPUnit][11].
+To run the test suite, you need [composer][composer] and it will handle the rest. Lily
+unit tests are written with [PHPUnit][phpunit].
 
 ```
 php composer.phar install --dev
@@ -91,10 +91,9 @@ vendor/bin/phpunit
 
 We try and keep coverage high and no feature is added without some kind of test.
 
-[9]: https://travis-ci.org/DrPheltRight/lily
-[10]: http://getcomposer.org/
-[11]: https://github.com/sebastianbergmann/phpunit/
-[12]: https://coveralls.io/r/DrPheltRight/lily?branch=develop
+[travis]: https://travis-ci.org/DrPheltRight/lily
+[coveralls]: https://coveralls.io/r/DrPheltRight/lily?branch=develop
+[phpunit]: https://github.com/sebastianbergmann/phpunit/
 
 ## Todo
 
