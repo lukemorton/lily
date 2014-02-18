@@ -2,9 +2,11 @@
 
 A lightweight web application library for PHP 5.3+.
 
-Lily provides your application with a common sense interface to HTTP. Lily is
-inspired by the design of [ring][1], especially in regards to the use of higher
-order functions and middleware. She also provides routing if you need it.
+Lily provides your application with a common sense interface to HTTP. Requests
+are represented as a hash and so too are responses.
+
+Lily is inspired by the design of [ring][1], especially in regards to the use of
+higher order functions and middleware. She also provides routing if you need it.
 
 Lil' Lily has very little to her weighing in at 904LOC. She aims to be readable
 in one sitting.
