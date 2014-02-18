@@ -9,4 +9,4 @@ To run this application you need PHP 5.3+ and then run this command:
 php -S localhost:8000 index.php
 ```
 
-**Make sure you run the command from this directory or fix the path to index.php.**
+**Make sure you run the command from this directory or fix the path to `index.php`.**
