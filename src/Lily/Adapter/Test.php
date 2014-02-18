@@ -92,7 +92,7 @@ class Test
         return $mergedRequest;
     }
 
-    public function run($handler, array $request = array())
+    public function run($handler, $request = array())
     {
         $originalRequest =
             $this->shallowMergeRequests(

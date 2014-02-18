@@ -11,13 +11,13 @@ class NativeStore
         }
     }
 
-    public function get(array $request)
+    public function get($request)
     {
         $request['session'] = $_SESSION;
         return $request;
     }
 
-    public function set(array $response)
+    public function set($response)
     {
         if (isset($response['session'])) {
             $_SESSION = $response['session'];

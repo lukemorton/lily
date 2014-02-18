@@ -35,7 +35,7 @@ class Cookie
     private $defaults = array();
     private $salt = 'a-salt';
 
-    public function __construct(array $config = NULL)
+    public function __construct($config = NULL)
     {
         if (isset($config['defaults'])) {
             $this->defaults = $config['defaults'];

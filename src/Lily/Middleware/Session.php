@@ -8,7 +8,7 @@ class Session
 {
     private $store;
 
-    public function __construct(array $config = NULL)
+    public function __construct($config = NULL)
     {
         if (isset($config['store'])) {
             $this->store = $config['store'];

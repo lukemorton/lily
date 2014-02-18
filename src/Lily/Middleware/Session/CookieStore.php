@@ -7,7 +7,7 @@ class CookieStore
     private $name = '_session';
     private $cookie = array();
 
-    public function __construct(array $config = NULL)
+    public function __construct($config = NULL)
     {
         if (isset($config['cookie'])) {
             if (isset($config['cookie']['name'])) {
@@ -19,7 +19,7 @@ class CookieStore
         }
     }
 
-    public function get(array $request)
+    public function get($request)
     {
         if (isset($request['cookies'][$this->name])) {
             $request['session'] =
@@ -31,7 +31,7 @@ class CookieStore
         return $request;
     }
 
-    public function set(array $response)
+    public function set($response)
     {
         if (isset($response['session'])) {
             $response['cookies'][$this->name] =

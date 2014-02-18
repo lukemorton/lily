@@ -23,7 +23,7 @@ class RoutedApplication
 
     private $routes = array();
 
-    public function __construct(array $routes = NULL)
+    public function __construct($routes = NULL)
     {
         if ($routes !== NULL) {
             $this->routes = $routes;
@@ -224,7 +224,7 @@ class RoutedApplication
         return Response::notFound();
     }
 
-    public function uri($name, array $params = array())
+    public function uri($name, $params = array())
     {
         $routes = $this->routes();
         $uri = $routes[$name][1];

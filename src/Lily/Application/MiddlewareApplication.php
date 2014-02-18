@@ -6,7 +6,7 @@ class MiddlewareApplication
 {
     private $middleware;
 
-    public function __construct(array $pipeline = NULL)
+    public function __construct($pipeline = NULL)
     {
         if ($pipeline !== NULL) {
             $this->middleware = $pipeline;

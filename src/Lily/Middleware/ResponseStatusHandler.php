@@ -6,7 +6,7 @@ class ResponseStatusHandler
 {
     private $statusHandlers;
 
-    public function __construct(array $config)
+    public function __construct($config)
     {
         $this->statusHandlers = $config['handlers'];
     }

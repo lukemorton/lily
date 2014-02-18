@@ -6,7 +6,7 @@ class Injection
 {
     private $map;
 
-    public function __construct(array $config)
+    public function __construct($config)
     {
         $this->map = $config['inject'];
     }

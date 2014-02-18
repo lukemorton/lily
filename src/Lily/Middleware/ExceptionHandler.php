@@ -14,7 +14,7 @@ class ExceptionHandler
 {
     private $handler;
 
-    public function __construct(array $config = array())
+    public function __construct($config = array())
     {
         if (isset($config['handler'])) {
             $this->handler = $config['handler'];
