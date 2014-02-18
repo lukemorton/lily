@@ -92,4 +92,11 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         $response = $this->applicationResponse('/admin/login', $this->authedCookieRequest());
         $this->assertContains('logout', $response['body']);
     }
+
+    public function testCustomNotFoundPage()
+    {
+        $response = $this->applicationResponse('/doesnt-exist');
+        $this->assertSame(404, $response['status']);
+        $this->assertContains('We could not find the page you are looking for', $response['body']);
+    }
 }

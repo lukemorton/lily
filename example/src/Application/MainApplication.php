@@ -14,9 +14,10 @@ class MainApplication extends RoutedApplication
         return array(
             array('GET', '/', $this->action('index')),
             $this->adminApplicationRoute(),
+            array(NULL, NULL, $this->action('notFound')),
         );
     }
-    
+
     private function action($action)
     {
         return function ($request) use ($action) {
