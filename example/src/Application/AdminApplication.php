@@ -22,14 +22,6 @@ class AdminApplication extends MiddlewareApplication
         );
     }
 
-    private function action($action)
-    {
-        return function ($request) use ($action) {
-            $controller = new AdminController;
-            return $controller->{$action}($request);
-        };
-    }
-
     private function routedApplication()
     {
         return new RoutedApplication(array(
@@ -40,6 +32,14 @@ class AdminApplication extends MiddlewareApplication
 
             array('GET', '/admin/logout', $this->action('logout')),
         ));
+    }
+
+    private function action($action)
+    {
+        return function ($request) use ($action) {
+            $controller = new AdminController;
+            return $controller->{$action}($request);
+        };
     }
 
     private function adminAuthMiddleware()
