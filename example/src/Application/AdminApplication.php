@@ -13,13 +13,13 @@ use Lily\Example\Controller\AdminController;
 
 class AdminApplication extends MiddlewareApplication
 {
-    public function __construct(array $pipeline = NULL)
+    protected function middleware()
     {
-        parent::__construct(array(
+        return array(
             $this->routedApplication(),
             $this->adminAuthMiddleware(),
             new MW\Cookie(array('salt' => 'random')),
-        ));
+        );
     }
 
     private function action($action)
