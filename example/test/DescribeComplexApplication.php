@@ -6,11 +6,6 @@ use Lily\Example\Application\MainApplication;
 
 class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
-    private function application()
-    {
-        return new MainApplication;
-    }
-
     public function testHomepage()
     {
         $response = applicationResponse(new MainApplication, '/');
