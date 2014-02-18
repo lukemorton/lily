@@ -9,17 +9,18 @@ use Lily\Example\Controller\MainController;
 
 class MainApplication extends RoutedApplication
 {
-    private function action($obj, $method)
+    private function action($action)
     {
-        return function ($request) use ($obj, $method) {
-            return $obj->{$method}($request);
+        return function ($request) use ($action) {
+            $controller = new MainController;
+            return $controller->{$action}($request);
         };
     }
 
     protected function routes()
     {
         return array(
-            array('GET', '/', $this->action(new MainController, 'index')),
+            array('GET', '/', $this->action('index')),
             $this->adminApplicationRoute(),
         );
     }
