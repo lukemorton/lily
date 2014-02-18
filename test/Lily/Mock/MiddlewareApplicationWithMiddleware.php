@@ -10,14 +10,16 @@ class MiddlewareApplicationWithMiddleware extends MiddlewareApplication
 
     protected function middleware()
     {
+        $m = $this->m;
+
         return array(
             function ($request) {
                 return $request['middleware-message'];
             },
             
             function ($handler) {
-                return function ($request) use ($handler) {
-                    $request['middleware-message'] = $this->m;
+                return function ($request) use ($handler, $m) {
+                    $request['middleware-message'] = $m;
                     return $handler($request);
                 };
             },
