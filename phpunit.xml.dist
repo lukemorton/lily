@@ -15,11 +15,15 @@
         <testsuite name="Lily Test Suite">
             <directory suffix=".php">test/Lily/Test</directory>
         </testsuite>
+        <testsuite name="Lily Example Test Suite">
+            <directory suffix=".php">example/test/</directory>
+        </testsuite>
     </testsuites>
     
     <filter>
         <whitelist>
             <directory>src</directory>
+            <directory>example/src</directory>
         </whitelist>
     </filter>
 

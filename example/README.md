@@ -10,3 +10,9 @@ php -S localhost:8000 index.php
 ```
 
 **Make sure you run the command from this directory or fix the path to `index.php`.**
+
+## Tests
+
+The application is tested. You can find the tests inside the `test/` directory.
+
+You can run `phpunit` command to run these tests.
