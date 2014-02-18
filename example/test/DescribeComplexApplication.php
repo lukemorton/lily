@@ -4,12 +4,6 @@ namespace Lily\Test\Application;
 
 use Lily\Example\Application\MainApplication;
 
-use Lily\Adapter\Test;
-
-use Lily\Middleware as MW;
-
-use Lily\Util\Request;
-
 class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
     private function application()
@@ -17,85 +11,45 @@ class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
         return new MainApplication;
     }
 
-    private function runApplication($application, $request)
-    {
-        $testAdapter = new Test(array(
-            'followRedirect' => TRUE,
-            'persistCookies' => TRUE,
-        ));
-        return $testAdapter->run($application, $request);
-    }
-
-    private function applicationResponse($url, $request = array())
-    {
-        return
-            $this->runApplication(
-                $this->application(),
-                $request + Request::get($url));
-    }
-
-    private function applicationFormResponse($url)
-    {
-        return
-            $this->runApplication(
-                $this->application(),
-                Request::post($url));
-    }
-
     public function testHomepage()
     {
-        $response = $this->applicationResponse('/');
+        $response = applicationResponse(new MainApplication, '/');
         $this->assertContains('/admin', $response['body']);
     }
 
     public function testAdminRedirectsToLoginIfNotAuthed()
     {
-        $response = $this->applicationResponse('/admin');
+        $response = applicationResponse(new MainApplication, '/admin');
         $this->assertContains('Login', $response['body']);
     }
 
     public function testAdminRedirectsToAdminOnLogin()
     {
-        $response = $this->applicationFormResponse('/admin/login');
+        $response = applicationFormResponse(new MainApplication, '/admin/login');
         $this->assertContains('logout', $response['body']);
-    }
-
-    private function authedCookie()
-    {
-        $headers = array('user-agent' => 'Lily\Adapter\Test');
-        return MW\Cookie::sign(compact('headers'), 'authed', TRUE, 'random');
-    }
-
-    private function authedCookieRequest()
-    {
-        return array(
-            'headers' => array(
-                'cookies' => array('authed' => $this->authedCookie()),
-            ),
-        );
     }
 
     public function testAdminStaysLoggedIn()
     {
-        $response = $this->applicationResponse('/admin', $this->authedCookieRequest());
+        $response = applicationResponse(new MainApplication, '/admin', authedCookieRequest());
         $this->assertContains('/logout', $response['body']);
     }
 
     public function testAdminLogsOutSuccessfully()
     {
-        $response = $this->applicationResponse('/admin/logout', $this->authedCookieRequest());
+        $response = applicationResponse(new MainApplication, '/admin/logout', authedCookieRequest());
         $this->assertContains('Login', $response['body']);
     }
 
     public function testLoginRedirectsToAdminWhenLoggedIn()
     {
-        $response = $this->applicationResponse('/admin/login', $this->authedCookieRequest());
+        $response = applicationResponse(new MainApplication, '/admin/login', authedCookieRequest());
         $this->assertContains('logout', $response['body']);
     }
 
     public function testCustomNotFoundPage()
     {
-        $response = $this->applicationResponse('/doesnt-exist');
+        $response = applicationResponse(new MainApplication, '/doesnt-exist');
         $this->assertSame(404, $response['status']);
         $this->assertContains('We could not find the page you are looking for', $response['body']);
     }
