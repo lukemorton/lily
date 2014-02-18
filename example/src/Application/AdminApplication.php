@@ -17,7 +17,7 @@ class AdminApplication extends MiddlewareApplication
     {
         return array(
             $this->routedApplication(),
-            $this->adminAuthMiddleware(),
+            $this->ensureAuthenticated(),
             new MW\Cookie(array('salt' => 'random')),
         );
     }
@@ -42,7 +42,7 @@ class AdminApplication extends MiddlewareApplication
         };
     }
 
-    private function adminAuthMiddleware()
+    private function ensureAuthenticated()
     {
         return function ($handler) {
             return function ($request) use ($handler) {
