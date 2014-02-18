@@ -28,6 +28,9 @@ class MainApplication extends RoutedApplication
     // Send all request methods and any URL beginning with `/admin` to Admin
     private function adminApplicationRoute()
     {
-        return array(NULL, '/admin(/**)', new AdminApplication);
+        return array(NULL, '/admin(/**)', function ($request) {
+            $admin = new AdminApplication;
+            return $admin($request);
+        });
     }
 }
