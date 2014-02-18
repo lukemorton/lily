@@ -6,7 +6,7 @@ use Lily\Application\RoutedApplication;
 
 class RoutedApplicationWithRoutes extends RoutedApplication
 {
-    public function routes()
+    protected function routes()
     {
         return array(
             'index' => array('GET', '/', 'index'),
