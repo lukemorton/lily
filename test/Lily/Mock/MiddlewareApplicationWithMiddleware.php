@@ -17,7 +17,7 @@ class MiddlewareApplicationWithMiddleware extends MiddlewareApplication
                 return $request['middleware-message'];
             },
             
-            function ($handler) {
+            function ($handler) use ($m) {
                 return function ($request) use ($handler, $m) {
                     $request['middleware-message'] = $m;
                     return $handler($request);
