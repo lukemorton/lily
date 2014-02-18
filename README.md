@@ -22,11 +22,11 @@ require __DIR__.'/vendor/autoload.php';
 *This example uses PHP 5.4 as do all examples found in the [wiki][2]. Lily
 supports 5.3+ though so you can backport examples.*
 
-A slightly more complex application can be found in [`/example`][3].
+A slightly more complex example can be found in [`/example`][13].
 
 [1]: https://github.com/ring-clojure/ring
 [2]: https://github.com/DrPheltRight/lily/wiki
-[3]: https://github.com/DrPheltRight/lily/blob/develop/example/
+[13]: https://github.com/DrPheltRight/lily/blob/develop/example/
 
 ## Installation
 
