@@ -9,6 +9,8 @@ use Lily\Middleware as MW;
 
 use Lily\Util\Response;
 
+use Lily\Example\Controller\AdminController;
+
 class AdminApplication extends MiddlewareApplication
 {
     public function __construct(array $pipeline = NULL)
@@ -20,24 +22,23 @@ class AdminApplication extends MiddlewareApplication
         ));
     }
 
+    private function action($action)
+    {
+        return function ($request) use ($action) {
+            $controller = new AdminController;
+            return $controller->{$action}($request);
+        };
+    }
+
     private function routedApplication()
     {
         return new RoutedApplication(array(
-            array('GET', '/admin', '<a href="/admin/logout">logout'),
+            array('GET', '/admin', $this->action('index')),
 
-            array('GET', '/admin/login', '<form method="post"><button>Login'),
+            array('GET',  '/admin/login', $this->action('login')),
+            array('POST', '/admin/login', $this->action('login_process')),
 
-            array('POST', '/admin/login', function () {
-                return Response::redirect('/admin') + array(
-                    'cookies' => array('authed' => TRUE),
-                );
-            }),
-
-            array('GET', '/admin/logout', function () {
-                return Response::redirect('/admin/login') + array(
-                    'cookies' => array('authed' => NULL),
-                );
-            }),
+            array('GET', '/admin/logout', $this->action('logout')),
         ));
     }
 
