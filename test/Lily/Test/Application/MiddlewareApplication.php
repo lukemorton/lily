@@ -4,6 +4,8 @@ namespace Lily\Test\Application;
 
 use Lily\Application\MiddlewareApplication;
 
+use Lily\Mock\MiddlewareApplicationWithMiddleware;
+
 use Lily\Util\Response;
 
 class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
@@ -52,5 +54,12 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
         $handler(array());
 
         $this->assertTrue($called);
+    }
+
+    public function testItShouldUseMiddlewareProvidedInChildClass()
+    {
+        $handler = new MiddlewareApplicationWithMiddleware;
+        $handler->m = 'test';
+        $this->assertSame('test', $handler(array()));
     }
 }

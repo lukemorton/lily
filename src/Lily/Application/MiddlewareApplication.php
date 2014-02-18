@@ -4,30 +4,26 @@ namespace Lily\Application;
 
 class MiddlewareApplication
 {
-    private $handler;
     private $middleware;
 
-    public function __construct(array $pipeline)
+    public function __construct(array $pipeline = NULL)
     {
-        $this->handler = array_shift($pipeline);
-        $this->middleware = $pipeline;
+        if ($pipeline !== NULL) {
+            $this->middleware = $pipeline;
+        }
     }
 
-    private function handler()
-    {
-        return $this->handler;
-    }
-
-    private function middleware()
+    protected function middleware()
     {
         return $this->middleware;
     }
 
     public function __invoke($request)
     {
-        $handler = $this->handler();
+        $middleware = $this->middleware();
+        $handler = array_shift($middleware);
 
-        foreach ($this->middleware() as $_mw) {
+        foreach ($middleware as $_mw) {
             $handler = $_mw($handler);
         }
 
