@@ -51,47 +51,77 @@ class RoutedApplication
         return $method === NULL OR $request['method'] === $method;
     }
 
-    private function uriRegex($uri)
+    private function escapeLiterals($uri)
     {
-        // The URI should be considered literal except for keys and optional
-        // parts. Escape everything preg_quote would escape except : ( ) < > *
-        $expression =
+        return
             preg_replace(
                 '#'.static::REGEX_ESCAPE.'#',
                 '\\\\$0',
                 $uri);
+    }
 
-        if (strpos($expression, '(') !== FALSE) {
+    private function addOptionalPartRegex($uri)
+    {
+        if (strpos($uri, '(') !== FALSE) {
             // Make optional parts of the URI non-capturing and optional
-            $expression =
+            $uri =
                 str_replace(
                     array('(', ')'),
                     array('(?:', ')?'),
-                    $expression);
+                    $uri);
         }
 
-        // Insert default regex for keys
-        $expression =
+        return $uri;
+    }
+
+    private function addParamRegex($uri)
+    {
+        return 
             preg_replace(
                 '#'.static::REGEX_PARAM_KEY.'#',
                 static::REGEX_PARAM_VALUE,
-                $expression);
+                $uri);
+    }
 
-        // Insert splat regex
-        $expression =
+    private function addSuperSplatRegex($uri)
+    {
+        return
             preg_replace(
                 '#'.static::REGEX_SUPER_SPLAT.'#',
                 static::REGEX_SUPER_SPLAT_VALUE,
-                $expression);
+                $uri);
+    }
 
-        // Insert splat regex
-        $expression =
+    private function addSplatRegex($uri)
+    {
+        return
             preg_replace(
                 '#'.static::REGEX_SPLAT.'#',
                 static::REGEX_SPLAT_VALUE,
-                $expression);
+                $uri);
+    }
 
-        return '#^'.$expression.'$#uD';
+    private function wrapRegex($uri)
+    {
+        return '#^'.$uri.'$#uD';
+    }
+
+    private function uriRegex($uri)
+    {
+        return
+            array_reduce(
+                array(
+                    array($this, 'escapeLiterals'),
+                    array($this, 'addOptionalPartRegex'),
+                    array($this, 'addParamRegex'),
+                    array($this, 'addSuperSplatRegex'),
+                    array($this, 'addSplatRegex'),
+                    array($this, 'wrapRegex'),
+                ),
+                function ($uri, $callback) {
+                    return $callback($uri);
+                },
+                $uri);
     }
 
     private function removeNumeric(array $mixedArray)
