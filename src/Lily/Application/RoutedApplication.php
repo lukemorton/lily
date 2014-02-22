@@ -119,7 +119,7 @@ class RoutedApplication
                     array($this, 'wrapRegex'),
                 ),
                 function ($uri, $callback) {
-                    return $callback($uri);
+                    return call_user_func($callback, $uri);
                 },
                 $uri);
     }
