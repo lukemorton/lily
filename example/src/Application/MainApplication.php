@@ -2,14 +2,30 @@
 
 namespace Lily\Example\Application;
 
+use Lily\Application\MiddlewareApplication;
 use Lily\Application\RoutedApplication;
+
+use Lily\Middleware\ExceptionHandler;
 
 use Lily\Example\Application\AdminApplication;
 use Lily\Example\Controller\MainController;
 
-class MainApplication extends RoutedApplication
+class MainApplication extends MiddlewareApplication
 {
-    protected function routes()
+    protected function middleware()
+    {
+        return array(
+            $this->routedApplication(),
+            new ExceptionHandler,
+        );
+    }
+
+    private function routedApplication()
+    {
+        return new RoutedApplication($this->routes());
+    }
+
+    private function routes()
     {
         return array(
             array('GET', '/', $this->action('index')),
