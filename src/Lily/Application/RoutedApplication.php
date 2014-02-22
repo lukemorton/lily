@@ -108,20 +108,14 @@ class RoutedApplication
 
     private function uriRegex($uri)
     {
-        return
-            array_reduce(
-                array(
-                    array($this, 'escapeLiterals'),
-                    array($this, 'addOptionalPartRegex'),
-                    array($this, 'addParamRegex'),
-                    array($this, 'addSuperSplatRegex'),
-                    array($this, 'addSplatRegex'),
-                    array($this, 'wrapRegex'),
-                ),
-                function ($uri, $callback) {
-                    return call_user_func($callback, $uri);
-                },
-                $uri);
+        return // blame php 5.3 support for this nesting:
+            $this->wrapRegex(
+                $this->addSplatRegex(
+                    $this->addSuperSplatRegex(
+                        $this->addParamRegex(
+                            $this->addOptionalPartRegex(
+                                $this->escapeLiterals(
+                                    $uri))))));
     }
 
     private function removeNumeric(array $mixedArray)
