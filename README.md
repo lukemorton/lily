@@ -26,7 +26,7 @@ supports 5.3+ though so you can backport examples.*
 A slightly more complex example can be found in [`/example`][example].
 
 [ring]: https://github.com/ring-clojure/ring
-[wiki]: https://github.com/DrPheltRight/lily/wiki
+[wiki]: https://github.com/DrPheltRight/lily/wiki/000-overview
 [example]: https://github.com/DrPheltRight/lily/blob/develop/example/
 
 ## Installation
@@ -65,16 +65,16 @@ Done!
     - [Sessions][sessions]
     - [Flash][flash]
 
- [start-here]: https://github.com/DrPheltRight/lily/wiki
- [basics]: https://github.com/DrPheltRight/lily/wiki/Learning-the-basics
- [routing]: https://github.com/DrPheltRight/lily/wiki/Routing-like-a-pro
- [middleware]: https://github.com/DrPheltRight/lily/wiki/Get-the-most-from-middleware
- [error-handling]: https://github.com/DrPheltRight/lily/wiki/Error-handling
- [di]: https://github.com/DrPheltRight/lily/wiki/Dependency-injection
- [default-headers]: https://github.com/DrPheltRight/lily/wiki/Default-headers
- [cookies]: https://github.com/DrPheltRight/lily/wiki/Cookies
- [sessions]: https://github.com/DrPheltRight/lily/wiki/Sessions
- [flash]: https://github.com/DrPheltRight/lily/wiki/Flash-messages
+ [start-here]: https://github.com/DrPheltRight/lily/wiki/000-overview
+ [basics]: https://github.com/DrPheltRight/lily/wiki/001-basics
+ [routing]: https://github.com/DrPheltRight/lily/wiki/002-routing
+ [middleware]: https://github.com/DrPheltRight/lily/wiki/003-middleware
+ [error-handling]: https://github.com/DrPheltRight/lily/wiki/errors
+ [di]: https://github.com/DrPheltRight/lily/wiki/di
+ [default-headers]: https://github.com/DrPheltRight/lily/wiki/default-headers
+ [cookies]: https://github.com/DrPheltRight/lily/wiki/cookies
+ [sessions]: https://github.com/DrPheltRight/lily/wiki/sessions
+ [flash]: https://github.com/DrPheltRight/lily/wiki/flash-messages
 
 ## Tests
 
