@@ -104,4 +104,8 @@ We try and keep coverage high and no feature is added without some kind of test.
 
 Copyright © 2014 Luke Morton
 
-Distributed under MIT.
+Distributed under MIT. See [LICENSE][license] distributed with Lily for more
+information. TL;DR, Keep the license found at the top of each Lily file with
+significant chunks of code you want to reuse.
+
+[license]: https://github.com/DrPheltRight/lily/blob/develop/LICENSE
