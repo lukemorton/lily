@@ -94,11 +94,19 @@ We try and keep coverage high and no feature is added without some kind of test.
 [coveralls]: https://coveralls.io/r/DrPheltRight/lily?branch=develop
 [phpunit]: https://github.com/sebastianbergmann/phpunit/
 
-## Todo
+## Development
 
- - Add accepts and lang parsing middleware
- - Add file sending capabilities
- - Get coverage to 100% somehow
+All development should be done via [GitHub Issues][issues]. New features should
+be suggested/planned there and can be identified by the `feature` tag. Also bugs
+should be reported with the `bug` label.
+
+I'd like some development help with new features. I've labelled the features
+that people are welcome to hack at with `please help`. If a task isn't labelled
+please just comment to ask if you want to help out.
+
+**Features must be tested before pull requests opened.**
+
+[issues]: https://github.com/DrPheltRight/lily/issues
 
 ## License
 
