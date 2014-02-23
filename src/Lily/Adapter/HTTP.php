@@ -11,7 +11,24 @@
 namespace Lily\Adapter;
 
 /**
- * HTTP Adapter for most PHP applications.
+ * Execute your application handler in a HTTP environment.
+ *
+ * By accessing PHP globals this object builds up a request array representing
+ * commonly used HTTP headers (`$_SERVER['CONTENT_LENGTH']`), parameters
+ * (`$_GET`, `$_POST`, `$_COOKIE`) and URL (`$_SERVER['PATH_INFO']).
+ *
+ * Your application handler should then return a response object containing
+ * `status`, `headers` and `body` keys. You can use `Lily\Util\Response` to
+ * make this easier for yourself.
+ *
+ *     (new Lily\Adapter\HTTP)->run(
+ *         function ($request) {
+ *             if ($request['uri'] === '/') {
+ *                 return Lily\Util\Response::ok('Hello World');
+ *             }
+ *             
+ *             return Lily\Util\Response::notFound('Page not found, sorry');
+ *         });
  */
 class HTTP
 {

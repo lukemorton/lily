@@ -12,6 +12,26 @@ namespace Lily\Adapter;
 
 use Lily\Util\Request;
 
+/**
+ * Execute your application handler in a test environment that mimics HTTP.
+ *
+ * By merging `$dummyRequest` with a request array passed into `::run()`'s
+ * second parameter a final array is built representing a fake HTTP request.
+ * This is then passed into your application handler (`::run()`'s first param).
+ * 
+ * Your application handler should then return a response object containing
+ * `status`, `headers` and `body` keys. You can use `Lily\Util\Response` to
+ * make this easier for yourself.
+ *
+ *     (new Lily\Adapter\Test)->run(
+ *         function ($request) {
+ *             if ($request['uri'] === '/') {
+ *                 return Lily\Util\Response::ok('Hello World');
+ *             }
+ *             
+ *             return Lily\Util\Response::notFound('Page not found, sorry');
+ *         });
+ */
 class Test
 {
     private $dummyRequest = array(
@@ -100,6 +120,11 @@ class Test
         return $mergedRequest;
     }
 
+    /**
+     * Run an application handler in a test environment. The first param is
+     * your handler, the second is an optional request array that will be
+     * merged into `$dummyRequest`.
+     */
     public function run($handler, $request = array())
     {
         $originalRequest =

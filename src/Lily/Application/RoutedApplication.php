@@ -12,6 +12,9 @@ namespace Lily\Application;
 
 use Lily\Util\Response;
 
+/**
+ * An application handler that provides routing to other handlers or responses.
+ */
 class RoutedApplication
 {
     // Defines the pattern of a :param

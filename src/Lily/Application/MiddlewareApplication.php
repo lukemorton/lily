@@ -10,6 +10,9 @@
 
 namespace Lily\Application;
 
+/**
+ * An application handler that wraps another handler in middleware handlers.
+ */
 class MiddlewareApplication
 {
     private $middleware;
