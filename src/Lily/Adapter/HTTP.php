@@ -194,6 +194,8 @@ class HTTP
         } elseif (isset($_SERVER['REQUEST_URI'])) {
             $uri = $_SERVER['REQUEST_URI'];
 
+            // We parse the REQUEST_URI since it can contain GET parameters.
+            //
             // `parse_url()` cannot parse malformed URLs like:
             // 
             //     http://localhost/http://example.com/index.php

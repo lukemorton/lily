@@ -301,6 +301,11 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
                 '/admin/users',
             ),
             array(
+                'REQUEST_URI',
+                '/admin/users?a=1',
+                '/admin/users',
+            ),
+            array(
                 'PHP_SELF',
                 '/index.html',
                 '/index.html',
