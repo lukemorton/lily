@@ -192,7 +192,21 @@ class HTTP
         if ( ! empty($_SERVER['PATH_INFO'])) {
             $uri = $_SERVER['PATH_INFO'];
         } elseif (isset($_SERVER['REQUEST_URI'])) {
-            $uri = rawurldecode($_SERVER['REQUEST_URI']);
+            $uri = $_SERVER['REQUEST_URI'];
+
+            // `parse_url()` cannot parse malformed URLs like:
+            // 
+            //     http://localhost/http://example.com/index.php
+            //
+            // Only if truthy do we use what `parse_url()` it returns, otherwise
+            // we default to the raw `REQUEST_URI`.
+            $request_uri = parse_url($uri, PHP_URL_PATH);
+
+            if ($request_uri) {
+                $uri = $request_uri;
+            }
+
+            $uri = rawurldecode($uri);
         } elseif (isset($_SERVER['PHP_SELF'])) {
             $uri = $_SERVER['PHP_SELF'];
         } elseif (isset($_SERVER['REDIRECT_URL'])) {
