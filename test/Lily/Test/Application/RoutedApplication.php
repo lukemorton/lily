@@ -26,12 +26,12 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    private function routedApplicationWithRoutes()
+    protected function applicationWithRoutes()
     {
         return new RoutedApplicationWithRoutes;
     }
 
-    private function routedApplicationWithoutRoutes(array $routes = NULL)
+    protected function applicationWithoutRoutes(array $routes = NULL)
     {
         return new RoutedApplication($routes);
     }
@@ -57,7 +57,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 
         shuffle($routes);
 
-        $app = $this->routedApplicationWithoutRoutes($routes);
+        $app = $this->applicationWithoutRoutes($routes);
 
         return array(
             array($app, 'GET', '/', 'GET /'),
@@ -94,8 +94,8 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     public function routedApplicationProvider()
     {
         return array(
-            array($this->routedApplicationWithRoutes()),
-            array($this->routedApplicationWithoutRoutes(array(
+            array($this->applicationWithRoutes()),
+            array($this->applicationWithoutRoutes(array(
                 array('GET', '/', array(200, array(), 'index')),
             ))),
         );
@@ -115,7 +115,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $actualApp = FALSE;
 
-        $expectedApp = $this->routedApplicationWithoutRoutes(array(
+        $expectedApp = $this->applicationWithoutRoutes(array(
             array(NULL, NULL, function ($request) use (& $actualApp) {
                 $actualApp = $request['app'];
                 return '';
@@ -128,7 +128,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testNotFoundRoute()
     {
-        $handler = $this->routedApplicationWithoutRoutes();
+        $handler = $this->applicationWithoutRoutes();
         $this->assertSame(
             Response::notFound(),
             $handler($this->request()));
@@ -136,7 +136,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testReverseRouting()
     {
-        $app = $this->routedApplicationWithRoutes();
+        $app = $this->applicationWithRoutes();
         $this->assertSame('/', $app->uri('index'));
         $this->assertSame(
             '/slug/test',
@@ -146,7 +146,7 @@ class RoutedApplicationTest extends \PHPUnit_Framework_TestCase
     public function testFalseReturnedFromHandlerPassesRequestToNextMatch()
     {
         $handler =
-            $this->routedApplicationWithoutRoutes(array(
+            $this->applicationWithoutRoutes(array(
                 array('GET', '/', FALSE),
                 array('GET', '/', array(200, array(), 'hey')),
             ));
