@@ -34,6 +34,14 @@ abstract class WebApplication
         return $this->inject;
     }
 
+    protected function application($application)
+    {
+        return function ($request) use ($application) {
+            $applications = $request['di']['interaction']['applications'];
+            return $applications[$application]($request);
+        };
+    }
+
     private function parseResponse($route)
     {
         $response = $route[2];

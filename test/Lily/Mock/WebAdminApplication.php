@@ -10,14 +10,12 @@
 
 namespace Lily\Mock;
 
-class WebApplication extends \Lily\Application\WebApplication
+class WebAdminApplication extends \Lily\Application\WebApplication
 {
     protected function routes()
     {
         return array(
-            'index' => array('GET', '/', array('test', 'index')),
-            'slug' => array('GET', '/slug/:slug', array('test', 'slug')),
-            'admin' => array('GET', '/admin', $this->application('admin')),
+            'index' => array('GET', '/admin', 'admin'),
         );
     }
 }

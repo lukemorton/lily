@@ -11,6 +11,7 @@
 namespace Lily\Test\Application;
 
 use Lily\Mock\WebApplication;
+use Lily\Mock\WebAdminApplication;
 use Lily\Mock\WebController;
 
 use Lily\Util\Request;
@@ -23,9 +24,12 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
             'inject' => array(
                 'di' => array(
                     'interaction' => array(
+                        'applications' => array(
+                            'admin' => new WebAdminApplication,
+                        ),
                         'controllers' => array(
                             'test' => new WebController,
-                        )
+                        ),
                     ),
                 ),
             ),
@@ -39,5 +43,12 @@ class WebApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('index', $response['body']);
         $response = $app(Request::get('/slug/hmm') + array('params' => array()));
         $this->assertSame('hmm', $response['body']);
+    }
+
+    public function testItShouldInjectApplications()
+    {
+        $app = $this->webApplication();
+        $response = $app(Request::get('/admin') + array('params' => array()));
+        $this->assertSame('admin', $response['body']);
     }
 }
