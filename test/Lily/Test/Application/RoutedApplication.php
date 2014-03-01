@@ -22,8 +22,8 @@ class RoutedApplicationTest extends RoutableApplicationTest
         return new RoutedApplicationWithRoutes;
     }
 
-    protected function applicationWithoutRoutes(array $routes = NULL)
+    protected function applicationWithoutRoutes($routes = NULL)
     {
-        return new RoutedApplication($routes);
+        return new RoutedApplication(compact('routes'));
     }
 }

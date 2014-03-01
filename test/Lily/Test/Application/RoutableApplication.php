@@ -28,7 +28,7 @@ abstract class RoutableApplicationTest extends \PHPUnit_Framework_TestCase
 
     abstract protected function applicationWithRoutes();
 
-    abstract protected function applicationWithoutRoutes(array $routes = NULL);
+    abstract protected function applicationWithoutRoutes($routes = NULL);
 
     public function routesProvider()
     {

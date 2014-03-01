@@ -22,7 +22,7 @@ class MainApplication extends MiddlewareApplication
 
     private function routedApplication()
     {
-        return new RoutedApplication($this->routes());
+        return new RoutedApplication(array('routes' => $this->routes()));
     }
 
     private function routes()

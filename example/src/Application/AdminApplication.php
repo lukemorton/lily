@@ -24,14 +24,15 @@ class AdminApplication extends MiddlewareApplication
 
     private function routedApplication()
     {
-        return new RoutedApplication(array(
+        $routes = array(
             array('GET', '/admin', $this->action('index')),
 
             array('GET',  '/admin/login', $this->action('login')),
             array('POST', '/admin/login', $this->action('login_process')),
 
             array('GET', '/admin/logout', $this->action('logout')),
-        ));
+        );
+        return new RoutedApplication(compact('routes'));
     }
 
     private function action($action)

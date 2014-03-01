@@ -16,7 +16,7 @@ require __DIR__.'/vendor/autoload.php';
 
 (new Lily\Adapter\HTTP)->run(
     new Lily\Application\RoutedApplication(
-        [['GET', '/', 'Hello world']]));
+        ['routes' => [['GET', '/', 'Hello world']]]));
 ?>
 ```
 

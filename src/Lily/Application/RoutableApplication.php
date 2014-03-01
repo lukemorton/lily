@@ -34,10 +34,10 @@ abstract class RoutableApplication
 
     private $routes = array();
 
-    public function __construct($routes = NULL)
+    public function __construct($config = NULL)
     {
-        if ($routes !== NULL) {
-            $this->routes = $routes;
+        if (isset($config['routes'])) {
+            $this->routes = $config['routes'];
         }
     }
 
