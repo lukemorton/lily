@@ -6,45 +6,60 @@ use Lily\Example\Interaction\Application\MainApplication;
 
 class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
+    private function application()
+    {
+        return new MainApplication;
+    }
+
+    private function applicationResponse($uri, $request = array())
+    {
+        return applicationResponse($this->application(), $uri, $request);
+    }
+
+    private function applicationFormResponse($uri)
+    {
+        return applicationFormResponse($this->application(), $uri);
+    }
+
     public function testHomepage()
     {
-        $response = applicationResponse(new MainApplication, '/');
+        $response = $this->applicationResponse('/');
         $this->assertContains('/admin', $response['body']);
     }
 
     public function testAdminRedirectsToLoginIfNotAuthed()
     {
-        $response = applicationResponse(new MainApplication, '/admin');
+        $response = $this->applicationResponse('/admin');
         $this->assertContains('Login', $response['body']);
     }
 
     public function testAdminRedirectsToAdminOnLogin()
     {
-        $response = applicationFormResponse(new MainApplication, '/admin/login');
+        $response = $this->applicationFormResponse('/admin/login');
         $this->assertContains('logout', $response['body']);
     }
 
     public function testAdminStaysLoggedIn()
     {
-        $response = applicationResponse(new MainApplication, '/admin', authedCookieRequest());
+        $response = $this->applicationResponse('/admin', authedCookieRequest());
         $this->assertContains('/logout', $response['body']);
     }
 
     public function testAdminLogsOutSuccessfully()
     {
-        $response = applicationResponse(new MainApplication, '/admin/logout', authedCookieRequest());
+        $response = $this->applicationResponse('/admin/logout', authedCookieRequest());
         $this->assertContains('Login', $response['body']);
     }
 
     public function testLoginRedirectsToAdminWhenLoggedIn()
     {
-        $response = applicationResponse(new MainApplication, '/admin/login', authedCookieRequest());
+        $response = $this->applicationResponse('/admin/login', authedCookieRequest());
         $this->assertContains('logout', $response['body']);
     }
 
     public function testCustomNotFoundPage()
     {
-        $response = applicationResponse(new MainApplication, '/doesnt-exist');
+        $response = $this->applicationResponse('/doesnt-exist');
         $this->assertSame(404, $response['status']);
         $this->assertContains('We could not find the page you are looking for', $response['body']);
     }
