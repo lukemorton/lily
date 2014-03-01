@@ -9,6 +9,7 @@ use Lily\Middleware\Injection;
 
 use Lily\Example\Application\AdminApplication;
 use Lily\Example\Controller\MainController;
+use Lily\Example\Controller\AdminController;
 
 class MainApplication extends WebApplication
 {
@@ -19,7 +20,7 @@ class MainApplication extends WebApplication
 
             // Send all request methods and any URL beginning with `/admin` to Admin
             array(NULL, '/admin(/**)', $this->application('admin')),
-            
+
             array(NULL, NULL, array('main', 'notFound')),
         );
     }
@@ -37,6 +38,7 @@ class MainApplication extends WebApplication
                             ),
                             'controllers' => array(
                                 'main' => new MainController,
+                                'admin' => new AdminController,
                             ),
                         ),
                     ),

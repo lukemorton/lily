@@ -2,8 +2,7 @@
 
 namespace Lily\Example\Application;
 
-use Lily\Application\MiddlewareApplication;
-use Lily\Application\RoutedApplication;
+use Lily\Application\WebApplication;
 
 use Lily\Middleware as MW;
 
@@ -11,27 +10,18 @@ use Lily\Util\Response;
 
 use Lily\Example\Controller\AdminController;
 
-class AdminApplication extends MiddlewareApplication
+class AdminApplication extends WebApplication
 {
-    protected function handler()
+    protected function routes()
     {
-        $routes = array(
-            array('GET', '/admin', $this->action('index')),
+        return array(
+            array('GET', '/admin', array('admin', 'index')),
 
-            array('GET',  '/admin/login', $this->action('login')),
-            array('POST', '/admin/login', $this->action('login_process')),
+            array('GET',  '/admin/login', array('admin', 'login')),
+            array('POST', '/admin/login', array('admin', 'login_process')),
 
-            array('GET', '/admin/logout', $this->action('logout')),
+            array('GET', '/admin/logout', array('admin', 'logout')),
         );
-        return new RoutedApplication(compact('routes'));
-    }
-
-    private function action($action)
-    {
-        return function ($request) use ($action) {
-            $controller = new AdminController;
-            return $controller->{$action}($request);
-        };
     }
     
     protected function middleware()
