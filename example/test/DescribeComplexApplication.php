@@ -2,7 +2,7 @@
 
 namespace Lily\Test\Application;
 
-use Lily\Example\Application\MainApplication;
+use Lily\Example\Interaction\Application\MainApplication;
 
 class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lily\Example\Controller;
+namespace Lily\Example\Interaction\Controller;
 
 use Lily\Util\Response;
 

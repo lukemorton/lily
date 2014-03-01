@@ -1,14 +1,12 @@
 <?php
 
-namespace Lily\Example\Application;
+namespace Lily\Example\Interaction\Application;
 
 use Lily\Application\WebApplication;
 
 use Lily\Middleware as MW;
 
 use Lily\Util\Response;
-
-use Lily\Example\Controller\AdminController;
 
 class AdminApplication extends WebApplication
 {

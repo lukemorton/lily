@@ -1,15 +1,15 @@
 <?php
 
-namespace Lily\Example\Application;
+namespace Lily\Example\Interaction\Application;
 
 use Lily\Application\WebApplication;
 
 use Lily\Middleware\ExceptionHandler;
 use Lily\Middleware\Injection;
 
-use Lily\Example\Application\AdminApplication;
-use Lily\Example\Controller\MainController;
-use Lily\Example\Controller\AdminController;
+use Lily\Example\Interaction\Application\AdminApplication;
+use Lily\Example\Interaction\Controller\MainController;
+use Lily\Example\Interaction\Controller\AdminController;
 
 class MainApplication extends WebApplication
 {
