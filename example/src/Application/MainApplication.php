@@ -12,15 +12,7 @@ use Lily\Example\Controller\MainController;
 
 class MainApplication extends MiddlewareApplication
 {
-    protected function middleware()
-    {
-        return array(
-            $this->routedApplication(),
-            new ExceptionHandler,
-        );
-    }
-
-    private function routedApplication()
+    protected function handler()
     {
         return new RoutedApplication(array('routes' => $this->routes()));
     }
@@ -31,6 +23,13 @@ class MainApplication extends MiddlewareApplication
             array('GET', '/', $this->action('index')),
             $this->adminApplicationRoute(),
             array(NULL, NULL, $this->action('notFound')),
+        );
+    }
+    
+    protected function middleware()
+    {
+        return array(
+            new ExceptionHandler,
         );
     }
 

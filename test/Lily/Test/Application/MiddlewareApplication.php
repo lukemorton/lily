@@ -25,24 +25,26 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 
         $handler =
             new MiddlewareApplication(array(
-                function ($request) use (& $calledOrder) {
+                'handler' => function ($request) use (& $calledOrder) {
                     $calledOrder[] = 3;
                     return Response::ok();
                 },
                 
-                function ($handler) use (& $calledOrder) {
-                    return function ($request) use ($handler, & $calledOrder) {
-                        $calledOrder[] = 2;
-                        return $handler($request);
-                    };
-                },
+                'middleware' => array(
+                    function ($handler) use (& $calledOrder) {
+                        return function ($request) use ($handler, & $calledOrder) {
+                            $calledOrder[] = 2;
+                            return $handler($request);
+                        };
+                    },
 
-                function ($handler) use (& $calledOrder) {
-                    return function ($request) use ($handler, & $calledOrder) {
-                        $calledOrder[] = 1;
-                        return $handler($request);
-                    };
-                },
+                    function ($handler) use (& $calledOrder) {
+                        return function ($request) use ($handler, & $calledOrder) {
+                            $calledOrder[] = 1;
+                            return $handler($request);
+                        };
+                    },
+                ),
             ));
         $handler(array());
 
@@ -55,7 +57,7 @@ class MiddlewareApplicationTest extends \PHPUnit_Framework_TestCase
 
         $handler =
             new MiddlewareApplication(array(
-                function () use (& $called) {
+                'handler' => function () use (& $called) {
                     $called = TRUE;
                 },
             ));

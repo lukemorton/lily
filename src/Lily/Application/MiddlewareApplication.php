@@ -15,13 +15,23 @@ namespace Lily\Application;
  */
 class MiddlewareApplication
 {
-    private $middleware;
+    private $handler;
+    private $middleware = array();
 
-    public function __construct($pipeline = NULL)
+    public function __construct($config = NULL)
     {
-        if ($pipeline !== NULL) {
-            $this->middleware = $pipeline;
+        if (isset($config['handler'])) {
+            $this->handler = $config['handler'];
         }
+
+        if (isset($config['middleware'])) {
+            $this->middleware = $config['middleware'];
+        }
+    }
+
+    protected function handler()
+    {
+        return $this->handler;
     }
 
     protected function middleware()
@@ -32,7 +42,7 @@ class MiddlewareApplication
     public function __invoke($request)
     {
         $middleware = $this->middleware();
-        $handler = array_shift($middleware);
+        $handler = $this->handler();
 
         foreach ($middleware as $_mw) {
             $handler = $_mw($handler);

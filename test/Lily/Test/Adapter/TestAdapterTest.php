@@ -78,7 +78,7 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
     {
         return
             new MiddlewareApplication(array(
-                function ($request) {
+                'handler' => function ($request) {
                     if ($request['uri'] === '/') {
                         return Response::redirect('/redirected') + array(
                             'cookies' => array('a' => 'cookie'),
@@ -90,7 +90,9 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
                     }
                 },
 
-                new Cookie(array('salt' => 'cool')),
+                'middleware' => array(
+                    new Cookie(array('salt' => 'cool')),
+                ),
             ));
     }
 

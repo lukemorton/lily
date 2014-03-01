@@ -13,16 +13,7 @@ use Lily\Example\Controller\AdminController;
 
 class AdminApplication extends MiddlewareApplication
 {
-    protected function middleware()
-    {
-        return array(
-            $this->routedApplication(),
-            $this->ensureAuthenticated(),
-            new MW\Cookie(array('salt' => 'random')),
-        );
-    }
-
-    private function routedApplication()
+    protected function handler()
     {
         $routes = array(
             array('GET', '/admin', $this->action('index')),
@@ -41,6 +32,14 @@ class AdminApplication extends MiddlewareApplication
             $controller = new AdminController;
             return $controller->{$action}($request);
         };
+    }
+    
+    protected function middleware()
+    {
+        return array(
+            $this->ensureAuthenticated(),
+            new MW\Cookie(array('salt' => 'random')),
+        );
     }
 
     private function ensureAuthenticated()
