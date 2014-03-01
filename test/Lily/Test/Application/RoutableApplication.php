@@ -51,6 +51,14 @@ abstract class RoutableApplicationTest extends \PHPUnit_Framework_TestCase
 
         shuffle($routes);
 
+        $routes[] = array('GET', '/params/:a', function ($request) {
+            return "GET /params/{$request['params']['a']}";
+        });
+
+        $routes[] = array('GET', '/:a', function ($request) {
+            return "GET /{$request['params']['a']}";
+        });
+
         $app = $this->applicationWithoutRoutes($routes);
 
         return array(
@@ -72,6 +80,9 @@ abstract class RoutableApplicationTest extends \PHPUnit_Framework_TestCase
             array($app, 'POST', '/', 'POST /'),
             array($app, 'PUT', '/', 'PUT /'),
             array($app, 'DELETE', '/', 'DELETE /'),
+
+            array($app, 'GET', '/params/else', 'GET /params/else'),
+            array($app, 'GET', '/else', 'GET /else'),
         );
     }
 
