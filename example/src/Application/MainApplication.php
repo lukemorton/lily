@@ -2,27 +2,25 @@
 
 namespace Lily\Example\Application;
 
-use Lily\Application\MiddlewareApplication;
-use Lily\Application\RoutedApplication;
+use Lily\Application\WebApplication;
 
 use Lily\Middleware\ExceptionHandler;
+use Lily\Middleware\Injection;
 
 use Lily\Example\Application\AdminApplication;
 use Lily\Example\Controller\MainController;
 
-class MainApplication extends MiddlewareApplication
+class MainApplication extends WebApplication
 {
-    protected function handler()
-    {
-        return new RoutedApplication(array('routes' => $this->routes()));
-    }
-
-    private function routes()
+    protected function routes()
     {
         return array(
-            array('GET', '/', $this->action('index')),
-            $this->adminApplicationRoute(),
-            array(NULL, NULL, $this->action('notFound')),
+            array('GET', '/', array('main', 'index')),
+
+            // Send all request methods and any URL beginning with `/admin` to Admin
+            array(NULL, '/admin(/**)', $this->application('admin')),
+            
+            array(NULL, NULL, array('main', 'notFound')),
         );
     }
     
@@ -30,23 +28,20 @@ class MainApplication extends MiddlewareApplication
     {
         return array(
             new ExceptionHandler,
+            new Injection(array(
+                'inject' => array(
+                    'di' => array(
+                        'interaction' => array(
+                            'applications' => array(
+                                'admin' => new AdminApplication,
+                            ),
+                            'controllers' => array(
+                                'main' => new MainController,
+                            ),
+                        ),
+                    ),
+                ),
+            )),
         );
-    }
-
-    private function action($action)
-    {
-        return function ($request) use ($action) {
-            $controller = new MainController;
-            return $controller->{$action}($request);
-        };
-    }
-
-    // Send all request methods and any URL beginning with `/admin` to Admin
-    private function adminApplicationRoute()
-    {
-        return array(NULL, '/admin(/**)', function ($request) {
-            $admin = new AdminApplication;
-            return $admin($request);
-        });
     }
 }
