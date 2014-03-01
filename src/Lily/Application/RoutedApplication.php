@@ -244,19 +244,22 @@ class RoutedApplication
         return $this->handlerResponse($handler, $request);
     }
 
-    public function __invoke($request)
+    private function matchRoute($request, $routes)
     {
-        $routes = $this->routes();
-
         foreach ($routes as $_route) {
             $response = $this->routeResponse($request, $_route);
 
             if ($response !== FALSE) {
                 return $response;
             }
-        }
+        }        
 
         return Response::notFound();
+    }
+
+    public function __invoke($request)
+    {
+        return $this->matchRoute($request, $this->routes());
     }
 
     public function uri($name, $params = array())
