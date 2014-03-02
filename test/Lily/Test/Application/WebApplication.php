@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * Lily, a web application library
  *
  * (c) Luke Morton <lukemorton.dev@gmail.com>
