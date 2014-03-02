@@ -34,14 +34,6 @@ abstract class WebApplication
         return $this->inject;
     }
 
-    protected function application($application)
-    {
-        return function ($request) use ($application) {
-            $applications = $request['di']['interaction']['applications'];
-            return $applications[$application]($request);
-        };
-    }
-
     private function parseResponse($route)
     {
         $response = $route[2];
@@ -70,19 +62,10 @@ abstract class WebApplication
         return $parsedRoutes;
     }
 
-    abstract protected function routes();
-
     private function routedApplication()
     {
         $routes = $this->parseRoutes($this->routes());
         return new RoutedApplication(compact('routes'));
-    }
-
-    protected function middleware()
-    {
-        return array(
-            new Injection(array('inject' => $this->inject())),
-        );
     }
 
     private function middlewareApplication()
@@ -91,6 +74,23 @@ abstract class WebApplication
             'handler' => $this->routedApplication(),
             'middleware' => $this->middleware(),
         ));
+    }
+
+    abstract protected function routes();
+
+    protected function middleware()
+    {
+        return array(
+            new Injection(array('inject' => $this->inject())),
+        );
+    }
+
+    protected function application($application)
+    {
+        return function ($request) use ($application) {
+            $applications = $request['di']['interaction']['applications'];
+            return $applications[$application]($request);
+        };
     }
 
     public function __invoke($request)

@@ -40,11 +40,6 @@ class RoutedApplication
             $this->routes = $config['routes'];
         }
     }
-
-    protected function routes()
-    {
-        return $this->routes;
-    }
     
     private function normaliseRoute($route)
     {
@@ -260,6 +255,11 @@ class RoutedApplication
     protected function parseRoutes($routes)
     {
         return $routes;
+    }
+
+    protected function routes()
+    {
+        return $this->routes;
     }
 
     public function __invoke($request)
