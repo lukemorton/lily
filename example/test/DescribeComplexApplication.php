@@ -2,13 +2,14 @@
 
 namespace Lily\Test\Application;
 
-use Lily\Example\Interaction\Application\MainApplication;
+use Lily\Example\Interaction\Container\MainContainer;
 
 class DescribeComplexApplication extends \PHPUnit_Framework_TestCase
 {
     private function application()
     {
-        return new MainApplication;
+        $container = new MainContainer;
+        return $container->application();
     }
 
     private function applicationResponse($uri, $request = array())

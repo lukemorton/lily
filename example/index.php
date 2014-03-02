@@ -6,6 +6,7 @@ $loader = require __DIR__.'/../vendor/autoload.php';
 $loader->addPsr4('Lily\Example\\', __DIR__.'/src');
 
 use Lily\Adapter\HTTP;
-use Lily\Example\Application\MainApplication;
+use Lily\Example\Interaction\Container\MainContainer;
 
-(new HTTP)->run(new MainApplication);
+$container = new MainContainer;
+(new HTTP)->run($container->application());

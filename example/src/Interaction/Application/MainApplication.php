@@ -7,10 +7,6 @@ use Lily\Application\WebApplication;
 use Lily\Middleware\ExceptionHandler;
 use Lily\Middleware\Injection;
 
-use Lily\Example\Interaction\Application\AdminApplication;
-use Lily\Example\Interaction\Controller\MainController;
-use Lily\Example\Interaction\Controller\AdminController;
-
 class MainApplication extends WebApplication
 {
     protected function routes()
@@ -27,23 +23,11 @@ class MainApplication extends WebApplication
     
     protected function middleware()
     {
-        return array(
-            new ExceptionHandler,
-            new Injection(array(
-                'inject' => array(
-                    'di' => array(
-                        'interaction' => array(
-                            'applications' => array(
-                                'admin' => new AdminApplication,
-                            ),
-                            'controllers' => array(
-                                'main' => new MainController,
-                                'admin' => new AdminController,
-                            ),
-                        ),
-                    ),
-                ),
-            )),
-        );
+        return
+            array_merge(
+                parent::middleware(),
+                array(
+                    new ExceptionHandler,
+                ));
     }
 }
