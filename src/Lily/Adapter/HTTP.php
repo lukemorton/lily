@@ -86,7 +86,7 @@ class HTTP
     private $returnResponse = FALSE;
 
     /**
-     * Takes an optional map of settings, with these keys:
+     * Instantiate HTTP adapter optionally with configuration:
      *
      *  - `forceSlowHeaders`: set `TRUE` to ensure `::slowHeaders()` is used
      *  - `returnResponse`: set `TRUE` to return response from `::run()`
