@@ -17,6 +17,8 @@ namespace Lily\Adapter;
  * commonly used HTTP headers (`$_SERVER['CONTENT_LENGTH']`), parameters
  * (`$_GET`, `$_POST`, `$_COOKIE`) and URL (`$_SERVER['PATH_INFO']).
  *
+ * The request array is then passed into the provided application handler.
+ *
  * Your application handler should then return a response object containing
  * `status`, `headers` and `body` keys. You can use `Lily\Util\Response` to
  * make this easier for yourself.
