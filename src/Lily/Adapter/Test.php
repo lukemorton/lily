@@ -55,6 +55,14 @@ class Test
     private $followRedirect;
     private $persistCookies;
 
+    /**
+     * Instantiate Test adapter optionally with configuration:
+     *
+     *  - `followRedirect` is a boolean that defaults to FALSE. Set to true to
+     *    follow redirect responses like a browser would.
+     *  - `persistCookies` is a boolean that also defaults to FALSE. Set to true
+     *    to persist cookies across redirects like a browser would.
+     */
     public function __construct($config = NULL)
     {
         if (isset($config['followRedirect'])) {
