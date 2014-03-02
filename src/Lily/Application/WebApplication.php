@@ -59,8 +59,7 @@ abstract class WebApplication
     {
         $parsedRoutes = array();
 
-        foreach ($routes as $_k => $_route)
-        {
+        foreach ($routes as $_k => $_route) {
             $parsedRoutes[$_k] = $this->parseResponse($_route);
         }
 
