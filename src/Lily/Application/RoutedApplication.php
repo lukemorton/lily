@@ -252,11 +252,6 @@ class RoutedApplication
         return Response::notFound();
     }
 
-    protected function parseRoutes($routes)
-    {
-        return $routes;
-    }
-
     protected function routes()
     {
         return $this->routes;
@@ -264,7 +259,7 @@ class RoutedApplication
 
     public function __invoke($request)
     {
-        return $this->matchRoute($request, $this->parseRoutes($this->routes()));
+        return $this->matchRoute($request, $this->routes());
     }
 
     public function uri($name, $params = array())
