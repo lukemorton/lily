@@ -7,7 +7,7 @@ provides routing, exception handling, dependency injection and more. This
 project is inspired by the design of [ring][ring], especially in regards to the
 use of higher order functions and middleware. 
 
-Lil' Lily has very little to her weighing in at 904LOC. She aims to be readable
+Lil' Lily has very little to her weighing in at 1019LOC. She aims to be readable
 in one sitting.
 
 ```php
