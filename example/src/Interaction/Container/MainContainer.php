@@ -9,6 +9,9 @@ use Lily\Example\Interaction\Controller\AdminController;
 
 class MainContainer
 {
+    /**
+     * Initialise and return MainApplication.
+     */
     public function application()
     {
         return new MainApplication(array(

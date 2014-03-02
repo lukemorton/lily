@@ -9,25 +9,28 @@ use Lily\Middleware\Injection;
 
 class MainApplication extends WebApplication
 {
+    /**
+     * Here we have three routes defined.
+     *
+     *  - First is the index route that runs main::index action
+     *  - Next comes the admin application mounted as /admin
+     *  - Last a match all route for displaying a 404 page using main::notFound
+     */
     protected function routes()
     {
         return array(
             array('GET', '/', array('main', 'index')),
-
-            // Send all request methods and any URL beginning with `/admin` to Admin
             array(NULL, '/admin(/**)', $this->application('admin')),
-
             array(NULL, NULL, array('main', 'notFound')),
         );
     }
     
+    /**
+     * Merge in ExceptionHandler with WebApplication::middleware().
+     */
     protected function middleware()
     {
-        return
-            array_merge(
-                parent::middleware(),
-                array(
-                    new ExceptionHandler,
-                ));
+        $middleware = array(new ExceptionHandler);
+        return array_merge(parent::middleware(), $middleware);
     }
 }
