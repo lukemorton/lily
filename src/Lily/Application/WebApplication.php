@@ -85,7 +85,7 @@ abstract class WebApplication
         );
     }
 
-    protected function application($application)
+    protected function applicationHandler($application)
     {
         return function ($request) use ($application) {
             $applications = $request['di']['interaction']['applications'];

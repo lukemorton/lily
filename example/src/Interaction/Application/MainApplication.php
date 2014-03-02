@@ -20,7 +20,7 @@ class MainApplication extends WebApplication
     {
         return array(
             array('GET', '/', array('main', 'index')),
-            array(NULL, '/admin(/**)', $this->application('admin')),
+            array(NULL, '/admin(/**)', $this->applicationHandler('admin')),
             array(NULL, NULL, array('main', 'notFound')),
         );
     }

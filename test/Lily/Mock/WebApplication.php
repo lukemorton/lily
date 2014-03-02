@@ -17,7 +17,7 @@ class WebApplication extends \Lily\Application\WebApplication
         return array(
             'index' => array('GET', '/', array('test', 'index')),
             'slug' => array('GET', '/slug/:slug', array('test', 'slug')),
-            'admin' => array('GET', '/admin', $this->application('admin')),
+            'admin' => array('GET', '/admin', $this->applicationHandler('admin')),
         );
     }
 }
