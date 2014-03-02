@@ -16,12 +16,17 @@ use Lily\Application\MiddlewareApplication;
 use Lily\Middleware\Injection;
 
 /**
- * An application handler for most web applications
+ * An application handler for most web applications.
  */
 abstract class WebApplication
 {
     private $inject = array();
 
+    /**
+     * Instantiate WebApplication optionally with configuration:
+     *
+     *  - `inject` a hash to be injected into each request
+     */
     public function __construct($config = NULL)
     {
         if (isset($config['inject'])) {
@@ -76,8 +81,14 @@ abstract class WebApplication
         ));
     }
 
+    /**
+     * See: Lily\Application\RoutedApplication::routes()
+     */
     abstract protected function routes();
 
+    /**
+     * See: Lily\Application\Middleware::middleware()
+     */
     protected function middleware()
     {
         return array(
@@ -85,6 +96,9 @@ abstract class WebApplication
         );
     }
 
+    /**
+     * Returns a handler that uses application handler passed into request.
+     */
     protected function applicationHandler($application)
     {
         return function ($request) use ($application) {
@@ -93,6 +107,9 @@ abstract class WebApplication
         };
     }
 
+    /**
+     * Invoke web application with a request and return response.
+     */
     public function __invoke($request)
     {
         $handler = $this->middlewareApplication();

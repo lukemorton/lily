@@ -18,6 +18,12 @@ class MiddlewareApplication
     private $handler;
     private $middleware = array();
 
+    /**
+     * Instantiate MiddlewareApplication optionally with configuration:
+     *
+     *  - `handler` an application handler function
+     *  - `middleware` an array of middleware
+     */
     public function __construct($config = NULL)
     {
         if (isset($config['handler'])) {
@@ -29,16 +35,27 @@ class MiddlewareApplication
         }
     }
 
+    /**
+     * Override in a sub class to define a handler statically.
+     */
     protected function handler()
     {
         return $this->handler;
     }
 
+    /**
+     * Override in sub class to define an array of middleware statically.
+     */
     protected function middleware()
     {
         return $this->middleware;
     }
 
+    /**
+     * Wraps middleware around the handler to create a new handler again
+     * wrapping in middleware for each middleware provided until final handler
+     * is invoked and response returned.
+     */
     public function __invoke($request)
     {
         $middleware = $this->middleware();

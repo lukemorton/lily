@@ -14,6 +14,8 @@ use Lily\Util\Response;
 
 /**
  * An application handler that provides routing to other handlers or responses.
+ *
+ * See ::routes() for explanation of route syntax.
  */
 class RoutedApplication
 {
@@ -34,6 +36,11 @@ class RoutedApplication
 
     private $routes = array();
 
+    /**
+     * Instantiate RoutedApplication optionally with configuration:
+     *
+     *  - `routes` an array of routes
+     */
     public function __construct($config = NULL)
     {
         if (isset($config['routes'])) {
@@ -252,16 +259,79 @@ class RoutedApplication
         return Response::notFound();
     }
 
+    /**
+     * Returns an array of routes.
+     *
+     *     return array(
+     *         array('GET', '/', 'index'),
+     *         array('GET', '/hash', array('status' => 200, 'headers' => array(), 'body' => 'hey')),
+     *         array('POST', '/process', function ($request) { return 'response'; }),
+     *         array('GET', '/handler/hash', function ($request) {
+     *             return array('status' => 200, 'headers' => array(), 'body' => 'hey');
+     *         }),
+     *
+     *         // Named route placeholders
+     *         array('GET', '/hello/:name', function ($request) {
+     *             return $request['params']['name'];
+     *         }),
+     *
+     *         // Match a segment
+     *         array('GET', '/hello/*', function ($request) {
+     *             return 'Matches /hello/bob but not /hello/bob/cool';
+     *         }),
+     *
+     *         // Match all other segments
+     *         array('GET', '/hello/**', function ($request) {
+     *             return 'Matches /hello/bob/cool';
+     *         }),
+     *
+     *         // Match a segment
+     *         array('GET', '/hello(/optional)', function ($request) {
+     *             return 'Optional Segment';
+     *         }),
+     *         
+     *         // NULL, NULL represents any method and any URI
+     *         array(NULL, NULL, 'Not found'),
+     *     );
+     *
+     * You can also name your routes for use with ::uri():
+     *
+     *     return array(
+     *         'root' => array('GET', '/', 'index'),
+     *     );
+     */
     protected function routes()
     {
         return $this->routes;
     }
 
+    /**
+     * Loop over each route in order provided until a request is matched against
+     * a route and use route handler to produce and return response.
+     */
     public function __invoke($request)
     {
         return $this->matchRoute($request, $this->routes());
     }
 
+    /**
+     * Reverse route a URI for a name.
+     *
+     * Can only be used with named routes as mentioned in ::routes().
+     * 
+     * `$name` should match name of a route. `$params` will be used to provide
+     * values for route placeholders.
+     *
+     *     $app = new RoutedApplication(array(
+     *         'routes' => array(
+     *             'hello' => array('GET', '/hello/:name', function ($request) {
+     *                  return $request['params']['name'];
+     *              }),
+     *         ),
+     *     ));
+     *
+     *     $app->uri('hello', array('name' => 'Luke')); // => '/hello/Luke'
+     */
     public function uri($name, $params = array())
     {
         $routes = $this->routes();
