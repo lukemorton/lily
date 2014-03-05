@@ -24,6 +24,8 @@ class Flash
 
             if (isset($response['flash'])) {
                 $response['session']['_flash'] = $response['flash'];
+            } else if (isset($request['flash'])) {
+                $response['session']['_flash'] = NULL;
             }
 
             return $response;

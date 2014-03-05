@@ -55,4 +55,18 @@ class FlashTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($flash, $actualRequest['flash']);
     }
+
+    public function testFlashRemovedFromNextSession()
+    {
+        $mw = new Flash;
+        $wrappedHandler = $mw(function () { return Res::ok(); });
+        $response =
+            $wrappedHandler(
+                Req::get()
+                + array(
+                    'session' => array('_flash' => array('notice' => 'Hey')),
+                ));
+
+        $this->assertNull($response['session']['_flash']);
+    }
 }
