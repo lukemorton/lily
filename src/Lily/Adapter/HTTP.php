@@ -243,12 +243,7 @@ class HTTP
                 continue;
             }
 
-            $key =
-                strtolower(
-                    str_replace(
-                        array('HTTP_', '_'),
-                        array('', '-'),
-                        $key));
+            $key = str_replace(array('HTTP_', '_'), array('', '-'), $key);
             $headers[$key] = $value;
         }
 
@@ -269,23 +264,19 @@ class HTTP
     {
         if ( ! $this->forceSlowHeaders()) {
             if (function_exists('apache_request_headers')) {
-                $headers = 
-                    array_change_key_case(
-                        apache_request_headers());
+                $headers = apache_request_headers();
             } elseif (extension_loaded('http')) {
-                $headers =
-                    array_change_key_case(
-                        http_get_request_headers());
+                $headers = http_get_request_headers();
             }
         }
 
-        if ( ! isset($headers)) {
+        if (empty($headers)) {
             $headers = $this->slowHeaders();
         }
 
         $headers['cookies'] = $_COOKIE;
 
-        return $headers;
+        return array_change_key_case($headers);
     }
 
     /**
