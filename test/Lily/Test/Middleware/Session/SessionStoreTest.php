@@ -48,4 +48,10 @@ abstract class SessionStoreTest extends \PHPUnit_Framework_TestCase
         $request = $this->store()->get($request);
         $this->assertSame($expectedValue, $request['session']['c']);
     }
+
+    public function testItShouldAlwaysAddSessionKey()
+    {
+        $request = $this->store()->get(array());
+        $this->assertArrayHasKey('session', $request);
+    }
 }
