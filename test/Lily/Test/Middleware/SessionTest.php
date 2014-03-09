@@ -19,44 +19,98 @@ use Lily\Mock\MockSessionStore;
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testWriteToSession()
+    private function wrapWithSessionMiddleware($store, $handler)
     {
-        $store = new MockSessionStore;
-
-        $expectedSession = array('a' => 1);
-
         $mw = new Session(compact('store'));
-
-        $wrappedHandler =
-            $mw(
-                function () use ($expectedSession) {
-                    $session = $expectedSession;
-                    return Res::ok() + compact('session');
-                });
-
-        $wrappedHandler(Req::get('/'));
-
-        $this->assertSame($expectedSession, $store->session);
+        return $mw($handler);
     }
 
-    public function testReadSession()
+    private function callHandler($handler)
+    {
+        return $handler(array());
+    }
+
+    public function testItShouldAddArrayToSession()
     {
         $store = new MockSessionStore;
-        $store->session = array('b' => 2);
+        $expectedValue = 'some value';
 
-        $actualSession = NULL;
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                $store,
+                function ($request) use (& $expectedValue) {
+                    return array(
+                        'session' => array('a' => $expectedValue),
+                    );
+                }));
 
-        $mw = new Session(compact('store'));
-        
-        $wrappedHandler =
-            $mw(
-                function ($request) use (& $actualSession) {
-                    $actualSession = $request['session'];
-                    return Res::ok();
-                });
+        $this->assertSame($expectedValue, $store->session['a']);
+    }
 
-        $wrappedHandler(Req::get('/'));
+    public function testItShouldOverwriteArrayKeyInSession()
+    {
+        $store = new MockSessionStore;
+        $store->session['b'] = 'initial value';
+        $expectedValue = 'overwritten value';
 
-        $this->assertSame($store->session, $actualSession);
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                $store,
+                function ($request) use (& $expectedValue) {
+                    return array(
+                        'session' => array('b' => $expectedValue),
+                    );
+                }));
+
+        $this->assertSame($expectedValue, $store->session['b']);
+    }
+
+    public function testItShouldNotOverwriteOtherKeys()
+    {
+        $expectedValue = 'other key value';
+        $store = new MockSessionStore;
+        $store->session['a'] = $expectedValue;
+
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                $store,
+                function ($request) {
+                    return array(
+                        'session' => array('b' => 'unrelated'),
+                    );
+                }));
+
+        $this->assertSame($expectedValue, $store->session['a']);
+    }
+
+    public function testItShouldGetArrayFromSession()
+    {
+        $expectedValue = 'something';
+        $actualValue = NULL;
+        $store = new MockSessionStore;
+        $store->session['c'] = $expectedValue;
+
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                $store,
+                function ($request) use (& $actualValue) {
+                    $actualValue = $request['session']['c'];
+                }));
+
+        $this->assertSame($expectedValue, $actualValue);
+    }
+
+    public function testItShouldAlwaysAddSessionKey()
+    {
+        $sessionKeyIsSet = FALSE;
+
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                new MockSessionStore,
+                function ($request) use (& $sessionKeyIsSet) {
+                    $sessionKeyIsSet = isset($request['session']);
+                }));
+
+        $this->assertTrue($sessionKeyIsSet);
     }
 }

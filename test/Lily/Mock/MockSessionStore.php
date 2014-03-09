@@ -14,12 +14,12 @@ use Lily\Application\RoutedApplication;
 
 class MockSessionStore
 {
-    public $session;
+    public $session = array();
 
     public function set($request, $response)
     {
         if (isset($response['session'])) {
-            $this->session = $response['session'];
+            $this->session = $response['session'] + $this->session;
         }
 
         return $response;
