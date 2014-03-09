@@ -8,7 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Lily\Test\Middleware;
+namespace Lily\Test\Session\Middleware;
+
+use Lily\Test\Middleware\Session\SessionStoreTest;
 
 use Lily\Middleware\Session;
 use Lily\Middleware\Session\CookieStore;
@@ -16,8 +18,34 @@ use Lily\Middleware\Session\CookieStore;
 use Lily\Util\Request as Req;
 use Lily\Util\Response as Res;
 
-class CookieSessionStoreTest extends \PHPUnit_Framework_TestCase
+class CookieSessionStoreTest extends SessionStoreTest
 {
+    protected function store()
+    {
+        return new CookieStore(array(
+            'cookie' => array('name' => 'test'),
+        ));
+    }
+
+    protected function getFromStore($response, $key)
+    {
+        $cookie = $response['cookies']['test'];
+        $store = json_decode($cookie['value'], TRUE);
+        return $store[$key];
+    }
+
+    protected function addToStore($key, $value)
+    {
+        $session = array($key => $value);
+        
+        return array(
+            'cookies' => array(
+                'test' => json_encode($session),
+            ),
+            'session' => $session,
+        );
+    }
+
     public function testWriteToSession()
     {
         $expectedSession = array('a' => 1);

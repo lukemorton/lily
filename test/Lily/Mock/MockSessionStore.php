@@ -16,7 +16,7 @@ class MockSessionStore
 {
     public $session;
 
-    public function set(array $response)
+    public function set($request, $response)
     {
         if (isset($response['session'])) {
             $this->session = $response['session'];
@@ -25,7 +25,7 @@ class MockSessionStore
         return $response;
     }
 
-    public function get(array $request)
+    public function get($request)
     {
         $request['session'] = $this->session;
         return $request;

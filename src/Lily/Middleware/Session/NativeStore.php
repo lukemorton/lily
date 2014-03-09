@@ -25,10 +25,10 @@ class NativeStore
         return $request;
     }
 
-    public function set($response)
+    public function set($request, $response)
     {
         if (isset($response['session'])) {
-            $_SESSION = $response['session'];
+            $_SESSION = $response['session'] + $_SESSION;
         }
         
         return $response;

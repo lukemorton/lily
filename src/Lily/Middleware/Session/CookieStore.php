@@ -30,21 +30,26 @@ class CookieStore
     public function get($request)
     {
         if (isset($request['cookies'][$this->name])) {
-            $request['session'] =
-                json_decode(
-                    $request['cookies'][$this->name],
-                    TRUE);
+            $session = json_decode($request['cookies'][$this->name], TRUE);
+            $request['session'] = $session;
+        } else {
+            $request['session'] = array();
         }
 
         return $request;
     }
 
-    public function set($response)
+    public function set($request, $response)
     {
         if (isset($response['session'])) {
-            $response['cookies'][$this->name] =
-                array('value' => json_encode($response['session']))
-                + $this->cookie;
+            $session = $response['session'];
+
+            if (isset($request['session'])) {
+                $session += $request['session'];
+            }
+
+            $value = json_encode($session);
+            $response['cookies'][$this->name] = compact('value') + $this->cookie;
         }
 
         return $response;
