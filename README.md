@@ -63,6 +63,7 @@ Done!
     - [Default headers][default-headers]
     - [Cookies][cookies]
     - [Sessions][sessions]
+    - [Flash][flash]
 
 [start-here]: https://github.com/DrPheltRight/lily/wiki/000-overview
 [basics]: https://github.com/DrPheltRight/lily/wiki/001-basics
