@@ -74,7 +74,7 @@ Done!
 [default-headers]: https://github.com/DrPheltRight/lily/wiki/003c-default-headers
 [cookies]: https://github.com/DrPheltRight/lily/wiki/003d-cookies
 [sessions]: https://github.com/DrPheltRight/lily/wiki/003e-sessions
-[flash]: https://github.com/DrPheltRight/lily/wiki/003f-flash-messages
+[flash]: https://github.com/DrPheltRight/lily/wiki/003f-flash
 
 ## Tests
 
