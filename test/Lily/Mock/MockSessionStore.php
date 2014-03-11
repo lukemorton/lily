@@ -16,10 +16,10 @@ class MockSessionStore
 {
     public $session = array();
 
-    public function set($request, $response)
+    public function set($response)
     {
         if (isset($response['session'])) {
-            $this->session = $response['session'] + $this->session;
+            $this->session = $response['session'];
         }
 
         return $response;

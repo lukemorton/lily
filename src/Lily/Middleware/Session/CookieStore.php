@@ -39,16 +39,10 @@ class CookieStore
         return $request;
     }
 
-    public function set($request, $response)
+    public function set($response)
     {
         if (isset($response['session'])) {
-            $session = $response['session'];
-
-            if (isset($request['session'])) {
-                $session += $request['session'];
-            }
-
-            $value = json_encode($session);
+            $value = json_encode($response['session']);
             $response['cookies'][$this->name] = compact('value') + $this->cookie;
         }
 

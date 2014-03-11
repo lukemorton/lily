@@ -32,7 +32,13 @@ class Session
         return function ($request) use ($handler, $store) {
             $request = $store->get($request);
             $response = $handler($request);
-            $response = $store->set($request, $response);
+
+            if (empty($response['session'])) {
+                $response['session'] = array();
+            }
+
+            $response['session'] += $request['session'];
+            $response = $store->set($response);
             return $response;
         };
     }
