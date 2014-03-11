@@ -17,7 +17,6 @@ class Flash
         return function ($request) use ($handler) {
             if (isset($request['session']['_flash'])) {
                 $request['flash'] = $request['session']['_flash'];
-                unset($request['session']['_flash']);
             }
 
             $response = $handler($request);
