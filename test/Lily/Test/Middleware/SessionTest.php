@@ -113,4 +113,21 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($sessionKeyIsSet);
     }
+
+    public function testItShouldRemoveNullValuesFromSession()
+    {
+        $store = new MockSessionStore;
+        $store->session = array('key' => TRUE);
+
+        $this->callHandler(
+            $this->wrapWithSessionMiddleware(
+                $store,
+                function ($request) use (& $sessionKeyIsSet) {
+                    return array(
+                        'session' => array('key' => NULL),
+                    );
+                }));
+
+        $this->assertArrayNotHasKey('key', $store->session);
+    }
 }

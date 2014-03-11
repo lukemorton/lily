@@ -38,7 +38,10 @@ class Session
             }
 
             $response['session'] += $request['session'];
+            $response['session'] = array_filter($response['session']);
+
             $response = $store->set($response);
+            
             return $response;
         };
     }
