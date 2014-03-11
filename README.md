@@ -64,16 +64,16 @@ Done!
     - [Cookies][cookies]
     - [Sessions][sessions]
 
- [start-here]: https://github.com/DrPheltRight/lily/wiki/000-overview
- [basics]: https://github.com/DrPheltRight/lily/wiki/001-basics
- [routing]: https://github.com/DrPheltRight/lily/wiki/002-routing
- [middleware]: https://github.com/DrPheltRight/lily/wiki/003-middleware
- [error-handling]: https://github.com/DrPheltRight/lily/wiki/errors
- [di]: https://github.com/DrPheltRight/lily/wiki/di
- [default-headers]: https://github.com/DrPheltRight/lily/wiki/default-headers
- [cookies]: https://github.com/DrPheltRight/lily/wiki/cookies
- [sessions]: https://github.com/DrPheltRight/lily/wiki/sessions
- [flash]: https://github.com/DrPheltRight/lily/wiki/flash-messages
+[start-here]: https://github.com/DrPheltRight/lily/wiki/000-overview
+[basics]: https://github.com/DrPheltRight/lily/wiki/001-basics
+[routing]: https://github.com/DrPheltRight/lily/wiki/002-routing
+[middleware]: https://github.com/DrPheltRight/lily/wiki/003-middleware
+[error-handling]: https://github.com/DrPheltRight/lily/wiki/003a-errors
+[di]: https://github.com/DrPheltRight/lily/wiki/003b-di
+[default-headers]: https://github.com/DrPheltRight/lily/wiki/003c-default-headers
+[cookies]: https://github.com/DrPheltRight/lily/wiki/003d-cookies
+[sessions]: https://github.com/DrPheltRight/lily/wiki/003e-sessions
+[flash]: https://github.com/DrPheltRight/lily/wiki/003f-flash-messages
 
 ## Tests
 
