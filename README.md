@@ -14,9 +14,9 @@ in one sitting.
 <?php
 require __DIR__.'/vendor/autoload.php';
 
-(new Lily\Adapter\HTTP)->run(
-    new Lily\Application\RoutedApplication(
-        ['routes' => [['GET', '/', 'Hello world']]]));
+$routes = [['GET', '/', 'Hello world']];
+$handler = new Lily\Application\RoutedApplication(compact('routes'));
+(new Lily\Adapter\HTTP)->run(compact('handler'));
 ?>
 ```
 

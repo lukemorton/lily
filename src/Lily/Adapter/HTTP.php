@@ -455,8 +455,9 @@ class HTTP
      *     - Returns response if `TRUE`
      *     - Sends response otherwise
      */
-    public function run($handler)
+    public function run($config)
     {
+        $handler = $config['handler'];
         $response = 
             $this->addDefaultHeadersToResponse(
                 $handler(

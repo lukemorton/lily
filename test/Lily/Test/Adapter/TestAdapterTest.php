@@ -22,14 +22,13 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
 {
     public function testItShouldCallHandlerWithDummyRequest()
     {
-        $application =
-            function ($request) use (& $actualRequest) {
-                $actualRequest = $request;
-                return Response::ok();
-            };
+        $handler = function ($request) use (& $actualRequest) {
+            $actualRequest = $request;
+            return Response::ok();
+        };
 
         $test_adapter = new Test;
-        $test_adapter->run($application);
+        $test_adapter->run(compact('handler'));
 
         $this->assertSame('GET', $actualRequest['method']);
         $this->assertSame('/', $actualRequest['uri']);
@@ -37,27 +36,28 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testItShouldReturnResponse()
     {
-        $application =
+        $handler =
             function ($request) {
                 return Response::ok();
             };
 
         $test_adapter = new Test;
-        $response = $test_adapter->run($application);
+        $response = $test_adapter->run(compact('handler'));
 
         $this->assertSame(200, $response['status']);
     }
 
     private function redirectApplication()
     {
-        return
-            function ($request) {
-                if ($request['uri'] === '/') {
-                    return Response::redirect('/redirected');
-                } else {
-                    return Response::ok();
-                }
-            };
+        $handler = function ($request) {
+            if ($request['uri'] === '/') {
+                return Response::redirect('/redirected');
+            } else {
+                return Response::ok();
+            }
+        };
+
+        return compact('handler');
     }
 
     public function testItShouldFollowRedirectsIfEnabled()
@@ -76,24 +76,25 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
 
     private function cookieApplication()
     {
-        return
-            new MiddlewareApplication(array(
-                'handler' => function ($request) {
-                    if ($request['uri'] === '/') {
-                        return Response::redirect('/redirected') + array(
-                            'cookies' => array('a' => 'cookie'),
-                        );
-                    } else if (isset($request['cookies']['a'])) {
-                        return Response::ok($request['cookies']['a']);
-                    } else {
-                        return Response::ok('no cookie');
-                    }
-                },
+        $handler = new MiddlewareApplication(array(
+            'handler' => function ($request) {
+                if ($request['uri'] === '/') {
+                    return Response::redirect('/redirected') + array(
+                        'cookies' => array('a' => 'cookie'),
+                    );
+                } else if (isset($request['cookies']['a'])) {
+                    return Response::ok($request['cookies']['a']);
+                } else {
+                    return Response::ok('no cookie');
+                }
+            },
 
-                'middleware' => array(
-                    new Cookie(array('salt' => 'cool')),
-                ),
-            ));
+            'middleware' => array(
+                new Cookie(array('salt' => 'cool')),
+            ),
+        ));
+
+        return compact('handler');
     }
 
     public function testItShouldPersistCookiesIfEnabled()
@@ -139,22 +140,22 @@ class TestAdapterTest extends \PHPUnit_Framework_TestCase
 
         $cookieMiddleware = new Cookie(array('salt' => 'test'));
 
-        $response =
-            $test_adapter->run(
-                $cookieMiddleware(
-                    function ($request) {
-                        if (isset($request['cookies']['authed'])) {
-                            if ($request['uri'] === '/') {
-                                return Response::redirect('/logged-in');
-                            } else {
-                                return Response::ok($request['cookies']['authed']);
-                            }
+        $request = $this->authedCookieRequest();
+        $handler =
+            $cookieMiddleware(
+                function ($request) {
+                    if (isset($request['cookies']['authed'])) {
+                        if ($request['uri'] === '/') {
+                            return Response::redirect('/logged-in');
                         } else {
-                            return Response::notFound();
+                            return Response::ok($request['cookies']['authed']);
                         }
-                    }),
-                $this->authedCookieRequest());
+                    } else {
+                        return Response::notFound();
+                    }
+                });
 
+        $response = $test_adapter->run(compact('request', 'handler'));
         $this->assertSame('yes', $response['body']);
     }
 }

@@ -91,6 +91,24 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         return $data;
     }
 
+    private function http($config = array())
+    {
+        return new HTTP($config);
+    }
+
+    private function httpWithReturnResponse()
+    {
+        return $this->http(array('returnResponse' => TRUE));
+    }
+
+    private function httpWithSlowHeadersAndReturnResponse()
+    {
+        return $this->http(array(
+            'forceSlowHeaders' => TRUE,
+            'returnResponse' => TRUE,
+        ));
+    }
+
     public function requestDataProvider()
     {
         return $this->expectedKeyValueData($this->serverData());
@@ -104,16 +122,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $this->setUpGlobalRequestData();
         $response = $this->responseData();
 
-        $http = new HTTP(array(
-            'forceSlowHeaders' => TRUE,
-            'returnResponse' => TRUE,
-        ));
-        $http->run(
-            function ($request) use ($expectedKey, & $actualValue, $response) {
-                $actualValue = $request[$expectedKey];
-                return $response;
-            });
+        $handler = function ($request) use ($expectedKey, & $actualValue, $response) {
+            $actualValue = $request[$expectedKey];
+            return $response;
+        };
 
+        $this->httpWithSlowHeadersAndReturnResponse()->run(compact('handler'));
         $this->assertSame($expectedValue, $actualValue);
 
         $this->tearDownGlobalRequestData();
@@ -132,16 +146,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $this->setUpGlobalRequestData();
         $response = $this->responseData();
 
-        $http = new HTTP(array(
-            'forceSlowHeaders' => TRUE,
-            'returnResponse' => TRUE,
-        ));
-        $http->run(
-            function ($request) use ($expectedKey, & $actualValue, $response) {
-                $actualValue = $request['headers'][$expectedKey];
-                return $response;
-            });
+        $handler = function ($request) use ($expectedKey, & $actualValue, $response) {
+            $actualValue = $request['headers'][$expectedKey];
+            return $response;
+        };
 
+        $this->httpWithSlowHeadersAndReturnResponse()->run(compact('handler'));
         $this->assertSame($expectedValue, $actualValue);
 
         $this->tearDownGlobalRequestData();
@@ -188,13 +198,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $this->setUpGlobalMagic();
         $response = $this->responseData();
 
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $http->run(
-            function ($request) use (& $actualRequest, $response) {
-                $actualRequest = $request;
-                return $response;
-            });
+        $handler = function ($request) use (& $actualRequest, $response) {
+            $actualRequest = $request;
+            return $response;
+        };
 
+        $this->httpWithReturnResponse()->run(compact('handler'));
         $this->assertSame($_COOKIE, $actualRequest['headers']['cookies']);
         $this->assertSame($_GET, $actualRequest['query']);
         $this->assertSame($_POST, $actualRequest['post']);
@@ -208,13 +217,12 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $this->setUpGlobalMagic();
         $response = $this->responseData();
 
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $http->run(
-            function ($request) use (& $actualParams, $response) {
-                $actualParams = $request['params'];
-                return $response;
-            });
+        $handler = function ($request) use (& $actualParams, $response) {
+            $actualParams = $request['params'];
+            return $response;
+        };
         
+        $this->httpWithReturnResponse()->run(compact('handler'));
         $this->assertSame($_POST + $_GET, $actualParams);
         
         $this->tearDownGlobalMagic();
@@ -229,12 +237,11 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
 
         ob_start();
 
-        $http = new HTTP;
-        $http->run(
-            function ($request) use ($expectedResponse) {
-                return $expectedResponse;
-            });
+        $handler = function ($request) use ($expectedResponse) {
+            return $expectedResponse;
+        };
 
+        $this->http()->run(compact('handler'));
         $this->assertSame($expectedResponse['body'], ob_get_clean());
     }
 
@@ -251,19 +258,17 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $actualResponse =
-            $http->run(
-                function ($request) use ($responseData) {
-                    return $responseData;
-                });
-
         $expectedResponse = $responseData;
         $expectedResponse['headers'] += array(
             'Content-Type' => 'text/html',
             'Content-Length' => strlen($expectedResponse['body']),
         );
 
+        $handler = function ($request) use ($responseData) {
+            return $responseData;
+        };
+
+        $actualResponse = $this->httpWithReturnResponse()->run(compact('handler'));
         $this->assertSame($expectedResponse, $actualResponse);
     }
 
@@ -346,15 +351,11 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
         $_SERVER[$source] = $uri;
         $responseData = $this->responseData();
 
-        $http = new HTTP(array('returnResponse' => TRUE));
-        $actualResponse =
-            $http->run(
-                function ($request) use ($responseData) {
-                    return $responseData + compact('request');
-                });
+        $handler = function ($request) use ($responseData) {
+            return $responseData + compact('request');
+        };
 
-        $this->assertSame(
-            $expectedURI,
-            $actualResponse['request']['uri']);
+        $actualResponse = $this->httpWithReturnResponse()->run(compact('handler'));
+        $this->assertSame($expectedURI, $actualResponse['request']['uri']);
     }
 }

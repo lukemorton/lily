@@ -133,12 +133,18 @@ class Test
      * your handler, the second is an optional request array that will be
      * merged into `$dummyRequest`.
      */
-    public function run($handler, $request = array())
+    public function run($config)
     {
-        $originalRequest =
-            $this->shallowMergeRequests(
-                $this->dummyRequest(),
-                $request);
+        $handler = $config['handler'];
+
+        if (isset($config['request'])) {
+            $originalRequest =
+                $this->shallowMergeRequests(
+                    $this->dummyRequest(),
+                    $config['request']);
+        } else {
+            $originalRequest = $this->dummyRequest();
+        }
 
         $response = $handler($originalRequest);
 
@@ -154,7 +160,8 @@ class Test
                     $response,
                     $nextRequest);
 
-            $response = $this->run($handler, $nextRequest);
+            $request = $nextRequest;
+            $response = $this->run(compact('handler', 'request'));
         }
 
         return $response;

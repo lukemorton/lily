@@ -9,13 +9,13 @@ use Lily\Middleware as MW;
 
 use Lily\Util\Request;
 
-function runApplication($application, $request)
+function runApplication($handler, $request)
 {
     $testAdapter = new Test(array(
         'followRedirect' => TRUE,
         'persistCookies' => TRUE,
     ));
-    return $testAdapter->run($application, $request);
+    return $testAdapter->run(compact('handler', 'request'));
 }
 
 function applicationResponse($application, $url, $request = array())

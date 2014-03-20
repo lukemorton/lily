@@ -9,4 +9,5 @@ use Lily\Adapter\HTTP;
 use Lily\Example\Interaction\Container\MainContainer;
 
 $container = new MainContainer;
-(new HTTP)->run($container->application());
+$handler = $container->application();
+(new HTTP)->run(compact('handler'));
