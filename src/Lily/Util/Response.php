@@ -31,9 +31,4 @@ class Response
     {
         return static::response($status, '', array('Location' => $uri));
     }
-  
-    public static function redirectAfterPost($uri)
-    {
-        return static::redirect($uri, 303);
-    }
 }
