@@ -5,7 +5,7 @@ A lightweight web application library for PHP 5.3+.
 Lily provides your application with a common sense interface to HTTP. She also
 provides routing, exception handling, dependency injection and more. This
 project is inspired by the design of [ring][ring], especially in regards to the
-use of higher order functions and middleware. 
+use of higher order functions and middleware.
 
 Lil' Lily has very little to her weighing in at 1019LOC. She aims to be readable
 in one sitting.
@@ -45,8 +45,8 @@ a framework. With Lily you can compose a framework yourself.
 
 ## Installation
 
-Installing Lily through [composer][composer] is easy. Just create a `composer.json`
-file in a new directory for your application:
+Installing Lily through [composer][composer] is easy. Just create a
+`composer.json` file in a new directory for your application:
 
 ```json
 {
