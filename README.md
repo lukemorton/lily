@@ -13,9 +13,14 @@ in one sitting.
 ```php
 <?php
 require __DIR__.'/vendor/autoload.php';
-
-$routes = [['GET', '/', 'Hello world']];
-$handler = new Lily\Application\RoutedApplication(compact('routes'));
+ 
+// Lily provides building blocks for common applications like routing
+$handler = new Lily\Application\RoutedApplication([
+  // Define your routes as plain arrays
+  'routes' => [['GET', '/', 'Hello world']],
+]);
+ 
+// Serve your application over HTTP
 (new Lily\Adapter\HTTP)->run(compact('handler'));
 ?>
 ```
