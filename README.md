@@ -41,7 +41,7 @@ implement classes in a rigid fashion that is tightly coupled to a framework. She
 instead provides the same functionality with less restriction.
 
 By providing decoupled components that behave like ordinary functions, by
-representing requests and responses as hashes she doesn't tie you to complex
+representing requests and responses as hashes, she doesn't tie you to complex
 interfaces that force you to stay with a framework.
 
 Ultimately she provides you the flexibility to grow your application in whatever
