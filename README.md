@@ -31,8 +31,8 @@ A slightly more complex example can be found in [`/example`][example].
 
 ## Why Lily?
 
-Because she's different. Instead of enforcing you to obide by interfaces and
-implement classes in a rigid fashion that is tightly coupled to a framework she
+Because she's different. She doesn't enforce you to obide by interfaces and
+implement classes in a rigid fashion that is tightly coupled to a framework. She
 instead provides the same functionality with less restriction.
 
 By providing decoupled components that behave like ordinary functions, by
