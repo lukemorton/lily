@@ -29,6 +29,20 @@ A slightly more complex example can be found in [`/example`][example].
 [wiki]: https://github.com/DrPheltRight/lily/wiki/000-overview
 [example]: https://github.com/DrPheltRight/lily/blob/develop/example/
 
+## Why Lily?
+
+Because she's different. Instead of enforcing you to obide by interfaces and
+implement classes in a rigid fashion that is tightly coupled to a framework she
+instead provides the same functionality with less restriction.
+
+By providing decoupled components that behave like ordinary functions, by
+representing requests and responses as hashes she doesn't tie you to complex
+interfaces that force you to stay with a framework.
+
+Ultimately she provides you the flexibility to grow your application in whatever
+way you want by providing all the components you need without fencing you in
+a framework. With Lily you can compose a framework yourself.
+
 ## Installation
 
 Installing Lily through [composer][composer] is easy. Just create a `composer.json`
