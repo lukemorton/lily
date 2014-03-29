@@ -10,11 +10,11 @@ use of higher order functions and middleware.
 Lil' Lily has very little to her weighing in at 1019LOC. She aims to be readable
 in one sitting.
 
-```php
+``` php
 <?php
 require __DIR__.'/vendor/autoload.php';
  
-// Lily provides building blocks for common applications like routing
+// Lily provides building blocks for applications like routing
 $handler = new Lily\Application\RoutedApplication([
   // Define your routes as plain arrays
   'routes' => [['GET', '/', 'Hello world']],
