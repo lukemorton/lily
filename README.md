@@ -110,8 +110,8 @@ vendor/bin/phpunit
 
 We try and keep coverage high and no feature is added without some kind of test.
 
-[travis]: https://travis-ci.org/DrPheltRight/lily
-[coveralls]: https://coveralls.io/r/DrPheltRight/lily?branch=develop
+[travis]: https://travis-ci.org/drpheltright/lily
+[coveralls]: https://coveralls.io/r/drpheltright/lily?branch=develop
 [phpunit]: https://github.com/sebastianbergmann/phpunit/
 
 ## Development
