@@ -97,8 +97,8 @@ Done!
 
 ## Tests
 
-[![Build Status](https://travis-ci.org/DrPheltRight/lily.png?branch=develop)][travis]
-[![Coverage Status](https://coveralls.io/repos/DrPheltRight/lily/badge.png?branch=develop)][coveralls]
+[![Build Status](https://travis-ci.org/drpheltright/lily.png?branch=develop)][travis]
+[![Coverage Status](https://coveralls.io/repos/drpheltright/lily/badge.png?branch=develop)][coveralls]
 
 To run the test suite, you need [composer][composer] and it will handle the rest. Lily
 unit tests are written with [PHPUnit][phpunit].
